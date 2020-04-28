@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<title>Your page</title>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link href="../css/styles.css" rel="stylesheet" />
+<script src="../js/bootstrap.min.js"></script>
+<script>
+	var check = function() {
+		if (document.getElementById('password').value == document
+				.getElementById('password2').value) {
+			document.getElementById('message').style.color = 'green';
+			document.getElementById('message').innerHTML = 'matching';
+		} else {
+			document.getElementById('message').style.color = 'red';
+			document.getElementById('message').innerHTML = 'not matching';
+		}
+	}
+	window.onload = function(){
+		document.getElementById('password').value ="";
+	}
+</script>
+</head>
+<body>
+	<h1>Change the information</h1>
+	<form action="#" th:action=@{user} th:object=${dto} method="post" enctype = "multipart/form-data">
+
+
+		<div class="col-md-3 mb-3">
+			<label for="imageSelector">Image</label> <input type="file"
+				id="imageSelector" name = "file">
+		</div>
+
+
+		<div class="form-row">
+			<div class="col-md-3 mb-3">
+				<label for="firstName">First name</label> <input type="text"
+					class="form-control" id="firstName" name = "firstName" placeholder="First name"
+					required th:field="*{firstName}" th:value = "${dto.firstName}">
+			</div>
+			<div class="col-md-3 mb-3">
+				<label for="lastName">Last name</label> <input type="text"
+					class="form-control" id="lastName" th:field="*{lastName}"
+					placeholder="Last name" required th:value = "${dto.lastName}">
+			</div>
+			<div class="col-md-3 mb-3">
+				<label for="email">Email</label> <input type="email"
+					class="form-control" id="email" th:field="*{email}"
+					placeholder="Email" required th:value = "${dto.email}">
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="col-md-3 mb-3">
+				<label for="login">Login</label> <input type="text"
+					class="form-control" id="login" th:field="*{login}"
+					placeholder="Login" required th:value = "${dto.login}">
+			</div>
+			<div class="col-md-3 mb-3">
+				<label for="password">Password</label> <input type="password"
+					class="form-control" id="password" th:field="*{password}"
+					placeholder="Password"  onkeyup='check();' th:value = "${dto.password}">
+			</div>
+
+			<div class="col-md-3 mb-3">
+				<label for="password2">Confirm password <span id='message'></span>
+				</label> <input type="password" class="form-control" id="password2"
+					placeholder="Confirm password"  onkeyup='check();'>
+			</div>
+		</div>
+		<button id="submitBtn" class="btn btn-primary" type="submit">Save changes
+			</button>
+			<input type="button" class="btn btn-primary" onclick="history.back();" value="Cancel" />
+	</form>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<title>Sign up page</title>
+<link rel="stylesheet" href="../css/bootstrap.min.css" />
+<link href="../css/styles.css" rel="stylesheet" />
+<script src="../js/bootstrap.min.js"></script>
+<script>
+	var check = function() {
+		if (document.getElementById('password').value == document
+				.getElementById('password2').value) {
+			document.getElementById('message').style.color = 'green';
+			document.getElementById('message').innerHTML = 'matching';
+			document.getElementById("submitBtn").disabled = false;
+		} else {
+			document.getElementById('message').style.color = 'red';
+			document.getElementById('message').innerHTML = 'not matching';
+		}
+	}
+</script>
+</head>
+<body>
+	<div class="container">
+		<div class="d-flex justify-content-center h-100">
+			<div class="card-signup">
+				<div class="card-header">
+					<h3>Please Sign Up</h3>
+				</div>
+				<div class="card-body">
+					<form action="#" th:action=@{signup} th:object=${dto} method="post">
+						<div class="form-row input-group form-group">
+							<div class="col-md-4">
+								<label class="lab" for="firstName">First name</label> <input
+									type="text" class="form-control" id="firstName"
+									placeholder="First name" required th:field="*{firstName}">
+							</div>
+							<div class="col-md-4">
+								<label class="lab" for="lastName">Last name</label> <input
+									type="text" class="form-control" id="lastName"
+									th:field="*{lastName}" placeholder="Last name" required>
+							</div>
+							<div class="col-md-4">
+								<label class="lab" for="email">Email</label> <input type="email"
+									class="form-control" id="email" th:field="*{email}"
+									placeholder="Email" required>
+							</div>
+						</div>
+						<div class="form-row input-group form-group">
+							<div class="col-md-4">
+								<label class="lab" for="login">Login</label> <input type="text"
+									class="form-control" id="login" th:field="*{login}"
+									placeholder="Login" required>
+							</div>
+							<div class="col-md-4">
+								<label class="lab" for="password">Password</label> <input
+									type="password" class="form-control" id="password"
+									th:field="*{password}" placeholder="Password" required
+									onkeyup='check();'>
+							</div>
+
+							<div class="col-md-4">
+								<label class="lab" for="password2">Confirm password <span
+									id='message'></span>
+								</label> <input type="password" class="form-control" id="password2"
+									placeholder="Confirm password" required onkeyup='check();'>
+							</div>
+						</div>
+						<div class="form-group">
+							<input id="submitBtn" disabled type="submit"
+								value="Submit
+			form" class="btn login_btn">
+						</div>
+					</form>
+				</div>
+				<div class="card-footer">
+					<div class="d-flex justify-content-center links">
+						<a href="/index"> Back to Home</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

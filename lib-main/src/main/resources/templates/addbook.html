@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<title>Books page</title>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link href="../css/styles.css" rel="stylesheet" />
+</head>
+<body>
+	<h1>Add Book:</h1>
+	<br />
+	<div id="wrapper">
+		<form action="#" th:action=@{add} method="post">
+			<input id="isbn" type="text" th:value="${dto.isbn}" name="isbn"
+				class="form-control form-control-sm" placeholder="ISBN" required> 
+				<select
+				class="form-control" 
+				id="departmentName" name="departmentName" required>
+				<option value="" disabled selected >Please choose department</option>
+				<option th:each="departmentDto : ${departments}"
+					th:value="${departmentDto.departmentName}"
+					th:text="${departmentDto.departmentName}"></option>
+				</select>
+			<input type="submit" value="submit" class="btn btn-secondary">
+			<input type="reset" value="reset" class="btn btn-secondary">
+		</form>
+	</div>
+</body>
+</html>

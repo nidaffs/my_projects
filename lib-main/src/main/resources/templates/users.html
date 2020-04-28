@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <title>Users page</title>
+    <link href="../css/styles.css" rel="stylesheet" />
+</head>
+<body>
+	<h1>All users:</h1>
+	<br /> 
+	<div id="wrapper">
+		<div th:each="user : ${userList}" class="userblock">
+			<p th:text="${user.firstName}"></p>
+			<p th:text="${user.lastName}"></p>
+			<img th:src="@{'../images/' + ${user.login} + '.png'}" 
+			th:alt = "${user.login}" alt="" class="image"/>
+			<p th:text="${user.login}"></p>
+		</div>
+	</div>
+</body>
+</html>

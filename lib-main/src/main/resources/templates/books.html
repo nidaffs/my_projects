@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<title>Books page</title>
+<link href="../css/styles.css" rel="stylesheet" />
+</head>
+<body>
+	<h1>Our Books:</h1>
+	<br />
+	<div id="wrapper">
+		<div th:each="book : ${bookList}" class="userblock">
+
+			<h2>
+				<a th:href="@{'/books/' + ${book.id}}"> 
+					<span
+					th:text="${book.bookDetails.title}">
+					</span>
+				</a>
+			</h2>
+			<h4 th:text="${book.bookDetails.author}"></h4>
+			<p th:text="${book.bookDetails.isbn}"></p>
+			<p th:text="${book.bookDetails.description}"></p>
+			<img th:src="@{${book.bookDetails.image}}"
+				th:alt="${book.bookDetails.title}"  alt="" class="image" />
+		</div>
+	</div>
+</body>
+</html>

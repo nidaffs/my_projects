@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+	<changeSet id="1" author="nidaff">
+		<createTable tableName="book_details">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="isbn" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="title" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="author" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="description" type="text">
+				<constraints nullable="false" />
+			</column>
+			<column name="image" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="2" author="nidaff">
+		<createTable tableName="book">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="book_details_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="quantity" type="int">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint
+			constraintName="fk_book_details" baseTableName="book"
+			baseColumnNames="book_details_id" referencedTableName="book_details"
+			referencedColumnNames="id" />
+	</changeSet>
+
+	<changeSet id="3" author="nidaff">
+		<createTable tableName="department">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="department_name" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="4" author="nidaff">
+		<createTable tableName="department_has_book">
+			<column name="department_id" type="bigint">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="book_id" type="bigint">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint
+			constraintName="fk_book" baseTableName="department_has_book"
+			baseColumnNames="book_id" referencedTableName="book"
+			referencedColumnNames="id" />
+		<addForeignKeyConstraint
+			constraintName="fk_department" baseTableName="department_has_book"
+			baseColumnNames="department_id" referencedTableName="department"
+			referencedColumnNames="id" />
+	</changeSet>
+
+	<changeSet id="5" author="nidaff">
+		<createTable tableName="role">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="role_name" type="varchar(55)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="6" author="nidaff">
+		<createTable tableName="user">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="first_name" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="last_name" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="email" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="login" type="varchar(255)">
+				<constraints unique = "true" nullable="false" />
+			</column>
+			<column name="password" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="7" author="nidaff">
+		<createTable tableName="user_has_role">
+			<column name="user_id" type="bigint">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="role_id" type="bigint">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint
+			constraintName="fk_role" baseTableName="user_has_role"
+			baseColumnNames="role_id" referencedTableName="role"
+			referencedColumnNames="id" />
+		<addForeignKeyConstraint
+			constraintName="fk_user" baseTableName="user_has_role"
+			baseColumnNames="user_id" referencedTableName="user"
+			referencedColumnNames="id" />
+	</changeSet>
+	<changeSet id="8" author="nidaff">
+		<createTable tableName="history_user_book">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="user_id" type="bigint">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="book_id" type="bigint">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="user_first_name" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="user_last_name" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="user_email" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="book_title" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="book_author" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="date_from" type="datetime">
+				<constraints nullable="false" />
+			</column>
+			<column name="date_to" type="datetime">
+				<constraints nullable="false" />
+			</column>
+			<column name="is_taken" type="tinyint" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint
+			constraintName="fk_book_user" baseTableName="history_user_book"
+			baseColumnNames="book_id" referencedTableName="book"
+			referencedColumnNames="id" />
+		<addForeignKeyConstraint
+			constraintName="fk_user_book" baseTableName="history_user_book"
+			baseColumnNames="user_id" referencedTableName="user"
+			referencedColumnNames="id" />
+	</changeSet>
+</databaseChangeLog>

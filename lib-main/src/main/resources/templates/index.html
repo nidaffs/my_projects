@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<title>SENLA Library - Home</title>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link href="../css/styles.css" rel="stylesheet" />
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+	<div class="main_menu">
+		<nav class="navbar navbar-expand-lg navbar-light">
+			<div class="container box_1620">
+				<a class="navbar-brand logo_h" href="index.html"><img
+					src="img/logo.png" alt=""></a>
+				<div class="collapse navbar-collapse offset"
+					id="navbarSupportedContent">
+					<ul class="nav navbar-nav menu_nav justify-content-end">
+						<li class="nav-item active"><a class="nav-link" href="/main">Home</a></li>
+						<li class="nav-item"><a class="nav-link" href="/books/add">Add
+								book</a></li>
+						<li class="nav-item"><a class="nav-link" href="/books/">All
+								books</a>
+					</ul>
+					
+					
+					
+					<ul class="navbar-nav align-items-center  ml-auto ml-md-0 dropdown show">
+            <li class="nav-item dropdown">
+              <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="avatar avatar-sm rounded-circle">
+                    <img th:src="@{'../images/' + ${dto.login} + '.png'}" 
+			th:alt = "${dto.login}" alt="" class="image"/>
+                  </span>
+                    <span class="mb-0 text-sm  font-weight-bold" th:text="${dto.login}"></span>
+              </a>
+              <div class="dropdown-menu  dropdown-menu-right ">
+                <div class="dropdown-header noti-title">
+                  <h6 class="text-overflow m-0">Welcome!</h6>
+                </div>
+                <a class="dropdown-item" href="#" >
+                  <span>My profile</span>
+                </a>
+                <a href="#" class="dropdown-item">
+                  <span>Settings</span>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">
+                  <span>Logout</span>
+                </a>
+              </div>
+            </li>
+          </ul>
+				</div>
+			</div>
+		</nav>
+		<!-- Search form -->
+		<form class="form-inline active-blue">
+			<input class="form-control form-control-sm ml-3" type="text"
+				placeholder="Search" aria-label="Search">
+		</form>
+	</div>
+</body>
+</html>
