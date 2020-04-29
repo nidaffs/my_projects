@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.nidaff.api.dto.UserDto;
 import com.nidaff.api.services.IUserService;
-import com.nidaff.service.services.ImageFileUploader;
+import com.nidaff.rest.utils.ImageFileUploader;
 
 @RestController
 public class MainController {
@@ -27,12 +27,12 @@ public class MainController {
 	@Autowired
 	IUserService userService;
 
-	@GetMapping(value = "/index")
+	@GetMapping(value = "/main")
 	public ModelAndView main(Principal principal) {
 		principalId = null;
 		ModelAndView modelAndView = new ModelAndView();
 		principalId = userService.getUserByLogin(principal.getName()).getId();
-		modelAndView.setViewName("index");
+		modelAndView.setViewName("main");
 		UserDto dto = userService.getUserById(principalId);
 		modelAndView.addObject("dto", dto);
 		return modelAndView;

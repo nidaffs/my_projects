@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
+
+import org.apache.commons.lang3.RegExUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +48,7 @@ public class BookService implements IBookService {
 
 	@Override
 	public BookDto addBook(String isbn, String departmentName) {
+		isbn = RegExUtils.replaceAll(isbn, "-", StringUtils.EMPTY).trim();
 		BookDetails bookDetailsFromDao = bookDetailsDao.findBookDetailsByIsbn(isbn);
 		if (bookDetailsFromDao != null) {
 			Book bookFromDao = bookDao.getOne(bookDetailsFromDao.getId());

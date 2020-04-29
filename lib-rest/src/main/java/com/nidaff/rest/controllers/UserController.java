@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.nidaff.api.dto.UserDto;
 import com.nidaff.api.services.IUserService;
-import com.nidaff.service.services.ImageFileUploader;
+import com.nidaff.rest.utils.ImageFileUploader;
 
 @RestController
 @RequestMapping("/user")
