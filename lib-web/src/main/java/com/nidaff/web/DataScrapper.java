@@ -37,6 +37,7 @@ public class DataScrapper {
 			bookDetails.setImage(String.format(IMAGE_URL, isbn));
 			bookDetails.setTitle(title.getTextContent());
 			//book.setPublisher(publisher.getTextContent());
+			//TODO приходит ноль с сайта(нет описания)
 			bookDetails.setAuthor(author.getTextContent());
 			return bookDetails;
 		} catch (FailingHttpStatusCodeException | IOException e) {

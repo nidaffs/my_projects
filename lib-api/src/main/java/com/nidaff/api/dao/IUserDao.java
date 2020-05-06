@@ -8,5 +8,7 @@ import com.nidaff.entity.entities.User;
 @Repository
 public interface IUserDao extends JpaRepository<User, Long>{
 
-	public User findUserByLogin(String login); 
+	public User findUserByLogin(String login);
+	
+	public User findUserByEmail(String email);
 }

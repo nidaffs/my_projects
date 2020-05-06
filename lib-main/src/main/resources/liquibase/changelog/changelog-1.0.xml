@@ -39,6 +39,9 @@
 			<column name="quantity" type="int">
 				<constraints nullable="false" />
 			</column>
+			<column name="avg_rating" type="float">
+				<constraints nullable="false" />
+			</column>
 		</createTable>
 		<addForeignKeyConstraint
 			constraintName="fk_book_details" baseTableName="book"
@@ -170,6 +173,30 @@
 			referencedColumnNames="id" />
 		<addForeignKeyConstraint
 			constraintName="fk_user_book" baseTableName="history_user_book"
+			baseColumnNames="user_id" referencedTableName="user"
+			referencedColumnNames="id" />
+	</changeSet>
+	<changeSet id="9" author="nidaff">
+		<createTable tableName="book_rating">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="user_id" type="bigint">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="book_id" type="bigint">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="rating" type="int">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint
+			constraintName="fk_book_user_rating" baseTableName="book_rating"
+			baseColumnNames="book_id" referencedTableName="book"
+			referencedColumnNames="id" />
+		<addForeignKeyConstraint
+			constraintName="fk_user_book_rating" baseTableName="book_rating"
 			baseColumnNames="user_id" referencedTableName="user"
 			referencedColumnNames="id" />
 	</changeSet>

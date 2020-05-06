@@ -55,12 +55,6 @@ html, body {
 	align-content: center;
 }
 
-.social_icon {
-	position: absolute;
-	right: 20px;
-	top: 5px;
-}
-
 .card-signup {
 	height: 370px;
 	margin-top: auto;
@@ -108,15 +102,23 @@ html, body {
 	border: 0 !important;
 }
 
-.social_icon span {
-	font-size: 60px;
-	margin-left: 10px;
-	color: #FFC312;
+.social_icon span:hover{
+color: white;
+cursor: pointer;
 }
 
-.social_icon span:hover {
-	color: white;
-	cursor: pointer;
+.social_icon button{
+font-size: 40px;
+margin-left: 10px;
+}
+
+.social_icon {
+	position: absolute;
+	right: 20px;
+	top: 10px;
+}
+.nav-link {
+color: white !important;
 }
 
 .card-header h3, .card-footer, .error, .lab, .book-title,
@@ -130,7 +132,13 @@ html, body {
 	width: 8em;
 }
 
-.login_btn:hover {
+.login_facebook_btn {
+	color: black;
+	background-color: #FFC312;
+	width: 1em;
+}
+
+.login_btn:hover, .login_facebook_btn:hover {
 	color: black;
 	background-color: white;
 }

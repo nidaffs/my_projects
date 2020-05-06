@@ -40,6 +40,9 @@ public class User extends AEntity {
 	@OneToMany(mappedBy = "userHistory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<History> histories;
 
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<BookRating> ratings;
+	
 	public String getFirstName() {
 		return firstName;
 	}

@@ -14,9 +14,8 @@
 	<div class="container">
 		<div class="d-flex justify-content-center h-100">
 			<div class="card-getbook">
-			<div class="container-fliud">
 				<div class="wrapper row">
-					<div >
+					<div>
 						<img th:src="@{${book.bookDetails.image}}"
 							th:alt="${book.bookDetails.title}" alt="" />
 					</div>
@@ -34,11 +33,9 @@
 						</div>
 						<p class="book-description"
 							th:text="${book.bookDetails.description}"></p>
-
-
 						<div class="section">
 							<h6 class="departments">
-								<small>DEPARTMENTS:</small>
+								DEPARTMENTS:
 							</h6>
 							<div>
 								<div class="department"
@@ -49,7 +46,7 @@
 						</div>
 						
 						<button id = "takeBookBtn" disabled class="btn login_btn" type="submit">Take book</button>
-						<input type="button" class="btn login_btn" value="Back" />
+						<a th:href="@{'/books/' + ${book.id}+'/update'}" class="btn login_btn">Update book</a>
 						<button class="btn login_btn" type="submit">
 							<span class="fa fa-heart"></span>
 						</button>
@@ -58,7 +55,6 @@
 			</div>
 		</div>
 		</div>
-	</div>
 	<script>
 	$(document).ready(function(){
             $(".department").on("click",function(){

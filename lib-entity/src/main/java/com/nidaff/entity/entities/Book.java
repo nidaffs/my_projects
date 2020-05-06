@@ -20,6 +20,9 @@ public class Book extends AEntity {
 	@Column(name = "quantity")
 	private Integer quantity;
 	
+	@Column(name = "avg_rating")
+	private Float avgRating;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "book_details_id", referencedColumnName = "id")
 	private BookDetails bookDetails;
@@ -32,6 +35,9 @@ public class Book extends AEntity {
 	
 	@OneToMany(mappedBy = "bookHistory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<History> histories;
+	
+	@OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<BookRating> ratings;
 
 	public BookDetails getBookDetails() {
 		return bookDetails;

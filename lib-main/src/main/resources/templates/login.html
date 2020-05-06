@@ -3,7 +3,8 @@
 <title>Please sign in</title>
 <!--<link href="../css/fontawesome.min.css" rel="stylesheet">
 <!--<link href="../css/solid.min.css" rel="stylesheet">-->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
 <link rel="stylesheet" href="../css/bootstrap.min.css" />
 <link href="../css/styles.css" rel="stylesheet" />
 </head>
@@ -13,8 +14,13 @@
 			<div class="card">
 				<div class="card-header">
 					<h3>Sign In</h3>
-					<div class="d-flex justify-content-end social_icon">
-						<span><i class="fab fa-facebook-square"></i></span>
+					<div class="social_icon">
+						<form action="/signin/facebook" method="post">
+							<button type="submit" class="btn btn-fb login_facebook_btn">
+								<i class="fab fa-facebook-f"></i>
+							</button>
+							<input type="hidden" name="scope" value="email, public_profile" />
+						</form>
 					</div>
 				</div>
 				<div class="card-body">

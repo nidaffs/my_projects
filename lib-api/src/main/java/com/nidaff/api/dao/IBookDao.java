@@ -9,4 +9,5 @@ import com.nidaff.entity.entities.Book;
 public interface IBookDao extends JpaRepository<Book, Long> {
 	
 	void deleteBookById(Long id);
+	
 }

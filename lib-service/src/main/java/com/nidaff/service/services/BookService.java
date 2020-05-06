@@ -84,16 +84,18 @@ public class BookService implements IBookService {
 
 	@Override
 	public void updateBook(Long id, BookDetailsDto bookDetailsDto) {
-		// TODO Auto-generated method stub
-		
+		//BookDetails existingBookDetails = Optional.ofNullable(bookDetailsDao.getOne(id)).orElseThrow(NoBookException)
+		//если одновременно кто-то удалил книгу
+		BookDetails existingBookDetails = bookDetailsDao.getOne(id);
+		if (!StringUtils.isEmpty(bookDetailsDto.getAuthor())) {
+			existingBookDetails.setAuthor(bookDetailsDto.getAuthor());
+		}
+		if (!StringUtils.isEmpty(bookDetailsDto.getDescription())) {
+			existingBookDetails.setDescription(bookDetailsDto.getDescription());
+		}
+		if (!StringUtils.isEmpty(bookDetailsDto.getTitle())) {
+			existingBookDetails.setTitle(bookDetailsDto.getTitle());
+		}
+		bookDetailsDao.save(existingBookDetails);
 	}
-
-//	@Override
-//	public void updateBook(Long id, BookDetailsDto bookDetailsDto) {
-//		Book existingBook = Optional.ofNullable(bookDao.get(id)).orElse(new Book());
-//		existingBook.setTaken(bookDto.isTaken());
-//		bookDao.update(existingBook);
-//		logger.info("Book successfully updated");
-//		
-//	}
 }
