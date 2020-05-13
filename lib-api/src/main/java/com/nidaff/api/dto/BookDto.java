@@ -9,6 +9,8 @@ public class BookDto extends ADto{
 	
 	private Integer quantity;
 	
+	private String avgRating;
+	
 	private List<DepartmentDto> departmentsDto;
 	
 	private List<HistoryDto> histories = new ArrayList<>();
@@ -43,5 +45,13 @@ public class BookDto extends ADto{
 
 	public void setHistories(List<HistoryDto> histories) {
 		this.histories = histories;
+	}
+
+	public String getAvgRating() {
+		return avgRating;
+	}
+
+	public void setAvgRating(String avgRating) {
+		this.avgRating = avgRating;
 	}
 }

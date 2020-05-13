@@ -2,21 +2,17 @@ package com.nidaff.entity.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
 
 @Entity
 @Table(name = "book_rating")
 public class BookRating extends AEntity{
 	
 	@Column(name = "rating")
-	@Enumerated(EnumType.STRING)
-	private Rating rating;
+	private Integer rating;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -26,11 +22,12 @@ public class BookRating extends AEntity{
     @JoinColumn(name = "book_id", referencedColumnName = "id")
     private Book book;
 
-	public Rating getRating() {
+
+	public Integer getRating() {
 		return rating;
 	}
 
-	public void setRating(Rating rating) {
+	public void setRating(Integer rating) {
 		this.rating = rating;
 	}
 

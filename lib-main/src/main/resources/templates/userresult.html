@@ -1,13 +1,24 @@
+<!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
 <head>
-<title>Users result page</title>
+<title>User result page</title>
 <link rel="stylesheet" href="../css/bootstrap.min.css" />
 <link href="../css/styles.css" rel="stylesheet" />
+
 </head>
 <body>
-	<h1>You've successfully registered!</h1>
-	<br />
-	<a href="/books/" class="btn btn-info" role="button">All books</a>
-</body>
+	<div class="d-flex justify-content-center h-100">
+		<div class="card-chs">
+			<div
+				class="card-header d-flex justify-content-center align-items-center">
+				<h3>You've successfully registered!</h3>
+			</div>
+			<div
+				class="card-body d-flex justify-content-center align-items-center">
+				<br /> <a href="/books/" class="btn login_btn" role="button">All
+					books</a>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

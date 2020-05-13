@@ -26,9 +26,14 @@ public class BookRatingService implements IBookRatingService{
 	private IBookRatingDao bookRatingDao;
 	
 	@Override
-	public BookRating addBookRating(Long id, UserDto dto, Integer rating) {
+	public BookRating addBookRating( UserDto dto, String rate, Long id) {
+		BookRating bookRatingFromDao = bookRatingDao.findByUserIdAndBookId(dto.getId(), id);
+		if (bookRatingFromDao != null) {
+			bookRatingFromDao.setRating(Integer.parseInt(rate));
+			return bookRatingDao.save(bookRatingFromDao);
+		} 
 		BookRating bookRating = new BookRating();
-		bookRating.setRating(rating);
+		bookRating.setRating(Integer.parseInt(rate));
 		bookRating.setBook(bookDao.getOne(id));
 		bookRating.setUser(userDao.getOne(dto.getId()));
 		return bookRatingDao.save(bookRating);

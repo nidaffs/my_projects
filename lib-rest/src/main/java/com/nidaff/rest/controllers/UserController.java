@@ -47,7 +47,7 @@ public class UserController {
 		userService.updateUser(principalId, dto);
 		try {
 			imageFileUploader.createOrUpdateImage(dto, file);
-			modelAndView.setViewName("userchanges");
+			modelAndView.setViewName("changessaved");
 		} catch (IOException e) {
 			modelAndView.setViewName("403");
 		}

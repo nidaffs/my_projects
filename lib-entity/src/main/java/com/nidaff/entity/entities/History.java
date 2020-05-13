@@ -14,11 +14,11 @@ public class History extends AEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-	private User userHistory;
+	private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", referencedColumnName = "id")
-    private Book bookHistory;
+    private Book book;
     
     @Column(name = "user_first_name")
 	private String userFirstName;
@@ -44,20 +44,21 @@ public class History extends AEntity {
 	@Column(name = "is_taken")
 	private boolean isTaken;
 
-	public User getUserHistory() {
-		return userHistory;
+
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserHistory(User userHistory) {
-		this.userHistory = userHistory;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public Book getBookHistory() {
-		return bookHistory;
+	public Book getBook() {
+		return book;
 	}
 
-	public void setBookHistory(Book bookHistory) {
-		this.bookHistory = bookHistory;
+	public void setBook(Book book) {
+		this.book = book;
 	}
 
 	public String getUserFirstName() {

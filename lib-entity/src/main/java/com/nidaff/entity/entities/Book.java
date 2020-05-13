@@ -21,7 +21,7 @@ public class Book extends AEntity {
 	private Integer quantity;
 	
 	@Column(name = "avg_rating")
-	private Float avgRating;
+	private Double avgRating;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "book_details_id", referencedColumnName = "id")
@@ -33,7 +33,7 @@ public class Book extends AEntity {
 	inverseJoinColumns = @JoinColumn(name = "department_id", referencedColumnName = "id"))
 	private List<Department> departments;
 	
-	@OneToMany(mappedBy = "bookHistory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<History> histories;
 	
 	@OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -69,5 +69,21 @@ public class Book extends AEntity {
 
 	public void setHistories(List<History> histories) {
 		this.histories = histories;
+	}
+
+	public Double getAvgRating() {
+		return avgRating;
+	}
+
+	public void setAvgRating(Double avgRating) {
+		this.avgRating = avgRating;
+	}
+
+	public List<BookRating> getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(List<BookRating> ratings) {
+		this.ratings = ratings;
 	}
 }

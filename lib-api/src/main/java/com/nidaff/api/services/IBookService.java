@@ -17,5 +17,7 @@ public interface IBookService {
 
 	void deleteBookById(Long id);
 	
+	//void updateBookRating(Long id, String rate);
+	
 	//BookDto addBookDetailsToBook(long bookId, long bookDetailsId);
 }

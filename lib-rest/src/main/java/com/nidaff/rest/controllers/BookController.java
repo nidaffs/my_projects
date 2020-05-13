@@ -1,6 +1,5 @@
 package com.nidaff.rest.controllers;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -16,12 +15,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.nidaff.api.dto.BookDetailsDto;
 import com.nidaff.api.dto.BookDto;
-import com.nidaff.api.dto.BookRatingDto;
 import com.nidaff.api.dto.DepartmentDto;
 import com.nidaff.api.dto.UserDto;
 import com.nidaff.api.services.IBookRatingService;
 import com.nidaff.api.services.IBookService;
 import com.nidaff.api.services.IDepartmentService;
+import com.nidaff.api.services.IHistoryService;
 import com.nidaff.api.services.IUserService;
 import com.nidaff.rest.utils.ImageFileUploader;
 
@@ -34,6 +33,9 @@ public class BookController {
 	
 	@Autowired
 	IBookService bookService;
+	
+	@Autowired
+	IHistoryService historyService;
 	
 	@Autowired
 	IUserService userService;
@@ -57,25 +59,37 @@ public class BookController {
 	}
 	
 	@GetMapping(value = ID)
-	public ModelAndView getBook(@PathVariable Long id, Principal principal) {
+	public ModelAndView getBook(@PathVariable Long id) {
 		principalId = null;
 		ModelAndView modelAndView = new ModelAndView();
-		principalId = userService.getUserByLogin(principal.getName()).getId();
-		UserDto dto = userService.getUserById(principalId);
 		BookDto book = bookService.getBookById(id);
 		//List <DepartmentDto> departments = book.getDepartmentsDto();
 		modelAndView.setViewName("getbook");
 		modelAndView.addObject("book", book);
-		modelAndView.addObject("dto", dto);
 		//modelAndView.addObject("departments", departments);
 		return modelAndView;
 	}
 	
-	@PostMapping(value = ID)
-	public ModelAndView addBookRating(@PathVariable Long id, UserDto dto, Integer rating) {
+	
+	@PostMapping(value = ID + "/rate")
+	public ModelAndView addBookRating(String rating, Principal principal, @PathVariable Long id) {
+		principalId = null;
 		ModelAndView modelAndView = new ModelAndView();
-		bookRatingService.addBookRating(id, dto, rating);
-		modelAndView.setViewName("ratingchanges");
+		principalId = userService.getUserByLogin(principal.getName()).getId();
+		UserDto dto = userService.getUserById(principalId);
+		bookRatingService.addBookRating(dto, rating, id);
+		modelAndView.setViewName("changessaved2");
+		return modelAndView;
+	}
+	
+	@PostMapping(value = ID + "/getbook")
+	public ModelAndView addHistory(Principal principal, @PathVariable Long id) {
+		principalId = null;
+		ModelAndView modelAndView = new ModelAndView();
+		principalId = userService.getUserByLogin(principal.getName()).getId();
+		UserDto dto = userService.getUserById(principalId);
+		historyService.addHistory(dto, id);
+		modelAndView.setViewName("thebookistaken");
 		return modelAndView;
 	}
 	
@@ -116,7 +130,7 @@ public class BookController {
 //		} catch (IOException e) {
 //			modelAndView.setViewName("403");
 //		}
-		modelAndView.setViewName("bookchanges");
+		modelAndView.setViewName("changessaved2");
 		return modelAndView;
 	}
 }

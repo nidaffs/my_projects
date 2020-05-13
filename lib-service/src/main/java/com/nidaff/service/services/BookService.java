@@ -1,5 +1,6 @@
 package com.nidaff.service.services;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -65,6 +66,7 @@ public class BookService implements IBookService {
 		//TODO: add конструктор в дто для букдетайлс и квантити
 		book.setBookDetails(bookDetails);
 		book.setQuantity(1);
+		book.setAvgRating(0.0);
 		List<Department> departments = new ArrayList<>();
 		departments.add(departmentDao.findByDepartmentName(departmentName));
 		book.setDepartments(departments);
@@ -73,7 +75,14 @@ public class BookService implements IBookService {
 
 	@Override
 	public BookDto getBookById(Long id) {
-		return BookMapper.entityToBookDto(bookDao.getOne(id));
+		BookDto dto = BookMapper.entityToBookDto(bookDao.getOne(id));
+		if (bookDao.getAvgRating(id) != null) {
+			String formatRating = new DecimalFormat("#0.0").format(bookDao.getAvgRating(id));
+			dto.setAvgRating(formatRating);
+			return dto;
+			} 
+			dto.setAvgRating("0,0");
+		return dto;
 	}
 
 	@Override
@@ -98,4 +107,11 @@ public class BookService implements IBookService {
 		}
 		bookDetailsDao.save(existingBookDetails);
 	}
+
+//	@Override
+//	public void updateBookRating(Long id, String rate) {
+//		double avgRate = (bookDao.getOne(id).getAvgRating() + Integer.parseInt(rate))/N+1
+//		bookDao.getOne(id).setAvgRating();
+//		
+//	}
 }

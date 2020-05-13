@@ -1,15 +1,12 @@
 package com.nidaff.api.dto;
 
-import com.nidaff.entity.entities.Book;
-import com.nidaff.entity.entities.User;
-
 public class BookRatingDto extends ADto{
 	
 	private Integer rating;
 	
-	private User user;
+	private UserDto userDto;
 	
-	private Book book;
+	private BookDto bookDto;
 
 	public Integer getRating() {
 		return rating;
@@ -19,20 +16,19 @@ public class BookRatingDto extends ADto{
 		this.rating = rating;
 	}
 
-	public User getUser() {
-		return user;
+	public UserDto getUserDto() {
+		return userDto;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserDto(UserDto userDto) {
+		this.userDto = userDto;
 	}
 
-	public Book getBook() {
-		return book;
+	public BookDto getBookDto() {
+		return bookDto;
 	}
 
-	public void setBook(Book book) {
-		this.book = book;
+	public void setBookDto(BookDto bookDto) {
+		this.bookDto = bookDto;
 	}
-
 }

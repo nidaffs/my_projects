@@ -2,7 +2,6 @@ package com.nidaff.api.services;
 
 import java.util.List;
 
-import com.nidaff.api.dto.BookDto;
 import com.nidaff.api.dto.HistoryDto;
 import com.nidaff.api.dto.UserDto;
 
@@ -16,5 +15,5 @@ public interface IHistoryService {
 
 	public List<HistoryDto> getAllHistories();
 
-	HistoryDto addHistory(UserDto userDto, BookDto bookDto);
+	HistoryDto addHistory(UserDto userDto, Long id);
 }

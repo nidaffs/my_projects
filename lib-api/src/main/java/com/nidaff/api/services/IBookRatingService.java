@@ -5,6 +5,6 @@ import com.nidaff.entity.entities.BookRating;
 
 public interface IBookRatingService {
 	
-	BookRating addBookRating(Long id, UserDto dto, Integer rating);
+	BookRating addBookRating( UserDto dto, String rate, Long id);
 
 }

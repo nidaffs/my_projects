@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 
 public class HistoryDto extends ADto{
 	
-	private UserDto userHistoryDto;
+	private UserDto userDto;
 
-    private BookDto bookHistoryDto;
+    private BookDto bookDto;
     
 	private String userFirstName;
 	
@@ -24,20 +24,20 @@ public class HistoryDto extends ADto{
 
 	private boolean isTaken;
 
-	public UserDto getUserHistoryDto() {
-		return userHistoryDto;
+	public UserDto getUserDto() {
+		return userDto;
 	}
 
-	public void setUserHistoryDto(UserDto userHistoryDto) {
-		this.userHistoryDto = userHistoryDto;
+	public void setUserDto(UserDto userDto) {
+		this.userDto = userDto;
 	}
 
-	public BookDto getBookHistoryDto() {
-		return bookHistoryDto;
+	public BookDto getBookDto() {
+		return bookDto;
 	}
 
-	public void setBookHistoryDto(BookDto bookHistoryDto) {
-		this.bookHistoryDto = bookHistoryDto;
+	public void setBookDto(BookDto bookDto) {
+		this.bookDto = bookDto;
 	}
 
 	public String getUserFirstName() {

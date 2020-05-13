@@ -26,8 +26,8 @@ public class HistoryMapper {
 		dto.setDateFrom(entity.getDateFrom());
 		dto.setDateTo(entity.getDateTo());
 		dto.setTaken(entity.isTaken());
-		dto.setUserHistoryDto(UserMapper.entityToUserDto(entity.getUserHistory()));
-		dto.setBookHistoryDto(BookMapper.entityToBookDto(entity.getBookHistory()));
+		dto.setUserDto(UserMapper.entityToUserDto(entity.getUser()));
+		dto.setBookDto(BookMapper.entityToBookDto(entity.getBook()));
 		return dto;
 	}
 
@@ -41,8 +41,8 @@ public class HistoryMapper {
 		history.setDateFrom(dto.getDateFrom());
 		history.setDateTo(dto.getDateTo());
 		history.setTaken(dto.isTaken());
-		history.setUserHistory(UserMapper.dtoUserToEntity(dto.getUserHistoryDto()));
-		history.setBookHistory(BookMapper.dtoBookToEntity(dto.getBookHistoryDto()));
+		history.setUser(UserMapper.dtoUserToEntity(dto.getUserDto()));
+		history.setBook(BookMapper.dtoBookToEntity(dto.getBookDto()));
 		return history;
 	}
 }

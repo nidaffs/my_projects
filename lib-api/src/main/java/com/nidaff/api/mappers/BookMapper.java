@@ -3,6 +3,9 @@ package com.nidaff.api.mappers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.nidaff.api.dao.IBookDao;
 import com.nidaff.api.dto.BookDetailsDto;
 import com.nidaff.api.dto.BookDto;
 import com.nidaff.api.dto.DepartmentDto;
@@ -11,6 +14,10 @@ import com.nidaff.entity.entities.BookDetails;
 import com.nidaff.entity.entities.Department;
 
 public class BookMapper {
+	
+	@Autowired
+	private static IBookDao bookDao;
+	
 	public static List<BookDto> convertListBook(List<Book> entities) {
 		List <BookDto> booksDto = new ArrayList<>();
 		for (Book entity : entities) {
