@@ -1,26 +1,20 @@
 package com.nidaff.api.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
-public class RoleDto extends ADto{
-	
-	private List<UserDto> usersDto;
+@Data
+@EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
+@AllArgsConstructor
+public class RoleDto extends ADto {
 
-	private String roleName;
+    private List<UserDto> usersDto;
 
-	public List<UserDto> getUsersDto() {
-		return usersDto;
-	}
+    private String roleName;
 
-	public void setUsersDto(List<UserDto> usersDto) {
-		this.usersDto = usersDto;
-	}
-
-	public String getRoleName() {
-		return roleName;
-	}
-
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
-	}
 }

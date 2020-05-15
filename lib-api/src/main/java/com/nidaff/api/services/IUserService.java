@@ -1,21 +1,22 @@
 package com.nidaff.api.services;
 
-import java.util.List;
-
 import com.nidaff.api.dto.UserDto;
 import com.nidaff.entity.entities.User;
 
+import java.util.List;
+
 public interface IUserService {
 
-	UserDto getUserById(Long id);
-	
-	User getUserByLogin(String login);
+    UserDto getUserById(Long id);
 
-	void updateUser(Long id, UserDto userDto);
+    User getUserByLogin(String login);
 
-	void deleteUserById(Long id);
-	
-	public List<UserDto> getAllUsers();
+    void updateUser(Long id, UserDto userDto);
 
-	UserDto addUser(UserDto userDto);
+    void deleteUserById(Long id);
+
+    public List<UserDto> getAllUsers();
+
+    UserDto addUser(UserDto userDto);
+    
 }

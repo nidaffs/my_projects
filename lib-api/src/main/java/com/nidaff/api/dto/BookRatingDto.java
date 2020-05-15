@@ -1,34 +1,18 @@
 package com.nidaff.api.dto;
 
-public class BookRatingDto extends ADto{
-	
-	private Integer rating;
-	
-	private UserDto userDto;
-	
-	private BookDto bookDto;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-	public Integer getRating() {
-		return rating;
-	}
+@Getter
+@Setter
+@NoArgsConstructor
+public class BookRatingDto extends ADto {
 
-	public void setRating(Integer rating) {
-		this.rating = rating;
-	}
+    private Integer rating;
 
-	public UserDto getUserDto() {
-		return userDto;
-	}
+    private UserDto userDto;
 
-	public void setUserDto(UserDto userDto) {
-		this.userDto = userDto;
-	}
+    private BookDto bookDto;
 
-	public BookDto getBookDto() {
-		return bookDto;
-	}
-
-	public void setBookDto(BookDto bookDto) {
-		this.bookDto = bookDto;
-	}
 }

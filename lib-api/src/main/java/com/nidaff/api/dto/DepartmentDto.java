@@ -1,27 +1,21 @@
 package com.nidaff.api.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class DepartmentDto extends ADto{
-	
-	private List<BookDto> books = new ArrayList<>();
-	
-	private String departmentName;
-	
-	public List<BookDto> getBooks() {
-		return books;
-	}
+@Data
+@EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
+@AllArgsConstructor
+public class DepartmentDto extends ADto {
 
-	public void setBooks(List<BookDto> books) {
-		this.books = books;
-	}
+    private List<BookDto> books = new ArrayList<>();
 
-	public String getDepartmentName() {
-		return departmentName;
-	}
+    private String departmentName;
 
-	public void setDepartmentName(String departmentName) {
-		this.departmentName = departmentName;
-	}
 }

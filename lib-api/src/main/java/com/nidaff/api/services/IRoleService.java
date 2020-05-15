@@ -5,7 +5,8 @@ import com.nidaff.entity.entities.Role;
 
 public interface IRoleService {
 
-	Role addRole(RoleDto roleDto);
+    Role addRole(RoleDto roleDto);
 
-	void deleteRoleByName(String roleName);
+    void deleteRoleByName(String roleName);
+
 }

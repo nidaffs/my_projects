@@ -1,6 +1,10 @@
 package com.nidaff.entity.entities;
 
-import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,120 +12,46 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import java.time.LocalDateTime;
+
+@Data
+@EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "history_user_book")
 public class History extends AEntity {
 
-	@ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-	private User user;
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", referencedColumnName = "id")
     private Book book;
-    
+
     @Column(name = "user_first_name")
-	private String userFirstName;
-	
-	@Column(name = "user_last_name")
-	private String userLastName;
-	
-	@Column(name = "user_email")
-	private String userEmail;
-	
-	@Column(name = "book_title")
-	private String bookTitle;
+    private String userFirstName;
 
-	@Column(name = "book_author")
-	private String bookAuthor;
-	
-	@Column(name = "date_from")
-	private LocalDateTime dateFrom;
-	
-	@Column(name = "date_to")
-	private LocalDateTime dateTo;
+    @Column(name = "user_last_name")
+    private String userLastName;
 
-	@Column(name = "is_taken")
-	private boolean isTaken;
+    @Column(name = "user_email")
+    private String userEmail;
 
+    @Column(name = "book_title")
+    private String bookTitle;
 
-	public User getUser() {
-		return user;
-	}
+    @Column(name = "book_author")
+    private String bookAuthor;
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    @Column(name = "date_from")
+    private LocalDateTime dateFrom;
 
-	public Book getBook() {
-		return book;
-	}
+    @Column(name = "date_to")
+    private LocalDateTime dateTo;
 
-	public void setBook(Book book) {
-		this.book = book;
-	}
+    @Column(name = "is_taken")
+    private boolean isTaken;
 
-	public String getUserFirstName() {
-		return userFirstName;
-	}
-
-	public void setUserFirstName(String userFirstName) {
-		this.userFirstName = userFirstName;
-	}
-
-	public String getUserLastName() {
-		return userLastName;
-	}
-
-	public void setUserLastName(String userLastName) {
-		this.userLastName = userLastName;
-	}
-
-	public String getUserEmail() {
-		return userEmail;
-	}
-
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
-	}
-
-	public String getBookTitle() {
-		return bookTitle;
-	}
-
-	public void setBookTitle(String bookTitle) {
-		this.bookTitle = bookTitle;
-	}
-
-	public String getBookAuthor() {
-		return bookAuthor;
-	}
-
-	public void setBookAuthor(String bookAuthor) {
-		this.bookAuthor = bookAuthor;
-	}
-
-	public LocalDateTime getDateFrom() {
-		return dateFrom;
-	}
-
-	public void setDateFrom(LocalDateTime dateFrom) {
-		this.dateFrom = dateFrom;
-	}
-
-	public LocalDateTime getDateTo() {
-		return dateTo;
-	}
-
-	public void setDateTo(LocalDateTime dateTo) {
-		this.dateTo = dateTo;
-	}
-
-	public boolean isTaken() {
-		return isTaken;
-	}
-
-	public void setTaken(boolean isTaken) {
-		this.isTaken = isTaken;
-	}
 }

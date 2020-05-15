@@ -83,8 +83,9 @@ public class MailConfiguration {
 //		System.out.println("Execute method with configured executor - " + Thread.currentThread().getName());
 //	}
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
 }

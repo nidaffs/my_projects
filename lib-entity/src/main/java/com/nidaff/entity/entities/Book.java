@@ -1,6 +1,9 @@
 package com.nidaff.entity.entities;
 
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,77 +16,34 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import java.util.List;
+
 @Entity
 @Table(name = "book")
+@Data
+@EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
+@AllArgsConstructor
 public class Book extends AEntity {
 
-	@Column(name = "quantity")
-	private Integer quantity;
-	
-	@Column(name = "avg_rating")
-	private Double avgRating;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "book_details_id", referencedColumnName = "id")
-	private BookDetails bookDetails;
-	
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "department_has_book", 
-	joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
-	inverseJoinColumns = @JoinColumn(name = "department_id", referencedColumnName = "id"))
-	private List<Department> departments;
-	
-	@OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<History> histories;
-	
-	@OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<BookRating> ratings;
+    @Column(name = "quantity")
+    private Integer quantity;
 
-	public BookDetails getBookDetails() {
-		return bookDetails;
-	}
+    @Column(name = "avg_rating")
+    private Double avgRating;
 
-	public void setBookDetails(BookDetails bookDetails) {
-		this.bookDetails = bookDetails;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_details_id", referencedColumnName = "id")
+    private BookDetails bookDetails;
 
-	public Integer getQuantity() {
-		return quantity;
-	}
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "department_has_book", joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "department_id", referencedColumnName = "id"))
+    private List<Department> departments;
 
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
-	}
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<History> histories;
 
-	public List<Department> getDepartments() {
-		return departments;
-	}
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<BookRating> ratings;
 
-	public void setDepartments(List<Department> departments) {
-		this.departments = departments;
-	}
-
-	public List<History> getHistories() {
-		return histories;
-	}
-
-	public void setHistories(List<History> histories) {
-		this.histories = histories;
-	}
-
-	public Double getAvgRating() {
-		return avgRating;
-	}
-
-	public void setAvgRating(Double avgRating) {
-		this.avgRating = avgRating;
-	}
-
-	public List<BookRating> getRatings() {
-		return ratings;
-	}
-
-	public void setRatings(List<BookRating> ratings) {
-		this.ratings = ratings;
-	}
 }

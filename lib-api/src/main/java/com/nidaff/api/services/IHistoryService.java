@@ -1,19 +1,20 @@
 package com.nidaff.api.services;
 
-import java.util.List;
-
 import com.nidaff.api.dto.HistoryDto;
 import com.nidaff.api.dto.UserDto;
 
+import java.util.List;
+
 public interface IHistoryService {
 
-	HistoryDto getHistoryById(Long id);
+    HistoryDto getHistoryById(Long id);
 
-	void updateHistory(Long id, HistoryDto historyDto);
+    void updateHistory(Long id, HistoryDto historyDto);
 
-	void deleteHistoryById(Long id);
+    void deleteHistoryById(Long id);
 
-	public List<HistoryDto> getAllHistories();
+    public List<HistoryDto> getAllHistories();
 
-	HistoryDto addHistory(UserDto userDto, Long id);
+    HistoryDto addHistory(UserDto userDto, Long id);
+    
 }

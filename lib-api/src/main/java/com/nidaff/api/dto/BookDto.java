@@ -1,57 +1,27 @@
 package com.nidaff.api.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookDto extends ADto{
-	
-	private BookDetailsDto bookDetails;
-	
-	private Integer quantity;
-	
-	private String avgRating;
-	
-	private List<DepartmentDto> departmentsDto;
-	
-	private List<HistoryDto> histories = new ArrayList<>();
+@Data
+@EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
+@AllArgsConstructor
+public class BookDto extends ADto {
 
-	public BookDetailsDto getBookDetails() {
-		return bookDetails;
-	}
+    private BookDetailsDto bookDetails;
 
-	public void setBookDetails(BookDetailsDto bookDetails) {
-		this.bookDetails = bookDetails;
-	}
+    private Integer quantity;
 
-	public Integer getQuantity() {
-		return quantity;
-	}
+    private String avgRating;
 
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
-	}
+    private List<DepartmentDto> departmentsDto;
 
-	public List<DepartmentDto> getDepartmentsDto() {
-		return departmentsDto;
-	}
-
-	public void setDepartmentsDto(List<DepartmentDto> departmentsDto) {
-		this.departmentsDto = departmentsDto;
-	}
-
-	public List<HistoryDto> getHistories() {
-		return histories;
-	}
-
-	public void setHistories(List<HistoryDto> histories) {
-		this.histories = histories;
-	}
-
-	public String getAvgRating() {
-		return avgRating;
-	}
-
-	public void setAvgRating(String avgRating) {
-		this.avgRating = avgRating;
-	}
+    private List<HistoryDto> histories = new ArrayList<>();
+  
 }

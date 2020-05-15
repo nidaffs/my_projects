@@ -1,106 +1,34 @@
 package com.nidaff.api.dto;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
-public class HistoryDto extends ADto{
-	
-	private UserDto userDto;
+@Getter
+@Setter
+@NoArgsConstructor
+public class HistoryDto extends ADto {
+
+    private UserDto userDto;
 
     private BookDto bookDto;
-    
-	private String userFirstName;
-	
-	private String userLastName;
-	
-	private String userEmail;
-	
-	private String bookTitle;
 
-	private String bookAuthor;
-	
-	private LocalDateTime dateFrom;
-	
-	private LocalDateTime dateTo;
+    private String userFirstName;
 
-	private boolean isTaken;
+    private String userLastName;
 
-	public UserDto getUserDto() {
-		return userDto;
-	}
+    private String userEmail;
 
-	public void setUserDto(UserDto userDto) {
-		this.userDto = userDto;
-	}
+    private String bookTitle;
 
-	public BookDto getBookDto() {
-		return bookDto;
-	}
+    private String bookAuthor;
 
-	public void setBookDto(BookDto bookDto) {
-		this.bookDto = bookDto;
-	}
+    private LocalDateTime dateFrom;
 
-	public String getUserFirstName() {
-		return userFirstName;
-	}
+    private LocalDateTime dateTo;
 
-	public void setUserFirstName(String userFirstName) {
-		this.userFirstName = userFirstName;
-	}
+    private boolean isTaken;
 
-	public String getUserLastName() {
-		return userLastName;
-	}
-
-	public void setUserLastName(String userLastName) {
-		this.userLastName = userLastName;
-	}
-
-	public String getUserEmail() {
-		return userEmail;
-	}
-
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
-	}
-
-	public String getBookTitle() {
-		return bookTitle;
-	}
-
-	public void setBookTitle(String bookTitle) {
-		this.bookTitle = bookTitle;
-	}
-
-	public String getBookAuthor() {
-		return bookAuthor;
-	}
-
-	public void setBookAuthor(String bookAuthor) {
-		this.bookAuthor = bookAuthor;
-	}
-
-	public LocalDateTime getDateFrom() {
-		return dateFrom;
-	}
-
-	public void setDateFrom(LocalDateTime dateFrom) {
-		this.dateFrom = dateFrom;
-	}
-
-	public LocalDateTime getDateTo() {
-		return dateTo;
-	}
-
-	public void setDateTo(LocalDateTime dateTo) {
-		this.dateTo = dateTo;
-	}
-
-	public boolean isTaken() {
-		return isTaken;
-	}
-
-	public void setTaken(boolean isTaken) {
-		this.isTaken = isTaken;
-	}
 }

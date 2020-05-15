@@ -1,14 +1,10 @@
 package com.nidaff.api.dto;
 
+import lombok.Data;
+
+@Data
 public class ADto {
-	
-	protected Long id;
 
-	public Long getId() {
-		return id;
-	}
+    protected Long id;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
 }
