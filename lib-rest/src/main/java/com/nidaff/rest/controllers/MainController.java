@@ -26,12 +26,12 @@ public class MainController {
     @Autowired
     IUserService userService;
 
-    @GetMapping(value = "/main")
+    @GetMapping(value = "/")
     public ModelAndView main(Principal principal) {
         principalId = null;
         ModelAndView modelAndView = new ModelAndView();
         principalId = userService.getUserByLogin(principal.getName()).getId();
-        modelAndView.setViewName("main");
+        modelAndView.setViewName("index");
         UserDto dto = userService.getUserById(principalId);
         modelAndView.addObject("dto", dto);
         return modelAndView;
@@ -57,15 +57,6 @@ public class MainController {
         ModelAndView modelAndView = new ModelAndView();
         userService.addUser(dto);
         modelAndView.setViewName("userresult");
-        return modelAndView;
-    }
-
-    @GetMapping(value = "/users")
-    public ModelAndView getAllUsers() {
-        ModelAndView modelAndView = new ModelAndView();
-        List<UserDto> users = userService.getAllUsers();
-        modelAndView.setViewName("users");
-        modelAndView.addObject("userList", users);
         return modelAndView;
     }
 

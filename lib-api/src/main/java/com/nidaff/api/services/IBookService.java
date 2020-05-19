@@ -11,7 +11,7 @@ public interface IBookService {
 
     BookDto getBookById(Long id);
 
-    void updateBook(Long id, BookDetailsDto bookDetailsDto);
+    void updateBook(Long id, BookDetailsDto bookDetailsDto, String quantity);
 
     public List<BookDto> getAllBooks();
 

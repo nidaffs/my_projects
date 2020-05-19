@@ -1,9 +1,8 @@
 package com.nidaff.entity.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,12 +13,11 @@ import javax.persistence.Table;
 
 import java.time.LocalDateTime;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "history_user_book")
+@Getter
+@Setter
+@NoArgsConstructor
 public class History extends AEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)

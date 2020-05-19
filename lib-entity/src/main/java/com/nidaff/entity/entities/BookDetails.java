@@ -1,9 +1,8 @@
 package com.nidaff.entity.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,10 +15,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "book_details")
-@Data
-@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class BookDetails extends AEntity {
 
     @Column(name = "isbn", length = 13)
@@ -37,7 +35,7 @@ public class BookDetails extends AEntity {
     @Column(name = "image")
     private String image;
 
-    @OneToMany(mappedBy = "bookDetails", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "bookDetails", fetch = FetchType.LAZY)
     private List<Book> books;
 
 }

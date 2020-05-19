@@ -1,9 +1,8 @@
 package com.nidaff.entity.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,10 +19,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "book")
-@Data
-@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Book extends AEntity {
 
     @Column(name = "quantity")
@@ -32,7 +30,7 @@ public class Book extends AEntity {
     @Column(name = "avg_rating")
     private Double avgRating;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "book_details_id", referencedColumnName = "id")
     private BookDetails bookDetails;
 

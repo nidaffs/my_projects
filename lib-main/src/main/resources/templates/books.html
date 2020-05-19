@@ -8,7 +8,6 @@
 </head>
 <body>
 	<div class="container">
-		<div class="d-flex justify-content-center h-100">
 			<div class="card-all">
 				<div class="card-header">
 					<h3>All Books:</h3>
@@ -32,11 +31,10 @@
 						<h6 class="quantity" th:text="${book.quantity}"></h6>
 						</div>
 						
-						<p class="book-description" th:text="${book.bookDetails.description}"></p>
+						<p class="book-description-min" th:text="${book.bookDetails.description}"></p>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 </body>
 </html>

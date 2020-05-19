@@ -23,17 +23,15 @@
 						<h3 class="book-title" th:text="${book.bookDetails.title}"></h3>
 						<h4 class="book-author" th:text="${book.bookDetails.author}"></h4>
 						<p th:text="${book.bookDetails.isbn}"></p>
-						
+
 						<div class="input-group form-group">
-						<h4 class="book-rating" th:text="${book.avgRating}"></h4>
-						<span><i class="fa fa-star checked"></i></span>
+							<h4 class="book-rating" th:text="${book.avgRating}"></h4>
+							<span><i class="fa fa-star checked"></i></span>
 						</div>
 						<p class="book-description"
 							th:text="${book.bookDetails.description}"></p>
 						<div class="section">
-							<h6 class="departments">
-								DEPARTMENTS:
-							</h6>
+							<h6 class="departments">DEPARTMENTS:</h6>
 							<div>
 								<div class="department"
 									th:each="departmentDto : ${book.departmentsDto}"
@@ -42,54 +40,66 @@
 							</div>
 						</div>
 						<div class="form-row form-group">
-						<div class="col-md-4">
-						<form  th:action="@{${book.id} + '/getbook'}" method="post">
-						<button id = "takeBookBtn" disabled class="btn login_btn" type="submit">Take book</button>
-						</form>
+							<div class="col-md-4">
+								<form th:action="@{${book.id} + '/getbook'}" method="post">
+									<button id="takeBookBtn" disabled class="btn login_btn"
+										type="submit">Take book</button>
+								</form>
+							</div>
+							<div class="col-md-4">
+								<a th:href="@{'/books/' + ${book.id}+'/update'}"
+									class="btn login_btn">Update book</a>
+							</div>
+							<div class="col-md-4">
+								<form th:action="@{${book.id} + '/rate'}" method="post">
+									<button type="submit" class="btn login_btn">Rating</button>
+									<select class="form-control-sm" id="rate" name="rating"
+										required>
+										<option value="" disabled selected>Rate the book</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+									</select>
+								</form>
+							</div>
 						</div>
-						<div class="col-md-4">
-						<a th:href="@{'/books/' + ${book.id}+'/update'}" class="btn login_btn">Update book</a>
+						<div class="form-row form-group">
+							<div class="col-md-4">
+								<form th:action="@{${book.id} + '/returnbook'}" method="post">
+									<button id="returnBookBtn" class="btn login_btn" type="submit">Return
+										book</button>
+								</form>
+							</div>
+							<div class="col-md-4">
+								<form th:action="@{${book.id} + '/extendbook'}" method="post">
+									<button id="extendBookBtn" class="btn login_btn" type="submit">Extend
+										book</button>
+								</form>
+							</div>
+							<div class="col-md-4">
+								<form th:action="@{${book.id} + '/deletebook'}" method="get">
+									<button id="deleteBookBtn" class="btn delete_btn" type="submit">Delete
+										book</button>
+								</form>
+							</div>
 						</div>
-						<div class="col-md-4">
-						<form  th:action="@{${book.id} + '/rate'}" method="post">
-							<button type="submit" class="btn login_btn"> Rating
-							</button>
-							<select class="form-control-sm" id="rate"
-									name="rating" required>
-									<option value="" disabled selected>Rate the book</option>
-									<option 
-										value="1"
-										>1</option>
-										<option 
-										value="2"
-										>2</option>
-										<option 
-										value="3"
-										>3</option>
-										<option 
-										value="4"
-										>4</option>
-										<option 
-										value="5"
-										>5</option>
-								</select>
-						</form>
-						</div>
-						</div>
-					</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 	<script>
-	$(document).ready(function(){
-            $(".department").on("click",function(){
-                var clase = $(this).attr("class");
+		$(document).ready(function() {
+			$(".department").on("click", function() {
+				var clase = $(this).attr("class");
 
-                $("." + clase).removeClass("active");
-                $(this).addClass("active");
-                document.getElementById("takeBookBtn").disabled = false;
-            })})
+				$("." + clase).removeClass("active");
+				$(this).addClass("active");
+				document.getElementById("takeBookBtn").disabled = false;
+			})
+		})
 	</script>
 </body>
 </html>

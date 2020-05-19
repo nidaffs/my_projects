@@ -1,20 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
 <head>
-    <title>Users page</title>
-    <link rel="stylesheet" href="../css/bootstrap.min.css" />
-    <link href="../css/styles.css" rel="stylesheet" />
+<title>Users page</title>
+<link rel="stylesheet" href="../css/bootstrap.min.css" />
+<link href="../css/styles.css" rel="stylesheet" />
 </head>
 <body>
-	<h1>All users:</h1>
-	<br /> 
-	<div id="wrapper">
-		<div th:each="user : ${userList}" class="userblock">
-			<p th:text="${user.firstName}"></p>
-			<p th:text="${user.lastName}"></p>
-			<img th:src="@{'../images/' + ${user.login} + '.png'}" 
-			th:alt = "${user.login}" alt="" class="image"/>
-			<p th:text="${user.login}"></p>
+	<div class="container">
+		<div class="card-all">
+			<div class="card-header">
+				<h3>All Users:</h3>
+			</div>
+			<div id="wrapper">
+				<div th:each="user : ${userList}" class="userblock wrapper row">
+					<div th:if="${userHasLogo}">
+						<img th:src="@{'../images/' + ${user.login} + '.png'}"
+							th:alt="${user.login}" alt="" class="user-image" />
+					</div>
+					<div th:unless="${userHasLogo}">
+						<img th:src="@{../images/defaultuser.png}" th:alt="${user.login}"
+							alt="" class="user-image" />
+					</div>
+					<div class="col-md-6">
+						<h5 class="quantity" th:text="${user.firstName}"></h5>
+						<h5  class="quantity" th:text="${user.lastName}"></h5>
+						<h4 class="login" th:text="${user.login}"></h4>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>

@@ -1,5 +1,5 @@
 eclipse.preferences.version=1
-formatter_profile=_Eclipse s
+formatter_profile=_Eclipse spaces only
 formatter_settings_version=18
 org.eclipse.jdt.ui.ignorelowercasenames=true
 org.eclipse.jdt.ui.importorder=com.nidaff;com;org;javax;java;

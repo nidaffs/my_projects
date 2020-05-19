@@ -29,7 +29,7 @@ import java.util.List;
 public class BookController {
 
     private volatile Long principalId;
-    
+
     private static final String ID = "{id}";
 
     @Autowired
@@ -71,6 +71,49 @@ public class BookController {
         return modelAndView;
     }
 
+    @GetMapping(value = "add")
+    public ModelAndView addBook() {
+        ModelAndView modelAndView = new ModelAndView();
+        List<DepartmentDto> departments = departmentService.getAllDepartments();
+        modelAndView.setViewName("addbook");
+        modelAndView.addObject("dto", new BookDetailsDto());
+        modelAndView.addObject("departments", departments);
+        return modelAndView;
+    }
+
+    @PostMapping(value = "add")
+    public ModelAndView addBookSubmit(BookDetailsDto dto, DepartmentDto depatmentDto) {
+        ModelAndView modelAndView = new ModelAndView();
+        BookDto bookDto = bookService.addBook(dto.getIsbn(), depatmentDto.getDepartmentName());
+        modelAndView.setViewName("result");
+        modelAndView.addObject("book", bookDto);
+        return modelAndView;
+    }
+
+    @GetMapping(value = ID + "/update")
+    public ModelAndView updateBook(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("updatebook");
+        BookDetailsDto dto = bookService.getBookById(id).getBookDetails();
+        modelAndView.addObject("dto", dto);
+        return modelAndView;
+    }
+
+    @PostMapping(value = ID + "/update")
+    public ModelAndView saveBookChanges(@PathVariable Long id, BookDetailsDto dto, String quantity,
+            @RequestParam(value = "file", required = false) MultipartFile file) {
+        ModelAndView modelAndView = new ModelAndView();
+        bookService.updateBook(id, dto, quantity);
+//      try {
+//          imageFileUploader.createOrUpdateImage(dto, file);
+//          modelAndView.setViewName("bookchanges");
+//      } catch (IOException e) {
+//          modelAndView.setViewName("403");
+//      }
+        modelAndView.setViewName("changessaved2");
+        return modelAndView;
+    }
+
     @PostMapping(value = ID + "/rate")
     public ModelAndView addBookRating(String rating, Principal principal, @PathVariable Long id) {
         principalId = null;
@@ -87,53 +130,46 @@ public class BookController {
         principalId = null;
         ModelAndView modelAndView = new ModelAndView();
         principalId = userService.getUserByLogin(principal.getName()).getId();
-        UserDto dto = userService.getUserById(principalId);
-        historyService.addHistory(dto, id);
+        historyService.addHistory(id, principalId);
         modelAndView.setViewName("thebookistaken");
         return modelAndView;
     }
 
-    @PostMapping(value = "add")
-    public ModelAndView addBookSubmit(BookDetailsDto dto, DepartmentDto depatmentDto) {
+    @PostMapping(value = ID + "/returnbook")
+    public ModelAndView updateHistory(Principal principal, @PathVariable Long id) {
+        principalId = null;
         ModelAndView modelAndView = new ModelAndView();
-        BookDto bookDto = bookService.addBook(dto.getIsbn(), depatmentDto.getDepartmentName());
-        modelAndView.setViewName("result");
-        modelAndView.addObject("book", bookDto);
+        principalId = userService.getUserByLogin(principal.getName()).getId();
+        historyService.addHistory(id, principalId);
+        modelAndView.setViewName("thebookisreturn");
         return modelAndView;
     }
 
-    @GetMapping(value = "add")
-    public ModelAndView addBook() {
+    @PostMapping(value = ID + "/extendbook")
+    public ModelAndView extendBook(Principal principal, @PathVariable Long id) {
+        principalId = null;
         ModelAndView modelAndView = new ModelAndView();
-        List<DepartmentDto> departments = departmentService.getAllDepartments();
-        modelAndView.setViewName("addbook");
-        modelAndView.addObject("dto", new BookDetailsDto());
-        modelAndView.addObject("departments", departments);
+        principalId = userService.getUserByLogin(principal.getName()).getId();
+        historyService.updateHistory(id, principalId);
+        modelAndView.setViewName("bookextended");
         return modelAndView;
     }
 
-    @GetMapping(value = ID + "/update")
-    public ModelAndView updateBook(@PathVariable Long id) {
+    @GetMapping(value = ID + "/deletebook")
+    public ModelAndView deleteBookOrNot(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("updatebook");
-        BookDetailsDto dto = bookService.getBookById(id).getBookDetails();
-        modelAndView.addObject("dto", dto);
-        return modelAndView;
-    }
-
-    @PostMapping(value = ID + "/update")
-    public ModelAndView saveBookChanges(@PathVariable Long id, BookDetailsDto dto,
-            @RequestParam(value = "file", required = false) MultipartFile file) {
-        ModelAndView modelAndView = new ModelAndView();
-        bookService.updateBook(id, dto);
-//		try {
-//			imageFileUploader.createOrUpdateImage(dto, file);
-//			modelAndView.setViewName("bookchanges");
-//		} catch (IOException e) {
-//			modelAndView.setViewName("403");
-//		}
-        modelAndView.setViewName("changessaved2");
+        BookDto book = bookService.getBookById(id);
+        modelAndView.setViewName("deletebook");
+        modelAndView.addObject("book", book);
         return modelAndView;
     }
     
+    @PostMapping(value = ID + "/deletebook")
+    public ModelAndView deleteBook(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView();
+        bookService.deleteBookById(id);
+        modelAndView.setViewName("bookdeleted");
+        return modelAndView;
+    }
+
 }

@@ -19,4 +19,6 @@ public interface IUserService {
 
     UserDto addUser(UserDto userDto);
     
+    boolean userHasLogo(List<UserDto> users);
+    
 }

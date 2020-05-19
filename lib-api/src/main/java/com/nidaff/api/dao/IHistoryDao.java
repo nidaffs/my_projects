@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IHistoryDao extends JpaRepository<History, Long> {
 
+    public History findHistoryByUserIdAndBookIdAndIsTaken(Long userId, Long bookId, boolean isTaken);
+
 }
