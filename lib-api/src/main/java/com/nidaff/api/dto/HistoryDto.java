@@ -1,8 +1,5 @@
 package com.nidaff.api.dto;
 
-import com.nidaff.entity.entities.Book;
-import com.nidaff.entity.entities.User;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,9 +11,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class HistoryDto extends ADto {
 
-    private User user;
+    private UserDto userDto;
 
-    private Book book;
+    private BookDto bookDto;
 
     private String userFirstName;
 

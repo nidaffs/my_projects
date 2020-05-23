@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://thymeleaf.org">
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <title>Update book</title>
 <link rel="stylesheet" href="../../css/bootstrap.min.css">
@@ -19,9 +20,9 @@
 						<div class="form-row form-group">
 							<div class="col-md-4">
 								<label class="lab" for="author">Author</label> <input
-									type="text" class="form-control" id="author"
-									name="author" placeholder="Author" required
-									th:field="*{author}" th:value="${dto.author}">
+									type="text" class="form-control" id="author" name="author"
+									placeholder="Author" required th:field="*{author}"
+									th:value="${dto.author}">
 							</div>
 							<div class="col-md-4">
 								<label class="lab" for="lastName">Description</label> <input
@@ -36,13 +37,13 @@
 							</div>
 						</div>
 						<div class="form-row form-group">
-						<div class="col-md-4">
-							<label class="lab" for="imageSelector">Image</label> <input
-								type="file" id="imageSelector" name="file">
-						</div>
-						<div class="col-md-4">
-								<label class="lab" for="quantity">Quantity</label> <input type="text"
-									class="form-control" id="quantity" name="quantity"
+							<div class="col-md-4">
+								<label class="lab" for="imageSelector">Image</label> <input
+									type="file" id="imageSelector" name="file">
+							</div>
+							<div class="col-md-4" sec:authorize="hasAnyAuthority('ADMIN')">
+								<label class="lab" for="quantity">Quantity</label> <input
+									type="text" class="form-control" id="quantity" name="quantity"
 									placeholder="Quantity" required>
 							</div>
 						</div>

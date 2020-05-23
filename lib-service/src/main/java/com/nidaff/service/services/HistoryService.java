@@ -83,11 +83,24 @@ public class HistoryService implements IHistoryService {
             historyFromDao.setDateTo(historyFromDao.getDateTo().plusDays(10));
            historyDao.save(historyFromDao);
         }
+        //TODO exception
 //		History existingHistory = Optional.ofNullable(bookDao.get(id)).orElse(new History());
 //		existingHistory.setTaken(bookDto.isTaken());
 //		bookDao.update(existingHistory);
 //		logger.info("History successfully updated");
 //		
 	}
+
+    @Override
+    public History returnBook(Long id, Long principalId) {
+        History historyFromDao = historyDao.findHistoryByUserIdAndBookIdAndIsTaken(principalId, id, true);
+        if (historyFromDao != null) {
+            historyFromDao.setTaken(false);
+            historyFromDao.getBook().setQuantity(historyFromDao.getBook().getQuantity()+1);
+            return historyDao.save(historyFromDao);
+        }
+        //TODO exception
+        return null;
+    }
     
 }

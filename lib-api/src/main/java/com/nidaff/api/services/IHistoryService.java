@@ -18,4 +18,6 @@ public interface IHistoryService {
 
     History addHistory(Long id, Long principalId);
     
+    History returnBook(Long id, Long principalId);
+    
 }

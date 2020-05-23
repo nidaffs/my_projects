@@ -2,9 +2,11 @@ package com.nidaff.service.services;
 
 import com.nidaff.api.dao.IRoleDao;
 import com.nidaff.api.dao.IUserDao;
+import com.nidaff.api.dto.RoleDto;
 import com.nidaff.api.dto.UserDto;
 import com.nidaff.api.mappers.UserMapper;
 import com.nidaff.api.services.IUserService;
+import com.nidaff.entity.entities.Department;
 import com.nidaff.entity.entities.Role;
 import com.nidaff.entity.entities.User;
 
@@ -16,6 +18,7 @@ import org.springframework.util.ResourceUtils;
 
 import javax.transaction.Transactional;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +50,8 @@ public class UserService implements IUserService {
         List<Role> roles = new ArrayList<>();
         roles.add(roleDao.findByRoleName("User"));
         user.setRoles(roles);
-
-        return UserMapper.entityToUserDto(userDao.save(user));
+        user.setHasLogo(false);
+        return UserMapper.entityToUserMinDto(userDao.save(user));
     }
 
     @Override
@@ -88,17 +91,13 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public boolean userHasLogo(List<UserDto> users) {
-        for (UserDto userDto : users) {
-            String filePath = new StringBuilder("classpath:static/images/").append(userDto.getLogin()).append(".png")
-                    .toString();
-            try {
-                ResourceUtils.getFile(filePath);
-            } catch (FileNotFoundException e) {
-                return false;
-            }
-        }
-        return true;
+    public void changeUserRole(String login, String roleName) {
+        User existingUser = userDao.findUserByLogin(login);
+        //TODO if = null or do optional
+        //TODO user just have such role or do one role in list
+        List<Role> roles = existingUser.getRoles();
+        roles.add(roleDao.findByRoleName(roleName));
+        existingUser.setRoles(roles);       
     }
 
 }

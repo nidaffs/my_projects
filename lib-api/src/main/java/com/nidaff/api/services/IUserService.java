@@ -19,6 +19,5 @@ public interface IUserService {
 
     UserDto addUser(UserDto userDto);
     
-    boolean userHasLogo(List<UserDto> users);
-    
+    void changeUserRole(String login, String roleName);
 }

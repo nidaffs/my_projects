@@ -110,6 +110,9 @@
 			<column name="password" type="varchar(255)">
 				<constraints nullable="false" />
 			</column>
+			<column name="has_logo" type="tinyint" defaultValue="0">
+				<constraints nullable="false" />
+			</column>
 		</createTable>
 	</changeSet>
 

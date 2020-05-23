@@ -43,10 +43,30 @@
 
 	<changeSet id="12" author="nidaff">
 		<insert tableName="role">
-			<column name="role_name" value="Admin" />
+			<column name="role_name" value="ADMIN" />
 		</insert>
 		<insert tableName="role">
-			<column name="role_name" value="User" />
+			<column name="role_name" value="USER" />
+		</insert>
+		<insert tableName="role">
+			<column name="role_name" value="FACEBOOK_USER" />
+		</insert>
+	</changeSet>
+
+	<changeSet id="13" author="nidaff">
+		<insert tableName="user">
+			<column name="first_name" value="adminfirstname" />
+			<column name="last_name" value="adminlastname" />
+			<column name="email" value="admin@admin" />
+			<column name="login" value="admin" />
+			<column name="password" value="$2a$10$ovsdTxxMJsv.fs4E2WWIBuW2RDsLErlz7mt1YgSzgyAEe9pSYQBFi" />
+		</insert>
+	</changeSet>
+
+	<changeSet id="14" author="nidaff">
+		<insert tableName="user_has_role">
+			<column name="role_id" value="1" />
+			<column name="user_id" value="1" />
 		</insert>
 	</changeSet>
 </databaseChangeLog>

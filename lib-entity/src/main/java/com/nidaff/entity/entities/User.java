@@ -34,6 +34,9 @@ public class User extends AEntity {
 
     @Column(name = "login")
     private String login;
+    
+    @Column(name = "has_logo")
+    private boolean hasLogo;
 
     @Column(name = "password")
     private String password;

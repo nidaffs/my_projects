@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://thymeleaf.org">
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <title>Get book</title>
 <link rel="stylesheet" href="../css/bootstrap.min.css">
@@ -78,7 +79,7 @@
 										book</button>
 								</form>
 							</div>
-							<div class="col-md-4">
+							<div class="col-md-4" sec:authorize="hasAnyAuthority('ADMIN')">
 								<form th:action="@{${book.id} + '/deletebook'}" method="get">
 									<button id="deleteBookBtn" class="btn delete_btn" type="submit">Delete
 										book</button>

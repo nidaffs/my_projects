@@ -27,8 +27,8 @@ public class HistoryMapper {
         dto.setDateFrom(entity.getDateFrom());
         dto.setDateTo(entity.getDateTo());
         dto.setTaken(entity.isTaken());
-        dto.setUser(entity.getUser());
-        dto.setBook(entity.getBook());
+        dto.setUserDto(UserMapper.entityToUserDto(entity.getUser()));
+        dto.setBookDto(BookMapper.entityToBookDto(entity.getBook()));
         return dto;
     }
 
@@ -42,8 +42,37 @@ public class HistoryMapper {
         history.setDateFrom(dto.getDateFrom());
         history.setDateTo(dto.getDateTo());
         history.setTaken(dto.isTaken());
-        history.setUser(dto.getUser());
-        history.setBook(dto.getBook());
+        history.setUser(UserMapper.dtoUserToEntity(dto.getUserDto()));
+        history.setBook(BookMapper.dtoBookToEntity(dto.getBookDto()));
+        return history;
+    }
+    
+    //TODO delete MinMappers
+    
+    public static HistoryDto entityToHistoryMinDto(History entity) {
+        HistoryDto dto = new HistoryDto();
+        dto.setId(entity.getId());
+        dto.setUserFirstName(entity.getUserFirstName());
+        dto.setUserLastName(entity.getUserLastName());
+        dto.setUserEmail(entity.getUserEmail());
+        dto.setBookTitle(entity.getBookTitle());
+        dto.setBookAuthor(entity.getBookAuthor());
+        dto.setDateFrom(entity.getDateFrom());
+        dto.setDateTo(entity.getDateTo());
+        dto.setTaken(entity.isTaken());
+        return dto;
+    }
+    
+    public static History dtoHistoryToMinEntity(HistoryDto dto) {
+        History history = new History();
+        history.setUserFirstName(dto.getUserFirstName());
+        history.setUserLastName(dto.getUserLastName());
+        history.setUserEmail(dto.getUserEmail());
+        history.setBookTitle(dto.getBookTitle());
+        history.setBookAuthor(dto.getBookAuthor());
+        history.setDateFrom(dto.getDateFrom());
+        history.setDateTo(dto.getDateTo());
+        history.setTaken(dto.isTaken());
         return history;
     }
     

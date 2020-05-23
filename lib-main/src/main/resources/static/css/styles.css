@@ -123,7 +123,7 @@ html, body {
 	color: white !important;
 }
 
-.card-header h3, .login, .quantity, .card-footer, .error, .lab, .book-title,
+.card-header h3, .login, .inline, .card-footer, .error, .lab, .book-title,
 	.book-author, .book-description, .department, .book-rating {
 	color: white;
 }
@@ -246,7 +246,7 @@ p {
 	justify-content: space-around;
 }
 
-.quantity {
+.inline {
 	display: inline;
 }
 

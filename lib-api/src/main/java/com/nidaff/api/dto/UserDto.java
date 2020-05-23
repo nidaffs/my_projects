@@ -25,5 +25,7 @@ public class UserDto extends ADto {
     private String login;
 
     private String password;
+    
+    private boolean hasLogo;
 
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://thymeleaf.org">
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <title>Users page</title>
 <link rel="stylesheet" href="../css/bootstrap.min.css" />
@@ -13,18 +14,36 @@
 			</div>
 			<div id="wrapper">
 				<div th:each="user : ${userList}" class="userblock wrapper row">
-					<div th:if="${userHasLogo}">
+					<div th:if="${user.hasLogo}">
 						<img th:src="@{'../images/' + ${user.login} + '.png'}"
 							th:alt="${user.login}" alt="" class="user-image" />
 					</div>
-					<div th:unless="${userHasLogo}">
+					<div th:unless="${user.hasLogo}">
 						<img th:src="@{../images/defaultuser.png}" th:alt="${user.login}"
 							alt="" class="user-image" />
 					</div>
 					<div class="col-md-6">
-						<h5 class="quantity" th:text="${user.firstName}"></h5>
-						<h5  class="quantity" th:text="${user.lastName}"></h5>
+						<h5 class="inline" th:text="${user.firstName}"></h5>
+						<h5 class="inline" th:text="${user.lastName}"></h5>
 						<h4 class="login" th:text="${user.login}"></h4>
+						<h5 sec:authorize="hasAnyAuthority('ADMIN')" class="login"
+							th:text="${user.email}"></h5>
+					</div>
+					<div class="col-md-4" sec:authorize="hasAnyAuthority('ADMIN')">
+						<form th:action="@{${user.id} + '/deleteuser'}" method="get">
+							<button id="deleteBookBtn" class="btn delete_btn " type="submit">Delete
+								user</button>
+						</form>
+					</div>
+					<div class="col-md-4" sec:authorize="hasAnyAuthority('ADMIN')">
+						<form th:action="@{changerole}" method="post">
+							<button type="submit" class="btn login_btn">Change role</button>
+							<select class="form-control-sm" required>
+								<option value="" disabled selected>Choose Role</option>
+								<option th:each="roleDto : ${roles}"
+									th:value="${roleDto.roleName}" th:text="${roleDto.roleName}"></option>
+							</select>
+						</form>
 					</div>
 				</div>
 			</div>

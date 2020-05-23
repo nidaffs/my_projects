@@ -13,7 +13,7 @@ public class UserMapper {
     public static List<UserDto> convertListUser(List<User> entities) {
         List<UserDto> usersDto = new ArrayList<>();
         for (User entity : entities) {
-            usersDto.add(entityToUserDto(entity));
+            usersDto.add(entityToUserMinDto(entity));
         }
         return usersDto;
     }
@@ -25,6 +25,7 @@ public class UserMapper {
         dto.setLastName(entity.getLastName());
         dto.setEmail(entity.getEmail());
         dto.setLogin(entity.getLogin());
+        dto.setHasLogo(entity.isHasLogo());
         dto.setPassword(entity.getPassword());
         if (entity.getHistories() != null) {
             List<HistoryDto> historiesDto = new ArrayList<>();
@@ -43,6 +44,7 @@ public class UserMapper {
         user.setLastName(dto.getLastName());
         user.setEmail(dto.getEmail());
         user.setLogin(dto.getLogin());
+        user.setHasLogo(dto.isHasLogo());
         user.setPassword(dto.getPassword());
         if (dto.getHistories() != null) {
             List<History> histories = new ArrayList<>();
@@ -52,6 +54,29 @@ public class UserMapper {
             user.setHistories(histories);
             return user;
         }
+        return user;
+    }
+    
+    public static UserDto entityToUserMinDto(User entity) {
+        UserDto dto = new UserDto();
+        dto.setId(entity.getId());
+        dto.setFirstName(entity.getFirstName());
+        dto.setLastName(entity.getLastName());
+        dto.setEmail(entity.getEmail());
+        dto.setLogin(entity.getLogin());
+        dto.setHasLogo(entity.isHasLogo());
+        dto.setPassword(entity.getPassword());
+        return dto;
+    }
+    
+    public static User dtoUserToMinEntity(UserDto dto) {
+        User user = new User();
+        user.setFirstName(dto.getFirstName());
+        user.setLastName(dto.getLastName());
+        user.setEmail(dto.getEmail());
+        user.setLogin(dto.getLogin());
+        user.setHasLogo(dto.isHasLogo());
+        user.setPassword(dto.getPassword());
         return user;
     }
     

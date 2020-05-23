@@ -13,7 +13,10 @@ public class RoleMapper {
     public static List<RoleDto> convertListRole(List<Role> entities) {
         List<RoleDto> rolesDto = new ArrayList<>();
         for (Role entity : entities) {
-            rolesDto.add(entityToRoleDto(entity));
+            RoleDto dto = new RoleDto();
+            dto.setId(entity.getId());
+            dto.setRoleName(entity.getRoleName());
+            rolesDto.add(dto);
         }
         return rolesDto;
     }
