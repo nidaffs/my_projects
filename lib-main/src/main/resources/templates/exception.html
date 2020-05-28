@@ -1,0 +1,22 @@
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<title>Error page</title>
+<link rel="stylesheet" href="../css/bootstrap.min.css" />
+<link href="../css/styles.css" rel="stylesheet" />
+</head>
+<body>
+	<div class="d-flex justify-content-center h-100">
+		<div class="card-chs">
+			<div
+				class="card-header d-flex justify-content-center align-items-center">
+				<h4 class="error" th:text="${em}"></h4>
+			</div>
+			<div
+				class="card-body d-flex justify-content-center align-items-center">
+				<input type="button" class="btn login_btn" onclick="history.back();"
+					value="Back" />
+			</div>
+		</div>
+	</div>
+</body>
+</html>

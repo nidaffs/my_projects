@@ -39,10 +39,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
-                .antMatchers("/", "/signup", "/signin/**", "/main", "/books/", "/css/**", "/images/**").permitAll()
+                .antMatchers("/", "/signup", "/signin/**", "/css/**", "/images/**").permitAll()
                 .antMatchers("/admin/**").hasAnyRole("ADMIN").anyRequest().authenticated().and().formLogin()
                 .loginPage("/login").permitAll().and().logout().invalidateHttpSession(true).clearAuthentication(true)
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/bye").permitAll().and()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/").permitAll().and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
     }
 

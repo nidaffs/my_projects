@@ -1,6 +1,8 @@
 package com.nidaff.rest.controllers;
 
 import com.nidaff.api.dto.UserDto;
+import com.nidaff.api.exceptions.SuchUserDoesNotExistException;
+import com.nidaff.api.exceptions.UserAlreadyExistsException;
 import com.nidaff.api.services.IUserService;
 import com.nidaff.rest.utils.ImageFileUploader;
 
@@ -12,8 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.persistence.EntityNotFoundException;
+
 import java.security.Principal;
-import java.util.List;
 
 @RestController
 public class MainController {
@@ -30,10 +33,19 @@ public class MainController {
     public ModelAndView main(Principal principal) {
         principalId = null;
         ModelAndView modelAndView = new ModelAndView();
-        principalId = userService.getUserByLogin(principal.getName()).getId();
         modelAndView.setViewName("index");
-        UserDto dto = userService.getUserById(principalId);
-        modelAndView.addObject("dto", dto);
+        if (principal != null) {
+        UserDto dto;
+            try {
+               //TODO check user role: user or facebookuser
+                principalId = userService.getUserByLogin(principal.getName()).getId();
+                dto = userService.getUserById(principalId);
+                modelAndView.addObject("dto", dto);
+            } catch (EntityNotFoundException e) {
+                modelAndView.addObject("em", e.getMessage());
+                modelAndView.setViewName("exception");
+            }
+        } 
         return modelAndView;
     }
 
@@ -43,7 +55,7 @@ public class MainController {
         modelAndView.setViewName("login");
         return modelAndView;
     }
-
+    
     @GetMapping(value = "/signup")
     public ModelAndView signUp() {
         ModelAndView modelAndView = new ModelAndView();
@@ -55,8 +67,13 @@ public class MainController {
     @PostMapping(value = "/signup")
     public ModelAndView addUserSubmit(UserDto dto, @RequestParam(value = "file", required = false) MultipartFile file) {
         ModelAndView modelAndView = new ModelAndView();
-        userService.addUser(dto);
-        modelAndView.setViewName("userresult");
+        try {
+            userService.addUser(dto);
+            modelAndView.setViewName("userresult");
+        } catch (UserAlreadyExistsException e) {
+            modelAndView.addObject("em", e.getMessage());
+            modelAndView.setViewName("exception");
+        }
         return modelAndView;
     }
 
@@ -78,13 +95,6 @@ public class MainController {
     public ModelAndView error404() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("404");
-        return modelAndView;
-    }
-
-    @GetMapping(value = "/bye")
-    public ModelAndView bye() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("bye");
         return modelAndView;
     }
 

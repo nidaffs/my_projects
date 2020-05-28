@@ -4,6 +4,7 @@ import com.nidaff.api.dto.BookDetailsDto;
 import com.nidaff.api.dto.BookDto;
 import com.nidaff.api.dto.DepartmentDto;
 import com.nidaff.api.dto.UserDto;
+import com.nidaff.api.exceptions.SuchUserDoesNotExistException;
 import com.nidaff.api.services.IBookRatingService;
 import com.nidaff.api.services.IBookService;
 import com.nidaff.api.services.IDepartmentService;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.persistence.EntityNotFoundException;
 
 import java.security.Principal;
 import java.util.List;
@@ -118,10 +121,15 @@ public class BookController {
     public ModelAndView addBookRating(String rating, Principal principal, @PathVariable Long id) {
         principalId = null;
         ModelAndView modelAndView = new ModelAndView();
-        principalId = userService.getUserByLogin(principal.getName()).getId();
-        UserDto dto = userService.getUserById(principalId);
-        bookRatingService.addBookRating(dto, rating, id);
-        modelAndView.setViewName("changessaved2");
+        try {
+            principalId = userService.getUserByLogin(principal.getName()).getId();
+            UserDto dto = userService.getUserById(principalId);
+            bookRatingService.addBookRating(dto, rating, id);
+            modelAndView.setViewName("changessaved2");
+        } catch (EntityNotFoundException e) {
+            modelAndView.addObject("em", e.getMessage());
+            modelAndView.setViewName("exception2");
+        }
         return modelAndView;
     }
 
@@ -129,9 +137,14 @@ public class BookController {
     public ModelAndView addHistory(Principal principal, @PathVariable Long id) {
         principalId = null;
         ModelAndView modelAndView = new ModelAndView();
-        principalId = userService.getUserByLogin(principal.getName()).getId();
-        historyService.addHistory(id, principalId);
-        modelAndView.setViewName("thebookistaken");
+        try {
+            principalId = userService.getUserByLogin(principal.getName()).getId();
+            historyService.addHistory(id, principalId);
+            modelAndView.setViewName("thebookistaken");
+        } catch (EntityNotFoundException e) {
+            modelAndView.addObject("em", e.getMessage());
+            modelAndView.setViewName("exception2");
+        }
         return modelAndView;
     }
 
@@ -139,9 +152,14 @@ public class BookController {
     public ModelAndView updateHistory(Principal principal, @PathVariable Long id) {
         principalId = null;
         ModelAndView modelAndView = new ModelAndView();
-        principalId = userService.getUserByLogin(principal.getName()).getId();
-        historyService.addHistory(id, principalId);
-        modelAndView.setViewName("thebookisreturn");
+        try {
+            principalId = userService.getUserByLogin(principal.getName()).getId();
+            historyService.addHistory(id, principalId);
+            modelAndView.setViewName("thebookisreturn");
+        } catch (EntityNotFoundException e) {
+            modelAndView.addObject("em", e.getMessage());
+            modelAndView.setViewName("exception2");
+        }
         return modelAndView;
     }
 
@@ -149,9 +167,15 @@ public class BookController {
     public ModelAndView extendBook(Principal principal, @PathVariable Long id) {
         principalId = null;
         ModelAndView modelAndView = new ModelAndView();
-        principalId = userService.getUserByLogin(principal.getName()).getId();
-        historyService.updateHistory(id, principalId);
-        modelAndView.setViewName("bookextended");
+        try {
+            principalId = userService.getUserByLogin(principal.getName()).getId();
+            historyService.updateHistory(id, principalId);
+            modelAndView.setViewName("bookextended");
+        } catch (EntityNotFoundException e) {
+            modelAndView.addObject("em", e.getMessage());
+            modelAndView.setViewName("exception2");
+        }
+        
         return modelAndView;
     }
 

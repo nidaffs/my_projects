@@ -34,20 +34,18 @@
 							<button id="deleteBookBtn" class="btn delete_btn " type="submit">Delete
 								user</button>
 						</form>
-					</div>
-					<div class="col-md-4" sec:authorize="hasAnyAuthority('ADMIN')">
-						<form th:action="@{changerole}" method="post">
-							<button type="submit" class="btn login_btn">Change role</button>
-							<select class="form-control-sm" required>
+						<form th:action="@{${user.id} + '/changerole'}" method="post">
+							<select class="form-control-sm" name="roleName" required>
 								<option value="" disabled selected>Choose Role</option>
 								<option th:each="roleDto : ${roles}"
 									th:value="${roleDto.roleName}" th:text="${roleDto.roleName}"></option>
 							</select>
+							<button type="submit" class="btn login_btn">Change role</button>
 						</form>
+					</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 </body>
 </html>
