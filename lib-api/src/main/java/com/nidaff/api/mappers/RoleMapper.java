@@ -32,7 +32,6 @@ public class RoleMapper {
             userDto.setFirstName(user.getFirstName());
             userDto.setLastName(user.getLastName());
             userDto.setEmail(user.getEmail());
-            userDto.setLogin(user.getLogin());
             userDto.setPassword(user.getPassword());
             usersDto.add(userDto);
         }
@@ -50,7 +49,6 @@ public class RoleMapper {
             user.setFirstName(userDto.getFirstName());
             user.setLastName(userDto.getLastName());
             user.setEmail(userDto.getEmail());
-            user.setLogin(userDto.getLogin());
             user.setPassword(userDto.getPassword());
             users.add(user);
         }

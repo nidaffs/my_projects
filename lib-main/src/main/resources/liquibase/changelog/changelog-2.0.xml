@@ -58,7 +58,6 @@
 			<column name="first_name" value="adminfirstname" />
 			<column name="last_name" value="adminlastname" />
 			<column name="email" value="admin@admin" />
-			<column name="login" value="admin" />
 			<column name="password" value="$2a$10$ovsdTxxMJsv.fs4E2WWIBuW2RDsLErlz7mt1YgSzgyAEe9pSYQBFi" />
 		</insert>
 	</changeSet>

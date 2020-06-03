@@ -30,5 +30,7 @@ public class HistoryDto extends ADto {
     private LocalDateTime dateTo;
 
     private boolean isTaken;
+    
+    private String department;
 
 }

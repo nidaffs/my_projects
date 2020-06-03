@@ -7,11 +7,12 @@
 <link
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
 	rel="stylesheet">
-<script src="../js/bootstrap.min.js"></script>
 <script src="../js/jquery-3.4.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
 <link href="../css/styles.css" rel="stylesheet" />
 </head>
 <body>
+<div th:insert="header :: header"></div>
 	<div class="container">
 		<div class="d-flex justify-content-center h-100">
 			<div class="card-getbook">
@@ -31,20 +32,20 @@
 						</div>
 						<p class="book-description"
 							th:text="${book.bookDetails.description}"></p>
-						<div class="section">
-							<h6 class="departments">DEPARTMENTS:</h6>
-							<div>
-								<div class="department"
-									th:each="departmentDto : ${book.departmentsDto}"
-									th:value="${departmentDto.departmentName}"
-									th:text="${departmentDto.departmentName}"></div>
-							</div>
-						</div>
 						<div class="form-row form-group">
-							<div class="col-md-4">
+							<div class="col-md-4" >
 								<form th:action="@{${book.id} + '/getbook'}" method="post">
-									<button id="takeBookBtn" disabled class="btn login_btn"
-										type="submit">Take book</button>
+									<button th:if="${taken}" id="takeBookBtn" disabled class="btn login_btn"
+										data-toggle="modal" type="submit">Take book</button>
+										<button th:unless="${taken}" id="takeBookBtn" class="btn login_btn"
+										data-toggle="modal" type="submit">Take book</button>
+									<select class="form-control" id="departmentName"
+										name="departmentName" required>
+										<option value="" disabled selected>Choose department</option>
+										<option th:each="departmentDto : ${book.departmentsDto}"
+											th:value="${departmentDto.departmentName}"
+											th:text="${departmentDto.departmentName}"></option>
+									</select>
 								</form>
 							</div>
 							<div class="col-md-4">
@@ -54,8 +55,7 @@
 							<div class="col-md-4">
 								<form th:action="@{${book.id} + '/rate'}" method="post">
 									<button type="submit" class="btn login_btn">Rating</button>
-									<select class="form-control-sm" id="rate" name="rating"
-										required>
+									<select class="form-control" id="rate" name="rating" required>
 										<option value="" disabled selected>Rate the book</option>
 										<option value="1">1</option>
 										<option value="2">2</option>
@@ -69,21 +69,47 @@
 						<div class="form-row form-group">
 							<div class="col-md-4">
 								<form th:action="@{${book.id} + '/returnbook'}" method="post">
-									<button id="returnBookBtn" class="btn login_btn" type="submit">Return
-										book</button>
+									<button th:unless="${taken}" id="returnBookBtn" disabled class="btn login_btn"
+										type="submit">Return book</button>
+										<button th:if="${taken}" id="returnBookBtn" class="btn login_btn"
+										type="submit">Return book</button>
 								</form>
 							</div>
 							<div class="col-md-4">
 								<form th:action="@{${book.id} + '/extendbook'}" method="post">
-									<button id="extendBookBtn" class="btn login_btn" type="submit">Extend
-										book</button>
+									<button th:if="${taken}" id="extendBookBtn" class="btn login_btn"
+										type="submit">Extend book</button>
+										<button th:unless="${taken}" id="extendBookBtn" disabled class="btn login_btn"
+										type="submit">Extend book</button>
 								</form>
 							</div>
 							<div class="col-md-4" sec:authorize="hasAnyAuthority('ADMIN')">
-								<form th:action="@{${book.id} + '/deletebook'}" method="get">
-									<button id="deleteBookBtn" class="btn delete_btn" type="submit">Delete
-										book</button>
-								</form>
+								<button id="deleteBookBtn" class="btn delete_btn"
+									data-toggle="modal" type="submit" data-target="#deleteModal">Delete
+									book</button>
+								<div id="deleteModal" class="modal fade" role="dialog">
+									<div class="modal-dialog modal-dialog-centered" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h6>Do you want to delete book?</h6>
+											</div>
+											<div class="modal-body">
+												<div class="form-row form-group">
+													<div class="col-md-6">
+														<form th:action="@{${book.id} + '/deletebook'}"
+															method="post">
+															<button class="btn yes_no_btn" type="submit">Yes</button>
+														</form>
+													</div>
+													<div class="col-md-6">
+														<input type="button" class="btn yes_no_btn"
+															data-dismiss="modal" value="No" />
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -91,16 +117,5 @@
 			</div>
 		</div>
 	</div>
-	<script>
-		$(document).ready(function() {
-			$(".department").on("click", function() {
-				var clase = $(this).attr("class");
-
-				$("." + clase).removeClass("active");
-				$(this).addClass("active");
-				document.getElementById("takeBookBtn").disabled = false;
-			})
-		})
-	</script>
 </body>
 </html>

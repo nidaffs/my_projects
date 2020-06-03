@@ -5,12 +5,15 @@ import com.nidaff.api.dao.IBookRatingDao;
 import com.nidaff.api.dao.IUserDao;
 import com.nidaff.api.dto.UserDto;
 import com.nidaff.api.services.IBookRatingService;
+import com.nidaff.api.services.IBookService;
 import com.nidaff.entity.entities.BookRating;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+
+import java.text.DecimalFormat;
 
 @Service
 @Transactional
@@ -23,20 +26,28 @@ public class BookRatingService implements IBookRatingService {
     private IUserDao userDao;
 
     @Autowired
+    private IBookService bookService;
+
+    @Autowired
     private IBookRatingDao bookRatingDao;
 
     @Override
-    public BookRating addBookRating(UserDto dto, String rate, Long id) {
+    public void addBookRating(UserDto dto, String rate, Long id) {
         BookRating bookRatingFromDao = bookRatingDao.findByUserIdAndBookId(dto.getId(), id);
         if (bookRatingFromDao != null) {
             bookRatingFromDao.setRating(Integer.parseInt(rate));
-            return bookRatingDao.save(bookRatingFromDao);
+            bookRatingDao.save(bookRatingFromDao);
+            String formatRating = new DecimalFormat("#0.0").format(bookDao.getAvgRating(id));
+            bookDao.findBookById(id).setAvgRating(formatRating);
+        } else {
+            BookRating bookRating = new BookRating();
+            bookRating.setRating(Integer.parseInt(rate));
+            bookRating.setBook(bookDao.getOne(id));
+            bookRating.setUser(userDao.getOne(dto.getId()));
+            bookRatingDao.save(bookRating);
+            String formatRating = new DecimalFormat("#0.0").format(bookDao.getAvgRating(id));
+            bookDao.findBookById(id).setAvgRating(formatRating);
         }
-        BookRating bookRating = new BookRating();
-        bookRating.setRating(Integer.parseInt(rate));
-        bookRating.setBook(bookDao.getOne(id));
-        bookRating.setUser(userDao.getOne(dto.getId()));
-        return bookRatingDao.save(bookRating);
     }
-    
+
 }

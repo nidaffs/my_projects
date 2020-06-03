@@ -10,8 +10,8 @@ import java.util.List;
 public interface IUserService {
 
     UserDto getUserById(Long id);
-
-    User getUserByLogin(String login);
+    
+    UserDto getUserByEmail(String email);
 
     void updateUser(Long id, UserDto userDto);
 
@@ -24,4 +24,5 @@ public interface IUserService {
     UserDto addFacebookUser(UserDto userDto);
     
     void changeUserRole(Long id, String roleName);
+    
 }

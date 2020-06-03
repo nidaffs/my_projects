@@ -21,6 +21,7 @@ public class BookMapper {
     public static BookDto entityToBookDto(Book entity) {
         BookDto dto = new BookDto();
         dto.setId(entity.getId());
+        dto.setAvgRating(entity.getAvgRating());
         dto.setQuantity(entity.getQuantity());
         dto.setBookDetails(BookDetailsMapper.entityToDetailsDto(entity.getBookDetails()));
         List<DepartmentDto> departmentsDto = new ArrayList<>();
@@ -41,7 +42,9 @@ public class BookMapper {
 
     public static Book dtoBookToEntity(BookDto dto) {
         Book book = new Book();
+        book.setId(dto.getId());
         book.setQuantity(dto.getQuantity());
+        book.setAvgRating(dto.getAvgRating());
         book.setBookDetails(BookDetailsMapper.dtoDetailsToEntity(dto.getBookDetails()));
         List<Department> departments = new ArrayList<>();
         for (DepartmentDto departmentDto : dto.getDepartmentsDto()) {
@@ -58,5 +61,5 @@ public class BookMapper {
 //		book.setHistories(histories);
         return book;
     }
-
+    
 }

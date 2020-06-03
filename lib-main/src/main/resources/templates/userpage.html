@@ -23,6 +23,7 @@
 </script>
 </head>
 <body>
+	<div th:insert="header :: header"></div>
 	<div class="container">
 		<div class="d-flex justify-content-center h-100">
 			<div class="card-signup">
@@ -58,11 +59,6 @@
 						</div>
 						<div class="form-row form-group">
 							<div class="col-md-4">
-								<label class="lab" for="login">Login</label> <input type="text"
-									class="form-control" id="login" th:field="*{login}"
-									placeholder="Login" required th:value="${dto.login}">
-							</div>
-							<div class="col-md-4">
 								<label class="lab" for="password">Password</label> <input
 									type="password" class="form-control" id="password"
 									th:field="*{password}" placeholder="Password"
@@ -76,11 +72,19 @@
 									placeholder="Confirm password" onkeyup='check();'>
 							</div>
 						</div>
-						<div class="form-group">
-							<button id="submitBtn" class="btn login_btn" type="submit">Save
-								changes</button>
-							<input type="button" class="btn login_btn"
-								onclick="history.back();" value="Cancel" />
+						<div class="form-group form-row">
+							<div class="col-md-3">
+								<button id="submitBtn" class="btn login_btn" type="submit">Save
+									changes</button>
+							</div>
+							<div class="col-md-3">
+								<input type="button" class="btn login_btn"
+									onclick="history.back();" value="Cancel" />
+							</div>
+							<div class="col-md-3">
+								<a th:href="@{'/users/' + ${dto.id}+'/history'}"
+									class="btn login_btn">History</a>
+							</div>
 						</div>
 					</form>
 				</div>

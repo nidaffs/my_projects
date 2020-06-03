@@ -51,5 +51,8 @@ public class History extends AEntity {
 
     @Column(name = "is_taken")
     private boolean isTaken;
+    
+    @Column(name = "department")
+    private String department;
 
 }

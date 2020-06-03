@@ -21,51 +21,50 @@ html, body {
 	align-content: center;
 }
 
+.container_home {
+	height: 100%;
+}
+
 .card-signup {
-	height: 370px;
 	margin-top: auto;
 	margin-bottom: auto;
 	width: 900px;
-	background-color: rgba(0, 0, 0, 0.7) !important;
+	background-color: rgba(0, 0, 0, 0.7);
 }
 
 .card-getbook {
-	height: 550px;
 	margin-top: auto;
 	margin-bottom: auto;
 	width: 800px;
-	background-color: rgba(0, 0, 0, 0.7) !important;
+	background-color: rgba(0, 0, 0, 0.7);
 }
 
 .card-chs {
-	height: 150px;
 	margin-top: auto;
 	margin-bottom: auto;
 	width: 450px;
-	background-color: rgba(0, 0, 0, 0.7) !important;
+	background-color: rgba(0, 0, 0, 0.7);
 }
 
 .card-add {
-	height: 270px;
 	margin-top: auto;
 	margin-bottom: auto;
 	width: 400px;
-	background-color: rgba(0, 0, 0, 0.7) !important;
+	background-color: rgba(0, 0, 0, 0.7);
 }
 
 .card-all {
 	margin-top: auto;
 	margin-bottom: auto;
 	width: 100%;
-	background-color: rgba(0, 0, 0, 0.7) !important;
+	background-color: rgba(0, 0, 0, 0.7);
 }
 
 .card {
-	height: 370px;
 	margin-top: auto;
 	margin-bottom: auto;
 	width: 400px;
-	background-color: rgba(0, 0, 0, 0.7) !important;
+	background-color: rgba(0, 0, 0, 0.7);
 }
 
 .input-group-prepend span {
@@ -92,30 +91,45 @@ html, body {
 }
 
 .nav-link {
-	color: white !important;
+	color: white;
 }
 
 .card-header h3, .login, .inline, .card-footer, .error, .lab, .book-title,
-	.book-author, .book-description, .department, .book-rating {
+	.book-author, .book-description, .book-rating {
 	color: white;
+}
+
+.footer {
+	color: white;
+	text-align: center;
 }
 
 .login_btn {
 	color: black;
 	background-color: #FFC312;
-	width: 8em;
+	width: 7.5em;
+}
+
+.yes_no_btn {
+	color: black;
+	background-color: #FFC312;
+	width: 7.5em;
 }
 
 .delete_btn {
 	color: white;
 	background-color: red;
-	width: 8em;
+	width: 7.5em;
 }
 
 .login_facebook_btn {
 	color: black;
 	background-color: #FFC312;
 	width: 1em;
+}
+
+.yes_no_btn:hover {
+	background-color: red;
 }
 
 .login_btn:hover, .login_facebook_btn:hover, .delete_btn:hover {
@@ -136,7 +150,7 @@ html, body {
 	margin-top: 0;
 }
 
-.book-title, .rating, .book-description, .vote {
+.book-title, .rating, .book-description {
 	margin-bottom: 15px;
 }
 
@@ -147,54 +161,7 @@ html, body {
 	line-height: 1.4em;
 	height: 5.6em;
 	overflow: hidden;
-}
-
-.departments {
-	margin-top: 0;
-	margin-bottom: 0;
-	color: white;
-}
-
-.checked {
-	color: #FFC312;
-}
-
-.section {
-	width: 100%;
-	margin-left: -15px;
-	padding: 2px;
-	padding-left: 15px;
-	padding-right: 15px;
-}
-
-div.section>div {
-	width: 100%;
-	display: inline-flex;
-}
-
-div.section>div>input {
-	margin: 0;
-	padding-left: 5px;
-	font-size: 10px;
-	padding-right: 5px;
-	max-width: 18%;
-	text-align: center;
-}
-
-.department {
-	cursor: pointer;
-	margin-right: 5px;
-	height: 2em;
-	line-height: 2em;
-	font-weight: bold;
-	font-size: 10px;
-	padding: 2px;
-	border: 1px solid white;
-	border-radius: 2px;
-}
-
-.department.active {
-	border: 1.5px solid #FFC312;
+	padding: 5px;
 }
 
 p {
@@ -231,5 +198,9 @@ p {
 .user-image {
 	width: 200px;
 	height: 200px;
+	padding: 5px;
+}
+
+.padding {
 	padding: 5px;
 }

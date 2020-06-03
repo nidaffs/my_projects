@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org"
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <title>SENLA Library - Home</title>
 <link rel="stylesheet" href="../css/bootstrap.min.css">
@@ -9,40 +9,46 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <script src="../js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-	<div class="main_menu">
+	<div class="container_home">
 		<nav class="navbar navbar-expand-lg navbar-light">
-			<form class="form-inline active-blue" id="search-main">
-				<input class="form-control form-control-sm" type="text"
-					placeholder="Book search">
-			</form>
-			<div class="container">
-				<div class="navbar-collapse offset">
-					<ul class="nav align-items-center  ml-md-auto">
-						<li class="nav-item active"><a class="nav-link" href="/books/">All
-								books</a></li>
-						<li class="nav-item"><a class="nav-link" href="/books/add">Add
-								book</a></li>
-						<li class="nav-item"><a class="nav-link" href="/users/">All
-								users</a> <li class="nav-item">
-						<span class="avatar" sec:authorize="isAuthenticated()"> 
-						<span th:if="${dto.hasLogo}">
-						<img th:src="@{'../images/' + ${dto.login} + '.png'}"
-							th:alt="${dto.login}" alt=""/>
+			<div class="navbar-collapse offset">
+				<ul class="nav align-items-center  ml-md-auto">
+					<li class="nav-item"><a class="nav-link" href="/books/add">Add
+							book</a></li>
+					<li class="nav-item active"><a class="nav-link" href="/books/">All
+							books</a></li>
+					<li sec:authorize="hasAnyAuthority('ADMIN')" class="nav-item"><a class="nav-link" href="/histories">All
+							histories</a></li>
+					<li class="nav-item"><a class="nav-link" href="/users/">All
+							users</a>
+					<li class="nav-item"><span class="avatar"
+						sec:authorize="isAuthenticated()"> <span
+							th:if="${dto.hasLogo}"> <img
+								th:src="@{'../images/' + ${dto.email} + '.png'}"
+								th:alt="${dto.email}" alt="" />
+						</span> <span th:unless="${dto.hasLogo}"> <img
+								th:src="@{../images/defaultuser.png}" th:alt="${dto.email}"
+								alt="" />
+						</span>
 					</span>
-					<span th:unless="${dto.hasLogo}">
-						<img th:src="@{../images/defaultuser.png}" th:alt="${dto.login}"
-							alt=""/>
-					</span>
-						</span><li class="nav-item"  sec:authorize="isAuthenticated()"><a class="nav-link font-weight-bold"
-							th:href="@{'/users/' + ${dto.id}}"> <span
-								th:text="${dto.login}"> </span>
-						</a>
-						<li class="nav-item"  sec:authorize="isAuthenticated()"><a class="nav-link" href="/logout">Logout</a>
-						<li class="nav-item"  sec:authorize="!isAuthenticated()"><a class="nav-link" href="/books/">Login</a>
-					</ul>
-				</div>
+					<li class="nav-item" sec:authorize="isAuthenticated()"><a
+						class="nav-link font-weight-bold"
+						th:href="@{'/users/' + ${dto.id}}"> <span
+							th:text="${dto.firstName}"> </span>
+					</a>
+					<li class="nav-item" sec:authorize="isAuthenticated()"><a
+						class="nav-link" href="/logout">Logout</a>
+					<li class="nav-item" sec:authorize="!isAuthenticated()"><a
+						class="nav-link" href="/books/">Login</a>
+				</ul>
 			</div>
 		</nav>
+		<form th:action="@{search}" method="post"
+			class="form-inline d-flex justify-content-center active-cyan h-50">
+			<input class="form-control w-50" type="text" name="query"
+				placeholder="Search books by title">
+		</form>
 	</div>
+	<div th:insert="footer :: footer"></div>
 </body>
 </html>

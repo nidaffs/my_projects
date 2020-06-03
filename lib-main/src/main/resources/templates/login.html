@@ -26,14 +26,14 @@
 				<div class="card-body">
 					<form th:action="@{login}" method="post">
 						<div th:if="${param.error}">
-							<div class="error">Invalid login or password.</div>
+							<div class="error">Invalid email or password.</div>
 						</div>
 						<div class="input-group form-group">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
 							</div>
-							<input class="form-control" type="text" name="username"
-								id="username" placeholder="Login" required autofocus />
+							<input class="form-control" type="email" name="email"
+								id="email" placeholder="Email" required autofocus />
 						</div>
 						<div class="input-group form-group">
 							<div class="input-group-prepend">

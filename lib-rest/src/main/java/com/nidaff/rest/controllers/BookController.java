@@ -1,5 +1,6 @@
 package com.nidaff.rest.controllers;
 
+import com.nidaff.api.dao.IHistoryDao;
 import com.nidaff.api.dto.BookDetailsDto;
 import com.nidaff.api.dto.BookDto;
 import com.nidaff.api.dto.DepartmentDto;
@@ -42,6 +43,9 @@ public class BookController {
     IHistoryService historyService;
 
     @Autowired
+    IHistoryDao historyDao;
+    
+    @Autowired
     IUserService userService;
 
     @Autowired
@@ -63,14 +67,23 @@ public class BookController {
     }
 
     @GetMapping(value = ID)
-    public ModelAndView getBook(@PathVariable Long id) {
+    public ModelAndView getBook(Principal principal, @PathVariable Long id ) {
         principalId = null;
         ModelAndView modelAndView = new ModelAndView();
-        BookDto book = bookService.getBookById(id);
-        // List <DepartmentDto> departments = book.getDepartmentsDto();
-        modelAndView.setViewName("getbook");
-        modelAndView.addObject("book", book);
-        // modelAndView.addObject("departments", departments);
+        try {
+            principalId = userService.getUserByEmail(principal.getName()).getId();
+            BookDto book = bookService.getBookById(id);
+            boolean taken = false;
+            if (historyDao.findHistoryByUserIdAndBookIdAndIsTaken(principalId, id, true) != null) {
+            taken = true;
+            }
+            modelAndView.setViewName("getbook");
+            modelAndView.addObject("book", book);
+            modelAndView.addObject("taken", taken);
+        } catch (EntityNotFoundException e) {
+            modelAndView.addObject("em", e.getMessage());
+            modelAndView.setViewName("exception");
+        }
         return modelAndView;
     }
 
@@ -96,9 +109,14 @@ public class BookController {
     @GetMapping(value = ID + "/update")
     public ModelAndView updateBook(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("updatebook");
-        BookDetailsDto dto = bookService.getBookById(id).getBookDetails();
-        modelAndView.addObject("dto", dto);
+        try {
+            BookDetailsDto dto = bookService.getBookById(id).getBookDetails();
+            modelAndView.addObject("dto", dto);
+            modelAndView.setViewName("updatebook");
+        } catch (EntityNotFoundException e) {
+            modelAndView.addObject("em", e.getMessage());
+            modelAndView.setViewName("exception");
+        }
         return modelAndView;
     }
 
@@ -106,24 +124,29 @@ public class BookController {
     public ModelAndView saveBookChanges(@PathVariable Long id, BookDetailsDto dto, String quantity,
             @RequestParam(value = "file", required = false) MultipartFile file) {
         ModelAndView modelAndView = new ModelAndView();
-        bookService.updateBook(id, dto, quantity);
+        try {
+            bookService.updateBook(id, dto, quantity);
 //      try {
 //          imageFileUploader.createOrUpdateImage(dto, file);
 //          modelAndView.setViewName("bookchanges");
 //      } catch (IOException e) {
 //          modelAndView.setViewName("403");
 //      }
-        modelAndView.setViewName("changessaved2");
+            modelAndView.setViewName("changessaved2");
+        } catch (EntityNotFoundException e) {
+            modelAndView.addObject("em", e.getMessage());
+            modelAndView.setViewName("exception");
+        }
         return modelAndView;
     }
 
     @PostMapping(value = ID + "/rate")
     public ModelAndView addBookRating(String rating, Principal principal, @PathVariable Long id) {
-        principalId = null;
+        //principalId = null;
         ModelAndView modelAndView = new ModelAndView();
         try {
-            principalId = userService.getUserByLogin(principal.getName()).getId();
-            UserDto dto = userService.getUserById(principalId);
+            //principalId = userService.getUserByEmail(principal.getName()).getId();
+            UserDto dto = userService.getUserByEmail(principal.getName());
             bookRatingService.addBookRating(dto, rating, id);
             modelAndView.setViewName("changessaved2");
         } catch (EntityNotFoundException e) {
@@ -134,12 +157,12 @@ public class BookController {
     }
 
     @PostMapping(value = ID + "/getbook")
-    public ModelAndView addHistory(Principal principal, @PathVariable Long id) {
+    public ModelAndView addHistory(Principal principal, @PathVariable Long id, DepartmentDto depatmentDto) {
         principalId = null;
         ModelAndView modelAndView = new ModelAndView();
         try {
-            principalId = userService.getUserByLogin(principal.getName()).getId();
-            historyService.addHistory(id, principalId);
+            principalId = userService.getUserByEmail(principal.getName()).getId();
+            historyService.addHistory(id, principalId, depatmentDto);
             modelAndView.setViewName("thebookistaken");
         } catch (EntityNotFoundException e) {
             modelAndView.addObject("em", e.getMessage());
@@ -153,8 +176,8 @@ public class BookController {
         principalId = null;
         ModelAndView modelAndView = new ModelAndView();
         try {
-            principalId = userService.getUserByLogin(principal.getName()).getId();
-            historyService.addHistory(id, principalId);
+            principalId = userService.getUserByEmail(principal.getName()).getId();
+            historyService.returnBook(id, principalId);
             modelAndView.setViewName("thebookisreturn");
         } catch (EntityNotFoundException e) {
             modelAndView.addObject("em", e.getMessage());
@@ -168,31 +191,41 @@ public class BookController {
         principalId = null;
         ModelAndView modelAndView = new ModelAndView();
         try {
-            principalId = userService.getUserByLogin(principal.getName()).getId();
+            principalId = userService.getUserByEmail(principal.getName()).getId();
             historyService.updateHistory(id, principalId);
             modelAndView.setViewName("bookextended");
         } catch (EntityNotFoundException e) {
             modelAndView.addObject("em", e.getMessage());
             modelAndView.setViewName("exception2");
         }
-        
+
         return modelAndView;
     }
 
     @GetMapping(value = ID + "/deletebook")
     public ModelAndView deleteBookOrNot(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView();
-        BookDto book = bookService.getBookById(id);
-        modelAndView.setViewName("deletebook");
-        modelAndView.addObject("book", book);
+        try {
+            BookDto book = bookService.getBookById(id);
+            modelAndView.setViewName("deletebook");
+            modelAndView.addObject("book", book);
+        } catch (EntityNotFoundException e) {
+            modelAndView.addObject("em", e.getMessage());
+            modelAndView.setViewName("exception2");
+        }
         return modelAndView;
     }
-    
+
     @PostMapping(value = ID + "/deletebook")
     public ModelAndView deleteBook(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView();
-        bookService.deleteBookById(id);
-        modelAndView.setViewName("bookdeleted");
+        try {
+            bookService.deleteBookById(id);
+            modelAndView.setViewName("bookdeleted");
+        } catch (EntityNotFoundException e) {
+            modelAndView.addObject("em", e.getMessage());
+            modelAndView.setViewName("exception2");
+        }
         return modelAndView;
     }
 

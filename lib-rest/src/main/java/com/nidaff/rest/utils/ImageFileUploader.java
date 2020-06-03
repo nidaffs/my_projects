@@ -23,15 +23,15 @@ public class ImageFileUploader {
 
     public void createOrUpdateImage(UserDto dto, MultipartFile file) throws IOException {
         if (file != null && !file.isEmpty()) {
-            String login = dto.getLogin();
-            String filePath = new StringBuilder(FOLDER_PATH).append(login).append(IMAGE_EXTENSION).toString();
+            String email = dto.getEmail();
+            String filePath = new StringBuilder(FOLDER_PATH).append(email).append(IMAGE_EXTENSION).toString();
             File userImage;
             try {
                 userImage = ResourceUtils.getFile(filePath);
             } catch (FileNotFoundException e) {
                 URL fileUrl = ResourceUtils.getURL(FOLDER_PATH);
                 userImage = new File(
-                        new StringBuilder(fileUrl.getPath()).append(login).append(IMAGE_EXTENSION).toString());
+                        new StringBuilder(fileUrl.getPath()).append(email).append(IMAGE_EXTENSION).toString());
             }
             Path path = Paths.get(userImage.getPath());
             byte[] bytes = file.getBytes();

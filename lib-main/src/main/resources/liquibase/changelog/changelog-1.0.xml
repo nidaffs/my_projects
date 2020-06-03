@@ -39,7 +39,7 @@
 			<column name="quantity" type="int">
 				<constraints nullable="false" />
 			</column>
-			<column name="avg_rating" type="float"  defaultValue="1">
+			<column name="avg_rating" type="varchar(255)"  defaultValue="0.0">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
@@ -104,9 +104,6 @@
 			<column name="email" type="varchar(255)">
 				<constraints nullable="false" />
 			</column>
-			<column name="login" type="varchar(255)">
-				<constraints unique = "true" nullable="false" />
-			</column>
 			<column name="password" type="varchar(255)">
 				<constraints nullable="false" />
 			</column>
@@ -167,6 +164,9 @@
 				<constraints nullable="false" />
 			</column>
 			<column name="is_taken" type="tinyint" defaultValue="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="department" type="varchar(255)">
 				<constraints nullable="false" />
 			</column>
 		</createTable>

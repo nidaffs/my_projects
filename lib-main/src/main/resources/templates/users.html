@@ -7,6 +7,7 @@
 <link href="../css/styles.css" rel="stylesheet" />
 </head>
 <body>
+	<div th:insert="header :: header"></div>
 	<div class="container">
 		<div class="card-all">
 			<div class="card-header">
@@ -15,37 +16,45 @@
 			<div id="wrapper">
 				<div th:each="user : ${userList}" class="userblock wrapper row">
 					<div th:if="${user.hasLogo}">
-						<img th:src="@{'../images/' + ${user.login} + '.png'}"
-							th:alt="${user.login}" alt="" class="user-image" />
+						<img th:src="@{'../images/' + ${user.email} + '.png'}"
+							th:alt="${user.firstName}" alt="" class="user-image" />
 					</div>
 					<div th:unless="${user.hasLogo}">
-						<img th:src="@{../images/defaultuser.png}" th:alt="${user.login}"
-							alt="" class="user-image" />
+						<img th:src="@{../images/defaultuser.png}"
+							th:alt="${user.firstName}" alt="" class="user-image" />
 					</div>
 					<div class="col-md-6">
 						<h5 class="inline" th:text="${user.firstName}"></h5>
 						<h5 class="inline" th:text="${user.lastName}"></h5>
-						<h4 class="login" th:text="${user.login}"></h4>
 						<h5 sec:authorize="hasAnyAuthority('ADMIN')" class="login"
 							th:text="${user.email}"></h5>
 					</div>
-					<div class="col-md-4" sec:authorize="hasAnyAuthority('ADMIN')">
-						<form th:action="@{${user.id} + '/deleteuser'}" method="get">
-							<button id="deleteBookBtn" class="btn delete_btn " type="submit">Delete
-								user</button>
-						</form>
-						<form th:action="@{${user.id} + '/changerole'}" method="post">
-							<select class="form-control-sm" name="roleName" required>
-								<option value="" disabled selected>Choose Role</option>
-								<option th:each="roleDto : ${roles}"
-									th:value="${roleDto.roleName}" th:text="${roleDto.roleName}"></option>
-							</select>
-							<button type="submit" class="btn login_btn">Change role</button>
-						</form>
-					</div>
+					<div class="form-row form-group padding"
+						sec:authorize="hasAnyAuthority('ADMIN')">
+						<div class="col-md-4">
+								<a th:href="@{'/users/' + ${user.id}+'/history'}"
+									class="btn login_btn">User history</a>
+							</div>
+						<div class="col-md-4">
+							<form th:action="@{${user.id} + '/changerole'}" method="post">
+								<button type="submit" class="btn login_btn">Change role</button>
+								<select class="form-control" name="roleName" required>
+									<option value="" disabled selected>Choose role</option>
+									<option th:each="roleDto : ${roles}"
+										th:value="${roleDto.roleName}" th:text="${roleDto.roleName}"></option>
+								</select>
+							</form>
+						</div>
+						<div class="col-md-4">
+							<form th:action="@{${user.id} + '/deleteuser'}" method="get">
+								<button id="deleteBookBtn" class="btn delete_btn " type="submit">Delete
+									user</button>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 </body>
 </html>

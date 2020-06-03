@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<title>Histories page</title>
+<link rel="stylesheet" href="../css/bootstrap.min.css" />
+<link href="../css/styles.css" rel="stylesheet" />
+<script
+	src="https://cdn.jsdelivr.net/gh/ashnamuh/rm-facebook-passport-redirect-hash@v1.0.0/lib.js"></script>
+</head>
+<body>
+	<div th:insert="header :: header"></div>
+				<div class = "padding">
+				<h3>All Histories:</h3>
+			<table class="table table-dark table-striped">
+				<thead>
+					<tr>
+						<th scope="col">Id</th>
+						<th scope="col">User id</th>
+						<th scope="col">Book id</th>
+						<th scope="col">First name</th>
+						<th scope="col">Last name</th>
+						<th scope="col">Email</th>
+						<th scope="col">Title</th>
+						<th scope="col">Author</th>
+						<th scope="col">Date from</th>
+						<th scope="col">Date to</th>
+						<th scope="col">Is Taken</th>
+						<th scope="col">Department</th>
+					</tr>
+				</thead>
+				<tbody th:each="history : ${historyList}">
+					<tr>
+						<th scope="row" th:text="${history.id}"></th>
+						<td th:text="${history.userDto.id}"></td>
+						<td th:text="${history.bookDto.id}"></td>
+						<td th:text="${history.userFirstName}"></td>
+						<td th:text="${history.userLastName}"></td>
+						<td th:text="${history.userEmail}"></td>
+						<td th:text="${history.bookTitle}"></td>
+						<td th:text="${history.bookAuthor}"></td>
+						<td th:text="${history.dateFrom}"></td>
+						<td th:text="${history.dateTo}"></td>
+						<td th:text="${history.department}"></td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+</body>
+</html>

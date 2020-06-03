@@ -10,6 +10,8 @@ public interface IBookService {
     BookDto addBook(String isbn, String departmentName);
 
     BookDto getBookById(Long id);
+    
+    List<BookDetailsDto> searchBook(String query);
 
     void updateBook(Long id, BookDetailsDto bookDetailsDto, String quantity);
 

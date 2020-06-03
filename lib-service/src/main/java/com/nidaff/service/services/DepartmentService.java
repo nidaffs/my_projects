@@ -18,8 +18,6 @@ import java.util.List;
 @Transactional
 public class DepartmentService implements IDepartmentService {
     
-    private static final Logger logger = LoggerFactory.getLogger(DepartmentService.class);
-
     @Autowired
     private IDepartmentDao departmentDao;
 
@@ -28,6 +26,6 @@ public class DepartmentService implements IDepartmentService {
         return DepartmentMapper.convertListDepartment(departmentDao.findAll());
     }
 
-    // addDepartment and others
+    // TODO addDepartment and others
     
 }

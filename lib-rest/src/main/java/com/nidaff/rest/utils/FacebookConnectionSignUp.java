@@ -5,6 +5,7 @@ import com.nidaff.api.dto.UserDto;
 import com.nidaff.api.mappers.UserMapper;
 import com.nidaff.api.services.IUserService;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionSignUp;
@@ -34,9 +35,7 @@ public class FacebookConnectionSignUp implements ConnectionSignUp {
         user.setFirstName(userProfile.getFirstName());
         user.setLastName(userProfile.getLastName());
         user.setEmail(userProfile.getEmail());
-        user.setPassword("1111");
-        String[] loginFF = userProfile.getEmail().split("@");
-        user.setLogin(loginFF[0]);
+        user.setPassword(StringUtils.right(userProfile.getId(), 6));
         userService.addFacebookUser(user);
         return user.getEmail();
     }

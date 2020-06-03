@@ -5,6 +5,7 @@ import com.nidaff.api.dao.IBookDetailsDao;
 import com.nidaff.api.dao.IDepartmentDao;
 import com.nidaff.api.dto.BookDetailsDto;
 import com.nidaff.api.dto.BookDto;
+import com.nidaff.api.mappers.BookDetailsMapper;
 import com.nidaff.api.mappers.BookMapper;
 import com.nidaff.api.services.IBookService;
 import com.nidaff.entity.entities.Book;
@@ -14,23 +15,23 @@ import com.nidaff.web.DataScrapper;
 
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
 public class BookService implements IBookService {
     
-    private static final Logger logger = LoggerFactory.getLogger(BookService.class);
-    
+    private static final String SUCH_BOOK_DOES_NOT_EXIST = "Such book does not exist!";
+
     @Autowired
     private IBookDao bookDao;
 
@@ -61,13 +62,13 @@ public class BookService implements IBookService {
             bookFromDao.setDepartments(departments);
             return BookMapper.entityToBookDto(bookDao.save(bookFromDao));
         }
+        //TODO exception such book already exists in this department
         BookDetails bookDetails = dataScrapper.getBookDetailsFromWeb(isbn);
         bookDetailsDao.save(bookDetails);
         Book book = new Book();
-        // TODO: add конструктор в дто для букдетайлс и квантити
         book.setBookDetails(bookDetails);
         book.setQuantity(1);
-        book.setAvgRating(0.0);
+        book.setAvgRating("0,0");
         List<Department> departments = new ArrayList<>();
         departments.add(departmentDao.findByDepartmentName(departmentName));
         book.setDepartments(departments);
@@ -76,28 +77,20 @@ public class BookService implements IBookService {
 
     @Override
     public BookDto getBookById(Long id) {
-        BookDto dto = BookMapper.entityToBookDto(bookDao.getOne(id));
-        if (bookDao.getAvgRating(id) != null) {
-            String formatRating = new DecimalFormat("#0.0").format(bookDao.getAvgRating(id));
-            dto.setAvgRating(formatRating);
-            return dto;
-        }
-        dto.setAvgRating("0,0");
-        return dto;
+        return BookMapper.entityToBookDto(Optional.ofNullable(bookDao.findBookById(id))
+                .orElseThrow(()-> new EntityNotFoundException(SUCH_BOOK_DOES_NOT_EXIST)));
     }
 
     @Override
     public void deleteBookById(Long id) {
-        bookDao.deleteBookById(id);
-        logger.info("Book deleted");
+        bookDao.delete(Optional.ofNullable(bookDao.findBookById(id))
+                .orElseThrow(()-> new EntityNotFoundException(SUCH_BOOK_DOES_NOT_EXIST)));
     }
 
     @Override
     public void updateBook(Long id, BookDetailsDto bookDetailsDto, String quantity) {
-        // BookDetails existingBookDetails =
-        // Optional.ofNullable(bookDetailsDao.getOne(id)).orElseThrow(NoBookException)
-        // если одновременно кто-то удалил книгу
-        BookDetails existingBookDetails = bookDetailsDao.getOne(id);
+        BookDetails existingBookDetails = Optional.ofNullable(bookDao.findBookById(id).getBookDetails())
+                .orElseThrow(()-> new EntityNotFoundException(SUCH_BOOK_DOES_NOT_EXIST));
         if (StringUtils.isNotBlank(bookDetailsDto.getAuthor())) {
             existingBookDetails.setAuthor(bookDetailsDto.getAuthor());
         }
@@ -111,6 +104,12 @@ public class BookService implements IBookService {
             existingBookDetails.getBooks().get(0).setQuantity(Integer.parseInt(quantity));
         }
         bookDetailsDao.save(existingBookDetails);
+    }
+
+    @Override
+    public List<BookDetailsDto> searchBook(String query) {
+        return BookDetailsMapper.convertListDetails(Optional.ofNullable(bookDetailsDao.findBookByTitleContaining(query))
+                .orElseThrow(()-> new EntityNotFoundException(SUCH_BOOK_DOES_NOT_EXIST)));
     }
 
 }

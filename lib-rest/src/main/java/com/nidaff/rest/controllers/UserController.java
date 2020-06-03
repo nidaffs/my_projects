@@ -1,8 +1,10 @@
 package com.nidaff.rest.controllers;
 
 import com.nidaff.api.dao.IUserDao;
+import com.nidaff.api.dto.HistoryDto;
 import com.nidaff.api.dto.RoleDto;
 import com.nidaff.api.dto.UserDto;
+import com.nidaff.api.services.IHistoryService;
 import com.nidaff.api.services.IRoleService;
 import com.nidaff.api.services.IUserService;
 import com.nidaff.entity.entities.User;
@@ -40,6 +42,9 @@ public class UserController {
     
     @Autowired
     IRoleService roleService;
+    
+    @Autowired
+    IHistoryService historyService;
 
     @Autowired
     ImageFileUploader imageFileUploader;
@@ -70,11 +75,11 @@ public class UserController {
 
     @GetMapping(value = ID)
     public ModelAndView userPage(Principal principal) {
-        principalId = null;
+        //principalId = null;
         ModelAndView modelAndView = new ModelAndView();
         try {
-            principalId = userService.getUserByLogin(principal.getName()).getId();
-            UserDto dto = userService.getUserById(principalId);
+           // principalId = userService.getUserByLogin(principal.getName()).getId();
+            UserDto dto = userService.getUserByEmail(principal.getName());
             modelAndView.setViewName("userpage");
             modelAndView.addObject("dto", dto);
         } catch (EntityNotFoundException e) {
@@ -85,10 +90,12 @@ public class UserController {
     }
 
     @PostMapping(value = ID)
-    public ModelAndView saveUserChanges(UserDto dto,
+    public ModelAndView saveUserChanges(Principal principal, UserDto dto,
             @RequestParam(value = "file", required = false) MultipartFile file) {
+        principalId = null;
         ModelAndView modelAndView = new ModelAndView();
         try {
+            principalId = userService.getUserByEmail(principal.getName()).getId();
             userService.updateUser(principalId, dto);
             try {
                 imageFileUploader.createOrUpdateImage(dto, file);
@@ -131,6 +138,21 @@ public class UserController {
             modelAndView.addObject("em", e.getMessage());
             modelAndView.setViewName("exception2");
         }
+        return modelAndView;
+    }
+    
+    @GetMapping(value = ID + "/history")
+    public ModelAndView getUserHistory(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView();
+        List<HistoryDto> histories = historyService.getHistoryByUserId(id);
+        if (!histories.isEmpty()) {
+            modelAndView.setViewName("userhistory");
+            modelAndView.addObject("historyList", histories);
+        } else {
+            String msg = ("No one book is taken!");    
+            modelAndView.addObject("em", msg);
+            modelAndView.setViewName("exception2");
+            }
         return modelAndView;
     }
 

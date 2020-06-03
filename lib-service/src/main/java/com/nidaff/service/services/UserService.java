@@ -41,14 +41,13 @@ public class UserService implements IUserService {
     }
 
     public UserDto addUser(UserDto userDto) throws UserAlreadyExistsException {
-        User user = new User();
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        if (userDao.findUserByEmail(userDto.getEmail()) != null || userDao.findUserByLogin(userDto.getLogin()) != null) {
+        if (userDao.findUserByEmail(userDto.getEmail()) != null) {
             throw new UserAlreadyExistsException();
         }
+        User user = new User();
         user.setEmail(userDto.getEmail());
-        user.setLogin(userDto.getLogin());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         List<Role> roles = new ArrayList<>();
         roles.add(roleDao.findByRoleName("USER"));
@@ -63,7 +62,6 @@ public class UserService implements IUserService {
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setLogin(userDto.getLogin());
         List<Role> roles = new ArrayList<>();
         roles.add(roleDao.findByRoleName("FACEBOOK_USER"));
         user.setRoles(roles);
@@ -84,9 +82,6 @@ public class UserService implements IUserService {
         if (StringUtils.isNotBlank(userDto.getEmail())) {
             user.setEmail(userDto.getEmail());
         }
-        if (StringUtils.isNotBlank(userDto.getLogin())) {
-            user.setLogin(userDto.getLogin());
-        }
         if (StringUtils.isNotBlank(userDto.getPassword())) {
             user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         }
@@ -106,12 +101,6 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User getUserByLogin(String login) {
-        return Optional.ofNullable(userDao.findUserByLogin(login))
-                .orElseThrow(()-> new EntityNotFoundException(SUCH_USER_DOES_NOT_EXIST));
-    }
-
-    @Override
     public void changeUserRole(Long id, String roleName) {
         User existingUser = Optional.ofNullable(userDao.findUserById(id))
                 .orElseThrow(()-> new EntityNotFoundException(SUCH_USER_DOES_NOT_EXIST));
@@ -119,6 +108,12 @@ public class UserService implements IUserService {
         roles.set(0, roleDao.findByRoleName(roleName));
         existingUser.setRoles(roles);
         userDao.save(existingUser);
+    }
+
+    @Override
+    public UserDto getUserByEmail(String email) {
+        return UserMapper.entityToUserDto(Optional.ofNullable(userDao.findUserByEmail(email))
+                .orElseThrow(()-> new EntityNotFoundException(SUCH_USER_DOES_NOT_EXIST)));
     }
 
 }

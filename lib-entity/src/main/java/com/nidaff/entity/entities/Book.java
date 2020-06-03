@@ -28,7 +28,7 @@ public class Book extends AEntity {
     private Integer quantity;
 
     @Column(name = "avg_rating")
-    private Double avgRating;
+    private String avgRating;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "book_details_id", referencedColumnName = "id")
