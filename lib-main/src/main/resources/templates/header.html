@@ -17,8 +17,6 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 								book</a></li>
 						<li class="nav-item active"><a class="nav-link" href="/books/">All
 								books</a></li>
-						<li class="nav-item"><a class="nav-link" href="/users/">All
-								users</a> 
 						<li class="nav-item"  sec:authorize="isAuthenticated()"><a class="nav-link" href="/logout">Logout</a>
 						<li class="nav-item"  sec:authorize="!isAuthenticated()"><a class="nav-link" href="/books/">Login</a>
 					</ul>

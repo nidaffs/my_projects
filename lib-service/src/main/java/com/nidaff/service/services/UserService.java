@@ -50,7 +50,7 @@ public class UserService implements IUserService {
         user.setLastName(userDto.getLastName());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         List<Role> roles = new ArrayList<>();
-        roles.add(roleDao.findByRoleName("USER"));
+        roles.add(roleDao.findByRoleName("ROLE_USER"));
         user.setRoles(roles);
         user.setHasLogo(false);
         return UserMapper.entityToUserMinDto(userDao.save(user));
@@ -63,7 +63,7 @@ public class UserService implements IUserService {
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         List<Role> roles = new ArrayList<>();
-        roles.add(roleDao.findByRoleName("FACEBOOK_USER"));
+        roles.add(roleDao.findByRoleName("ROLE_USER"));
         user.setRoles(roles);
         user.setHasLogo(false);
         return UserMapper.entityToUserMinDto(userDao.save(user));

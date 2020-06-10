@@ -1,5 +1,6 @@
 package com.nidaff.web;
 
+import com.nidaff.api.exceptions.SuchBookDoesNotExistsException;
 import com.nidaff.entity.entities.BookDetails;
 
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
@@ -22,31 +23,35 @@ public class DataScrapper {
 
     private static final String IMAGE_URL = "https://pictures.abebooks.com/isbn/%s-us-300.jpg";
 
-    public BookDetails getBookDetailsFromWeb(String isbn) {
+    public BookDetails getBookDetailsFromWeb(String isbn) throws SuchBookDoesNotExistsException {
         isbn = RegExUtils.replaceAll(isbn, "-", StringUtils.EMPTY).trim();
         BookDetails bookDetails = new BookDetails();
         try {
             String url = String.format(SEARCH_URL, isbn);
             HtmlPage bookPage = webclient.getPage(url);
-
-            HtmlElement bookinfo = (HtmlElement) bookPage.getByXPath("//div[@id='bookSummary']").get(0);
-            HtmlElement title = (HtmlElement) bookPage.getByXPath("//span[@id='describe-isbn-title']").get(0);
-            // HtmlElement publisher = (HtmlElement)
-            // bookPage.getByXPath("//span[@itemprop='publisher']").get(0);
-            HtmlElement author = (HtmlElement) bookPage.getByXPath("//span[@itemprop='author']").get(0);
-            bookDetails.setIsbn(isbn);
-            bookDetails.setDescription(bookinfo.getTextContent());
-            bookDetails.setImage(String.format(IMAGE_URL, isbn));
-            bookDetails.setTitle(title.getTextContent());
-            // book.setPublisher(publisher.getTextContent());
-            // TODO приходит ноль с сайта(нет описания)
-            bookDetails.setAuthor(author.getTextContent());
-            return bookDetails;
+            HtmlElement bookExist = (HtmlElement) bookPage.getByXPath("//*[@id='header-section-context']/span").get(0);
+            if (bookExist.getTextContent().equals("Search Error")) {
+                throw new SuchBookDoesNotExistsException();
+            } else {
+                HtmlElement title = (HtmlElement) bookPage.getByXPath("//span[@id='describe-isbn-title']").get(0);
+                HtmlElement author = (HtmlElement) bookPage.getByXPath("//span[@itemprop='author']").get(0);
+                if (bookPage.getByXPath("//div[@id='bookSummary']").isEmpty()) {
+                    bookDetails.setDescription("Please add description");
+                } else {
+                    HtmlElement bookinfo = (HtmlElement) bookPage.getByXPath("//div[@id='bookSummary']").get(0);
+                    bookDetails.setDescription(bookinfo.getTextContent());
+                }
+                bookDetails.setIsbn(isbn);
+                bookDetails.setImage(String.format(IMAGE_URL, isbn));
+                bookDetails.setTitle(title.getTextContent());
+                bookDetails.setAuthor(author.getTextContent());
+                return bookDetails;
+           }
         } catch (FailingHttpStatusCodeException | IOException e) {
             System.out.println("Bad url response!");
             e.printStackTrace();
             return bookDetails;
         }
     }
-    
+
 }

@@ -5,7 +5,8 @@ import com.nidaff.api.dto.BookDetailsDto;
 import com.nidaff.api.dto.BookDto;
 import com.nidaff.api.dto.DepartmentDto;
 import com.nidaff.api.dto.UserDto;
-import com.nidaff.api.exceptions.SuchUserDoesNotExistException;
+import com.nidaff.api.exceptions.BookAlreadyExistsException;
+import com.nidaff.api.exceptions.SuchBookDoesNotExistsException;
 import com.nidaff.api.services.IBookRatingService;
 import com.nidaff.api.services.IBookService;
 import com.nidaff.api.services.IDepartmentService;
@@ -32,9 +33,13 @@ import java.util.List;
 @RequestMapping(value = "/books/")
 public class BookController {
 
+    private static final String EXCEPTION2 = "exception2";
+
+    private static final String EXCEPTION = "exception";
+
     private volatile Long principalId;
 
-    private static final String ID = "{id}";
+    private static final String ID = "/{id}";
 
     @Autowired
     IBookService bookService;
@@ -61,8 +66,14 @@ public class BookController {
     public ModelAndView getAllBooks() {
         ModelAndView modelAndView = new ModelAndView();
         List<BookDto> books = bookService.getAllBooks();
+        if (!books.isEmpty()) {
         modelAndView.setViewName("books");
         modelAndView.addObject("bookList", books);
+        } else {
+            String msg = ("Nobody has added a book yet. Be the first!");    
+            modelAndView.addObject("em", msg);
+            modelAndView.setViewName(EXCEPTION);
+            }
         return modelAndView;
     }
 
@@ -82,7 +93,7 @@ public class BookController {
             modelAndView.addObject("taken", taken);
         } catch (EntityNotFoundException e) {
             modelAndView.addObject("em", e.getMessage());
-            modelAndView.setViewName("exception");
+            modelAndView.setViewName(EXCEPTION);
         }
         return modelAndView;
     }
@@ -100,9 +111,15 @@ public class BookController {
     @PostMapping(value = "add")
     public ModelAndView addBookSubmit(BookDetailsDto dto, DepartmentDto depatmentDto) {
         ModelAndView modelAndView = new ModelAndView();
-        BookDto bookDto = bookService.addBook(dto.getIsbn(), depatmentDto.getDepartmentName());
-        modelAndView.setViewName("result");
-        modelAndView.addObject("book", bookDto);
+        BookDto bookDto;
+        try {
+            bookDto = bookService.addBook(dto.getIsbn(), depatmentDto.getDepartmentName());
+            modelAndView.setViewName("result");
+            modelAndView.addObject("book", bookDto);
+        } catch (BookAlreadyExistsException | SuchBookDoesNotExistsException e) {
+            modelAndView.addObject("em", e.getMessage());
+            modelAndView.setViewName(EXCEPTION);
+        }
         return modelAndView;
     }
 
@@ -115,7 +132,7 @@ public class BookController {
             modelAndView.setViewName("updatebook");
         } catch (EntityNotFoundException e) {
             modelAndView.addObject("em", e.getMessage());
-            modelAndView.setViewName("exception");
+            modelAndView.setViewName(EXCEPTION);
         }
         return modelAndView;
     }
@@ -126,32 +143,24 @@ public class BookController {
         ModelAndView modelAndView = new ModelAndView();
         try {
             bookService.updateBook(id, dto, quantity);
-//      try {
-//          imageFileUploader.createOrUpdateImage(dto, file);
-//          modelAndView.setViewName("bookchanges");
-//      } catch (IOException e) {
-//          modelAndView.setViewName("403");
-//      }
             modelAndView.setViewName("changessaved2");
         } catch (EntityNotFoundException e) {
             modelAndView.addObject("em", e.getMessage());
-            modelAndView.setViewName("exception");
+            modelAndView.setViewName(EXCEPTION);
         }
         return modelAndView;
     }
 
     @PostMapping(value = ID + "/rate")
     public ModelAndView addBookRating(String rating, Principal principal, @PathVariable Long id) {
-        //principalId = null;
         ModelAndView modelAndView = new ModelAndView();
         try {
-            //principalId = userService.getUserByEmail(principal.getName()).getId();
             UserDto dto = userService.getUserByEmail(principal.getName());
             bookRatingService.addBookRating(dto, rating, id);
             modelAndView.setViewName("changessaved2");
         } catch (EntityNotFoundException e) {
             modelAndView.addObject("em", e.getMessage());
-            modelAndView.setViewName("exception2");
+            modelAndView.setViewName(EXCEPTION2);
         }
         return modelAndView;
     }
@@ -166,7 +175,7 @@ public class BookController {
             modelAndView.setViewName("thebookistaken");
         } catch (EntityNotFoundException e) {
             modelAndView.addObject("em", e.getMessage());
-            modelAndView.setViewName("exception2");
+            modelAndView.setViewName(EXCEPTION2);
         }
         return modelAndView;
     }
@@ -181,7 +190,7 @@ public class BookController {
             modelAndView.setViewName("thebookisreturn");
         } catch (EntityNotFoundException e) {
             modelAndView.addObject("em", e.getMessage());
-            modelAndView.setViewName("exception2");
+            modelAndView.setViewName(EXCEPTION2);
         }
         return modelAndView;
     }
@@ -196,36 +205,9 @@ public class BookController {
             modelAndView.setViewName("bookextended");
         } catch (EntityNotFoundException e) {
             modelAndView.addObject("em", e.getMessage());
-            modelAndView.setViewName("exception2");
+            modelAndView.setViewName(EXCEPTION2);
         }
 
-        return modelAndView;
-    }
-
-    @GetMapping(value = ID + "/deletebook")
-    public ModelAndView deleteBookOrNot(@PathVariable Long id) {
-        ModelAndView modelAndView = new ModelAndView();
-        try {
-            BookDto book = bookService.getBookById(id);
-            modelAndView.setViewName("deletebook");
-            modelAndView.addObject("book", book);
-        } catch (EntityNotFoundException e) {
-            modelAndView.addObject("em", e.getMessage());
-            modelAndView.setViewName("exception2");
-        }
-        return modelAndView;
-    }
-
-    @PostMapping(value = ID + "/deletebook")
-    public ModelAndView deleteBook(@PathVariable Long id) {
-        ModelAndView modelAndView = new ModelAndView();
-        try {
-            bookService.deleteBookById(id);
-            modelAndView.setViewName("bookdeleted");
-        } catch (EntityNotFoundException e) {
-            modelAndView.addObject("em", e.getMessage());
-            modelAndView.setViewName("exception2");
-        }
         return modelAndView;
     }
 

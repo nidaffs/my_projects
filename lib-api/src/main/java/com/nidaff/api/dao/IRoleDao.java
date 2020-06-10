@@ -10,6 +10,4 @@ public interface IRoleDao extends JpaRepository<Role, Long> {
 
     Role findByRoleName(String roleName);
 
-    Role deleteByRoleName(String roleName);
-
 }

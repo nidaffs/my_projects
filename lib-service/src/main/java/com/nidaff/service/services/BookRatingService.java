@@ -5,7 +5,6 @@ import com.nidaff.api.dao.IBookRatingDao;
 import com.nidaff.api.dao.IUserDao;
 import com.nidaff.api.dto.UserDto;
 import com.nidaff.api.services.IBookRatingService;
-import com.nidaff.api.services.IBookService;
 import com.nidaff.entity.entities.BookRating;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +23,6 @@ public class BookRatingService implements IBookRatingService {
 
     @Autowired
     private IUserDao userDao;
-
-    @Autowired
-    private IBookService bookService;
 
     @Autowired
     private IBookRatingDao bookRatingDao;

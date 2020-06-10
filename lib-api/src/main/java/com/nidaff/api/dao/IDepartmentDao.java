@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface IDepartmentDao extends JpaRepository<Department, Long> {
 
     Department findByDepartmentName(String departmentName);
+    
 }

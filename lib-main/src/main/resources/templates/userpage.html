@@ -33,40 +33,38 @@
 				<div class="card-body">
 					<form th:object=${dto} method="post" enctype="multipart/form-data">
 						<div class="col-md-4">
-							<label class="lab" for="imageSelector">Image</label> <input
+							<label class="info" for="imageSelector">Image</label> <input
 								type="file" id="imageSelector" name="file">
 						</div>
-
-
 						<div class="form-row form-group">
 							<div class="col-md-4">
-								<label class="lab" for="firstName">First name</label> <input
+								<label class="info" for="firstName">First name</label> <input
 									type="text" class="form-control" id="firstName"
 									name="firstName" placeholder="First name" required
 									th:field="*{firstName}" th:value="${dto.firstName}">
 							</div>
 							<div class="col-md-4">
-								<label class="lab" for="lastName">Last name</label> <input
+								<label class="info" for="lastName">Last name</label> <input
 									type="text" class="form-control" id="lastName"
 									th:field="*{lastName}" placeholder="Last name" required
 									th:value="${dto.lastName}">
 							</div>
 							<div class="col-md-4">
-								<label class="lab" for="email">Email</label> <input type="email"
+								<label class="info" for="email">Email</label> <input type="email"
 									class="form-control" id="email" th:field="*{email}"
 									placeholder="Email" required th:value="${dto.email}">
 							</div>
 						</div>
 						<div class="form-row form-group">
 							<div class="col-md-4">
-								<label class="lab" for="password">Password</label> <input
+								<label class="info" for="password">Password</label> <input
 									type="password" class="form-control" id="password"
 									th:field="*{password}" placeholder="Password"
 									onkeyup='check();' th:value="${dto.password}">
 							</div>
 
 							<div class="col-md-4">
-								<label class="lab" for="password2">Confirm password <span
+								<label class="info" for="password2">Confirm password <span
 									id='message'></span>
 								</label> <input type="password" class="form-control" id="password2"
 									placeholder="Confirm password" onkeyup='check();'>
@@ -82,7 +80,7 @@
 									onclick="history.back();" value="Cancel" />
 							</div>
 							<div class="col-md-3">
-								<a th:href="@{'/users/' + ${dto.id}+'/history'}"
+								<a th:href="@{'/users/history'}"
 									class="btn login_btn">History</a>
 							</div>
 						</div>

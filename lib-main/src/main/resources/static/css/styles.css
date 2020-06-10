@@ -94,9 +94,13 @@ html, body {
 	color: white;
 }
 
-.card-header h3, .login, .inline, .card-footer, .error, .lab, .book-title,
-	.book-author, .book-description, .book-rating {
+.card-header h3, .info, .inline, .card-footer, .book-title,
+	.book-description {
 	color: white;
+}
+
+.book-rating {
+	color: #FFC312;
 }
 
 .footer {
@@ -145,7 +149,6 @@ html, body {
 }
 
 .book-title {
-	text-transform: UPPERCASE;
 	font-weight: bold;
 	margin-top: 0;
 }

@@ -32,5 +32,9 @@ public class HistoryDto extends ADto {
     private boolean isTaken;
     
     private String department;
-
+    
+    public boolean getIsTaken() {
+        return isTaken;
+    }
+    
 }

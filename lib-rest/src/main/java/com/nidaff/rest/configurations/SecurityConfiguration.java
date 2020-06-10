@@ -6,6 +6,7 @@ import com.nidaff.rest.utils.FacebookSignInAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -30,12 +31,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests()
-                .antMatchers("/", "/signup", "/signin/**", "/css/**", "/images/**").permitAll()
-                .antMatchers("/admin/**").hasAnyRole("ADMIN").anyRequest().authenticated().and().formLogin()
-                .loginPage("/login").usernameParameter("email").permitAll().and().logout().invalidateHttpSession(true).clearAuthentication(true)
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/").permitAll().and()
-                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+        http.csrf().disable().authorizeRequests().antMatchers("/", "/signup", "/signin/**", "/css/**", "/images/**")
+                .permitAll().and().formLogin().loginPage("/login").usernameParameter("email").permitAll().and()
+                .authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN").antMatchers("/users/**", "/books/**")
+                .hasAnyRole("ADMIN", "USER").anyRequest().authenticated().and().logout().invalidateHttpSession(true)
+                .clearAuthentication(true).logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/").permitAll().and().exceptionHandling().accessDeniedHandler(accessDeniedHandler);
     }
 
     @Autowired
@@ -54,7 +55,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 usersConnectionRepository, new FacebookSignInAdapter());
         providerSignInController.setPostSignInUrl("/books/");
         return providerSignInController;
+    }
 
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+        
     }
     
 }

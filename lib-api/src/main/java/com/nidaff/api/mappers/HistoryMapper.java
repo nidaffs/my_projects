@@ -42,42 +42,15 @@ public class HistoryMapper {
         history.setBookAuthor(dto.getBookAuthor());
         history.setDateFrom(dto.getDateFrom());
         history.setDateTo(dto.getDateTo());
-        history.setTaken(dto.isTaken());
+        history.setTaken(dto.getIsTaken());
         history.setDepartment(dto.getDepartment());
         history.setUser(UserMapper.dtoUserToEntity(dto.getUserDto()));
         history.setBook(BookMapper.dtoBookToEntity(dto.getBookDto()));
         return history;
     }
     
-    //TODO delete MinMappers
-    
-    public static HistoryDto entityToHistoryMinDto(History entity) {
-        HistoryDto dto = new HistoryDto();
-        dto.setId(entity.getId());
-        dto.setUserFirstName(entity.getUserFirstName());
-        dto.setUserLastName(entity.getUserLastName());
-        dto.setUserEmail(entity.getUserEmail());
-        dto.setBookTitle(entity.getBookTitle());
-        dto.setBookAuthor(entity.getBookAuthor());
-        dto.setDateFrom(entity.getDateFrom());
-        dto.setDateTo(entity.getDateTo());
-        
-        // department
-        dto.setTaken(entity.isTaken());
-        return dto;
-    }
-    
-    public static History dtoHistoryToMinEntity(HistoryDto dto) {
-        History history = new History();
-        history.setUserFirstName(dto.getUserFirstName());
-        history.setUserLastName(dto.getUserLastName());
-        history.setUserEmail(dto.getUserEmail());
-        history.setBookTitle(dto.getBookTitle());
-        history.setBookAuthor(dto.getBookAuthor());
-        history.setDateFrom(dto.getDateFrom());
-        history.setDateTo(dto.getDateTo());
-        history.setTaken(dto.isTaken());
-        return history;
+    private HistoryMapper() {
+        throw new IllegalStateException("Utility class");
     }
     
 }

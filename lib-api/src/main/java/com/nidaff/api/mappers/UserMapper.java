@@ -54,7 +54,7 @@ public class UserMapper {
         }
         return user;
     }
-    
+
     public static UserDto entityToUserMinDto(User entity) {
         UserDto dto = new UserDto();
         dto.setId(entity.getId());
@@ -65,7 +65,7 @@ public class UserMapper {
         dto.setPassword(entity.getPassword());
         return dto;
     }
-    
+
     public static User dtoUserToMinEntity(UserDto dto) {
         User user = new User();
         user.setId(dto.getId());
@@ -76,5 +76,9 @@ public class UserMapper {
         user.setPassword(dto.getPassword());
         return user;
     }
-    
+
+    private UserMapper() {
+        throw new IllegalStateException("Utility class");
+    }
+
 }

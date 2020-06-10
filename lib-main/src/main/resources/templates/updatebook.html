@@ -20,18 +20,18 @@
 						enctype="multipart/form-data">
 						<div class="form-row form-group">
 							<div class="col-md-4">
-								<label class="lab" for="author">Author</label> <input
+								<label class="info" for="author">Author</label> <input
 									type="text" class="form-control" id="author" name="author"
 									placeholder="Author" required th:field="*{author}"
 									th:value="${dto.author}">
 							</div>
 							<div class="col-md-4">
-								<label class="lab" for="title">Title</label> <input type="text"
+								<label class="info" for="title">Title</label> <input type="text"
 									class="form-control" id="title" th:field="*{title}"
 									placeholder="Title" required th:value="${dto.title}">
 							</div>
 							<div class="col-md-4">
-								<label class="lab" for="lastName">Description</label> <textarea
+								<label class="info" for="lastName">Description</label> <textarea
 									class="form-control" id="description"
 									th:field="*{description}" placeholder="Description" required
 									th:value="${dto.description}"></textarea>
@@ -39,11 +39,11 @@
 						</div>
 						<div class="form-row form-group">
 							<div class="col-md-4">
-								<label class="lab" for="imageSelector">Image</label> <input
+								<label class="info" for="imageSelector">Image</label> <input
 									type="file" id="imageSelector" name="file">
 							</div>
-							<div class="col-md-4" sec:authorize="hasAnyAuthority('ADMIN')">
-								<label class="lab" for="quantity">Quantity</label> <input
+							<div class="col-md-4" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+								<label class="info" for="quantity">Quantity</label> <input
 									type="text" class="form-control" id="quantity" name="quantity"
 									placeholder="Quantity" required>
 							</div>

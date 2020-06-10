@@ -1,5 +1,7 @@
 package com.nidaff.rest.configurations;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,15 +17,16 @@ import java.io.IOException;
 @Component
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
+    private static final Logger logger = LoggerFactory.getLogger(CustomAccessDeniedHandler.class);
+    
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response,
             AccessDeniedException accessDeniedException) throws IOException, ServletException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
-            System.out.println(String.format("User '%s' attempted to access the protected URL: %s",
+            logger.info(String.format("User '%s' attempted to access the protected URL: %s",
                     authentication.getName(), request.getRequestURI()));
         }
-
         response.sendRedirect(request.getContextPath() + "/403");
     }
     

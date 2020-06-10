@@ -32,11 +32,6 @@ public class BookMapper {
             departmentsDto.add(departmentDto);
         }
         dto.setDepartmentsDto(departmentsDto);
-//		List<HistoryDto> historiesDto = new ArrayList<>();
-//		for (History history : entity.getHistories()){
-//			historiesDto.add(HistoryMapper.entityToHistoryDto(history));
-//		}
-//		dto.setHistories(historiesDto);
         return dto;
     }
 
@@ -54,12 +49,11 @@ public class BookMapper {
             departments.add(department);
         }
         book.setDepartments(departments);
-//		List<History> histories = new ArrayList<>();
-//		for (HistoryDto historyDto : dto.getHistories()){
-//			histories.add(HistoryMapper.dtoHistoryToEntity(historyDto));
-//		}
-//		book.setHistories(histories);
         return book;
+    }
+    
+    private BookMapper() {
+        throw new IllegalStateException("Utility class");
     }
     
 }

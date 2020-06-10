@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<title>Add department page</title>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link href="../css/styles.css" rel="stylesheet" />
+</head>
+<body>
+	<div th:insert="header :: header"></div>
+	<div class="container">
+		<div class="d-flex justify-content-center h-50">
+			<div class="card-add">
+				<div class="card-header">
+					<h3>Add department:</h3>
+				</div>
+				<div class="card-body">
+					<form action="#" th:action=@{adddepartment} method="post">
+						<div class="input-group form-group">
+							<input id="departmentName" type="text" name="departmentName"
+								class="form-control form-control-sm"
+								placeholder="Department name" required>
+						</div>
+						<div class="form-group">
+							<input type="submit" value="submit" class="btn login_btn">
+							<input type="reset" value="reset" class="btn login_btn">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

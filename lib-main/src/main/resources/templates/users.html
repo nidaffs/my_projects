@@ -3,8 +3,8 @@
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <title>Users page</title>
-<link rel="stylesheet" href="../css/bootstrap.min.css" />
-<link href="../css/styles.css" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/bootstrap.min.css" />
+<link href="../../css/styles.css" rel="stylesheet" />
 </head>
 <body>
 	<div th:insert="header :: header"></div>
@@ -16,27 +16,26 @@
 			<div id="wrapper">
 				<div th:each="user : ${userList}" class="userblock wrapper row">
 					<div th:if="${user.hasLogo}">
-						<img th:src="@{'../images/' + ${user.email} + '.png'}"
+						<img th:src="@{'../../images/' + ${user.email} + '.png'}"
 							th:alt="${user.firstName}" alt="" class="user-image" />
 					</div>
 					<div th:unless="${user.hasLogo}">
-						<img th:src="@{../images/defaultuser.png}"
+						<img th:src="@{../../images/defaultuser.png}"
 							th:alt="${user.firstName}" alt="" class="user-image" />
 					</div>
 					<div class="col-md-6">
 						<h5 class="inline" th:text="${user.firstName}"></h5>
 						<h5 class="inline" th:text="${user.lastName}"></h5>
-						<h5 sec:authorize="hasAnyAuthority('ADMIN')" class="login"
+						<h5 class="info"
 							th:text="${user.email}"></h5>
 					</div>
-					<div class="form-row form-group padding"
-						sec:authorize="hasAnyAuthority('ADMIN')">
+					<div class="form-row form-group padding">
 						<div class="col-md-4">
-								<a th:href="@{'/users/' + ${user.id}+'/history'}"
-									class="btn login_btn">User history</a>
-							</div>
+							<a th:href="@{'/admin/history/'+ ${user.id}}"
+								class="btn login_btn">User history</a>
+						</div>
 						<div class="col-md-4">
-							<form th:action="@{${user.id} + '/changerole'}" method="post">
+							<form th:action="@{'/admin/changerole/'+ ${user.id}}" method="post">
 								<button type="submit" class="btn login_btn">Change role</button>
 								<select class="form-control" name="roleName" required>
 									<option value="" disabled selected>Choose role</option>
@@ -46,8 +45,8 @@
 							</form>
 						</div>
 						<div class="col-md-4">
-							<form th:action="@{${user.id} + '/deleteuser'}" method="get">
-								<button id="deleteBookBtn" class="btn delete_btn " type="submit">Delete
+							<form th:action="@{'deleteuser/' + ${user.id}}" method="get">
+								<button id="deleteBookBtn" class="btn delete_btn" type="submit">Delete
 									user</button>
 							</form>
 						</div>

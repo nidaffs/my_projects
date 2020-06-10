@@ -2,7 +2,6 @@ package com.nidaff.rest.controllers;
 
 import com.nidaff.api.dao.IUserDao;
 import com.nidaff.api.dto.HistoryDto;
-import com.nidaff.api.dto.RoleDto;
 import com.nidaff.api.dto.UserDto;
 import com.nidaff.api.services.IHistoryService;
 import com.nidaff.api.services.IRoleService;
@@ -12,7 +11,6 @@ import com.nidaff.rest.utils.ImageFileUploader;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,66 +28,42 @@ import java.util.List;
 @RequestMapping("/users/")
 public class UserController {
 
-    private static final String ID = "{id}";
+    private static final String EXCEPTION = "exception";
+
+    private static final String EXCEPTION2 = "exception2";
 
     private volatile Long principalId;
-    
+
     @Autowired
     private IUserDao userDao;
 
     @Autowired
     IUserService userService;
-    
+
     @Autowired
     IRoleService roleService;
-    
+
     @Autowired
     IHistoryService historyService;
 
     @Autowired
     ImageFileUploader imageFileUploader;
 
-    @GetMapping
-    public ModelAndView getAllUsers() {
-        ModelAndView modelAndView = new ModelAndView();
-        List<UserDto> users = userService.getAllUsers();
-        modelAndView.setViewName("users");
-        List<RoleDto> roles = roleService.getAllRoles();
-        modelAndView.addObject("roles", roles);
-        modelAndView.addObject("userList", users);
-        return modelAndView;
-    }
-    
-    @PostMapping(value = ID + "/changerole")
-    public ModelAndView changeUserRole(@PathVariable Long id, RoleDto roleDto) {
-        ModelAndView modelAndView = new ModelAndView();
-        try {
-            userService.changeUserRole(id, roleDto.getRoleName());
-            modelAndView.setViewName("changessaved2");
-        } catch (EntityNotFoundException e) {
-            modelAndView.addObject("em", e.getMessage());
-            modelAndView.setViewName("exception");
-        }
-        return modelAndView;
-   }
-
-    @GetMapping(value = ID)
+    @GetMapping(value = "user")
     public ModelAndView userPage(Principal principal) {
-        //principalId = null;
         ModelAndView modelAndView = new ModelAndView();
         try {
-           // principalId = userService.getUserByLogin(principal.getName()).getId();
             UserDto dto = userService.getUserByEmail(principal.getName());
             modelAndView.setViewName("userpage");
             modelAndView.addObject("dto", dto);
         } catch (EntityNotFoundException e) {
             modelAndView.addObject("em", e.getMessage());
-            modelAndView.setViewName("exception");
+            modelAndView.setViewName(EXCEPTION);
         }
         return modelAndView;
     }
 
-    @PostMapping(value = ID)
+    @PostMapping(value = "user")
     public ModelAndView saveUserChanges(Principal principal, UserDto dto,
             @RequestParam(value = "file", required = false) MultipartFile file) {
         principalId = null;
@@ -108,51 +82,23 @@ public class UserController {
             }
         } catch (EntityNotFoundException e1) {
             modelAndView.addObject("em", e1.getMessage());
-            modelAndView.setViewName("exception");
+            modelAndView.setViewName(EXCEPTION);
         }
         return modelAndView;
     }
 
-    @GetMapping(value = ID + "/deleteuser")
-    public ModelAndView deleteUserOrNot(@PathVariable Long id) {
+    @GetMapping(value = "history")
+    public ModelAndView getUserHistory(Principal principal) {
         ModelAndView modelAndView = new ModelAndView();
-        try {
-            UserDto user;
-            user = userService.getUserById(id);
-            modelAndView.setViewName("deleteuser");
-            modelAndView.addObject("user", user);
-        } catch (EntityNotFoundException e) {
-            modelAndView.addObject("em", e.getMessage());
-            modelAndView.setViewName("exception2");
-        }
-        return modelAndView;
-    }
-
-    @PostMapping(value = ID + "/deleteuser")
-    public ModelAndView deleteUser(@PathVariable Long id) {
-        ModelAndView modelAndView = new ModelAndView();
-        try {
-            userService.deleteUserById(id);
-            modelAndView.setViewName("userdeleted");
-        } catch (EntityNotFoundException e) {
-            modelAndView.addObject("em", e.getMessage());
-            modelAndView.setViewName("exception2");
-        }
-        return modelAndView;
-    }
-    
-    @GetMapping(value = ID + "/history")
-    public ModelAndView getUserHistory(@PathVariable Long id) {
-        ModelAndView modelAndView = new ModelAndView();
-        List<HistoryDto> histories = historyService.getHistoryByUserId(id);
+        List<HistoryDto> histories = historyService.getHistoryByUserId(principalId);
         if (!histories.isEmpty()) {
             modelAndView.setViewName("userhistory");
             modelAndView.addObject("historyList", histories);
         } else {
-            String msg = ("No one book is taken!");    
+            String msg = ("No one book is taken!");
             modelAndView.addObject("em", msg);
-            modelAndView.setViewName("exception2");
-            }
+            modelAndView.setViewName(EXCEPTION2);
+        }
         return modelAndView;
     }
 

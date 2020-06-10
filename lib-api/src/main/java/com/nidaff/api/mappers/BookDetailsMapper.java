@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookDetailsMapper {
-    
+
     public static List<BookDetailsDto> convertListDetails(List<BookDetails> entities) {
         List<BookDetailsDto> books = new ArrayList<>();
         for (BookDetails entity : entities) {
@@ -36,6 +36,10 @@ public class BookDetailsMapper {
         bookDetails.setImage(dto.getImage());
         bookDetails.setDescription(dto.getDescription());
         return bookDetails;
+    }
+
+    private BookDetailsMapper() {
+        throw new IllegalStateException("Utility class");
     }
 
 }

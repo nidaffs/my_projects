@@ -13,20 +13,15 @@ public class DepartmentMapper {
     public static List<DepartmentDto> convertListDepartment(List<Department> entities) {
         List<DepartmentDto> departmentsDto = new ArrayList<>();
         for (Department entity : entities) {
-            departmentsDto.add(entityToDtoDepartment(entity));
+            departmentsDto.add(entityToDtoMinDepartment(entity));
         }
         return departmentsDto;
     }
 
-    public static DepartmentDto entityToDtoDepartment(Department entity) {
+    public static DepartmentDto entityToDtoMinDepartment(Department entity) {
         DepartmentDto dto = new DepartmentDto();
         dto.setId(entity.getId());
         dto.setDepartmentName(entity.getDepartmentName());
-        List<BookDto> booksDto = new ArrayList<>();
-        for (Book book : entity.getBooks()) {
-            booksDto.add(BookMapper.entityToBookDto(book));
-        }
-        dto.setBooks(booksDto);
         return dto;
     }
 
@@ -39,6 +34,10 @@ public class DepartmentMapper {
         }
         department.setBooks(books);
         return department;
+    }
+    
+    private DepartmentMapper() {
+        throw new IllegalStateException("Utility class");
     }
     
 }

@@ -1,19 +1,14 @@
 package com.nidaff.api.services;
 
 import com.nidaff.api.dto.DepartmentDto;
+import com.nidaff.api.exceptions.DepartmentAlreadyExistsException;
 
 import java.util.List;
 
 public interface IDepartmentService {
 
-    // DepartmentDto addDepartment(String departmentName);
-
-    // DepartmentDto getDepartmentById(Long id);
-
-    // void updateDepartment(Long id, DepartmentDto DepartmentDto);
+    void addDepartment(String departmentName) throws DepartmentAlreadyExistsException;
 
     public List<DepartmentDto> getAllDepartments();
-
-    // void deleteDepartmentById(Long id);
 
 }
