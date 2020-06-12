@@ -7,15 +7,12 @@ import com.nidaff.api.services.IUserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.persistence.EntityNotFoundException;
-import javax.servlet.http.HttpServletRequest;
 
 import java.security.Principal;
 import java.util.List;
@@ -78,11 +75,4 @@ public class MainController {
         return modelAndView;
     }
     
-    @ExceptionHandler(NoHandlerFoundException.class)
-    public ModelAndView error404(HttpServletRequest request, Exception e) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("404");
-        return modelAndView;
-    }
-
 }

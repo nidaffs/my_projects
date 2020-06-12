@@ -18,7 +18,7 @@ import java.io.StringWriter;
 @Component
 public class EmailSender implements IEmailSender {
 
-	private static final String ADMIN_FROM_EMAIL_ADDRESS = "nidaff.s@gmail.com";
+	private static final String ADMIN_FROM_EMAIL_ADDRESS = "nidaff@mail.ru";
 
 	private static final String ADMIN_TO_EMAIL_ADDRESS = "nidaff@mail.ru";
 

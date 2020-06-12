@@ -7,13 +7,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.Properties;
-import java.util.concurrent.Executor;
 
 @Configuration
 @EnableAsync
@@ -48,9 +45,9 @@ public class MailConfiguration {
 	@Bean
 	public JavaMailSender mailSender() {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-		mailSender.setHost("smtp.gmail.com");
+		mailSender.setHost("smtp.mail.ru");
 		mailSender.setPort(587);
-		mailSender.setUsername("nidaff.s@gmail.com");
+		mailSender.setUsername("nidaff@mail.ru");
 		mailSender.setPassword("sedoy9545");
 		Properties javaMailProperties = new Properties();
 		javaMailProperties.put("mail.smtp.starttls.enable", mailSmtpStarttlsEnableProperty);
@@ -71,14 +68,14 @@ public class MailConfiguration {
 		return new VelocityEngine(velocityProperties);
 	}
 
-	@Bean(name = "threadPoolTaskExecutor")
-	public Executor threadPoolTaskExecutor() {
-		return new ThreadPoolTaskExecutor();
-	}
-
-	@Async("threadPoolTaskExecutor")
-	public void asyncMethodWithConfiguredExecutor() {
-		System.out.println("Execute method with configured executor - " + Thread.currentThread().getName());
-	}
+//	@Bean(name = "threadPoolTaskExecutor")
+//	public Executor threadPoolTaskExecutor() {
+//		return new ThreadPoolTaskExecutor();
+//	}
+//
+//	@Async("threadPoolTaskExecutor")
+//	public void asyncMethodWithConfiguredExecutor() {
+//		System.out.println("Execute method with configured executor - " + Thread.currentThread().getName());
+//	}
 
 }

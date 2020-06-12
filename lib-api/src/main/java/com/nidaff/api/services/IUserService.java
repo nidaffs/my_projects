@@ -2,6 +2,7 @@ package com.nidaff.api.services;
 
 import com.nidaff.api.dto.UserDto;
 import com.nidaff.api.exceptions.UserAlreadyExistsException;
+import com.nidaff.entity.entities.User;
 
 import java.util.List;
 
@@ -17,9 +18,9 @@ public interface IUserService {
 
     public List<UserDto> getAllUsers();
 
-    UserDto addUser(UserDto userDto) throws UserAlreadyExistsException;
+    User addUser(UserDto userDto) throws UserAlreadyExistsException;
     
-    UserDto addFacebookUser(UserDto userDto);
+    User addFacebookUser(UserDto userDto);
     
     void changeUserRole(Long id, String roleName);
     

@@ -10,6 +10,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -17,6 +19,8 @@ import java.io.IOException;
 @Component
 public class DataScrapper {
 
+    private static final Logger logger = LoggerFactory.getLogger(DataScrapper.class);
+    
     private WebClient webclient = WebClientProvider.getDefaultWebClient();
 
     private static final String SEARCH_URL = "https://www.bookfinder.com/search/?author=&title=&lang=en&isbn=%s&new_used=*&destination=by&currency=USD&mode=basic&st=sr&ac=qr";
@@ -48,8 +52,7 @@ public class DataScrapper {
                 return bookDetails;
            }
         } catch (FailingHttpStatusCodeException | IOException e) {
-            System.out.println("Bad url response!");
-            e.printStackTrace();
+            logger.info("context", e);
             return bookDetails;
         }
     }

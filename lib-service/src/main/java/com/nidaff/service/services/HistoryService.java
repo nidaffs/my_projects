@@ -29,7 +29,7 @@ public class HistoryService implements IHistoryService {
 
     @Autowired
     private IDepartmentDao departmentDao;
-    
+
     @Autowired
     IBookService bookService;
 
@@ -49,23 +49,23 @@ public class HistoryService implements IHistoryService {
 
     @Override
     public History addHistory(Long id, Long principalId, DepartmentDto dto) {
-            History history = new History();
-            history.setUserFirstName(userService.getUserById(principalId).getFirstName());
-            history.setUserLastName(userService.getUserById(principalId).getLastName());
-            history.setUserEmail(userService.getUserById(principalId).getEmail());
-            history.setBookAuthor(bookService.getBookById(id).getBookDetails().getAuthor());
-            history.setBookTitle(bookService.getBookById(id).getBookDetails().getTitle());
-            LocalDateTime date = LocalDateTime.now();
-            history.setDateFrom(date);
-            history.setDateTo(date.plusDays(10));
-            history.setTaken(true);
-            history.setDepartment(dto.getDepartmentName());
-            history.setUser(UserMapper.dtoUserToMinEntity(userService.getUserById(principalId)));
-            history.setBook(BookMapper.dtoBookToEntity(bookService.getBookById(id)));
-            bookDao.findBookById(id).getDepartments().remove(departmentDao.findByDepartmentName(dto.getDepartmentName()));
-            bookDao.findBookById(id).setQuantity(bookDao.findBookById(id).getQuantity() - 1);
-            return historyDao.save(history);
-        }
+        History history = new History();
+        history.setUserFirstName(userService.getUserById(principalId).getFirstName());
+        history.setUserLastName(userService.getUserById(principalId).getLastName());
+        history.setUserEmail(userService.getUserById(principalId).getEmail());
+        history.setBookAuthor(bookService.getBookById(id).getBookDetails().getAuthor());
+        history.setBookTitle(bookService.getBookById(id).getBookDetails().getTitle());
+        LocalDateTime date = LocalDateTime.now();
+        history.setDateFrom(date);
+        history.setDateTo(date.plusDays(10));
+        history.setTaken(true);
+        history.setDepartment(dto.getDepartmentName());
+        history.setUser(UserMapper.dtoUserToMinEntity(userService.getUserById(principalId)));
+        history.setBook(BookMapper.dtoBookToEntity(bookService.getBookById(id)));
+        bookDao.findBookById(id).getDepartments().remove(departmentDao.findByDepartmentName(dto.getDepartmentName()));
+        bookDao.findBookById(id).setQuantity(bookDao.findBookById(id).getQuantity() - 1);
+        return historyDao.save(history);
+    }
 
     @Override
     public List<HistoryDto> getHistoryByUserId(Long id) {
@@ -74,22 +74,24 @@ public class HistoryService implements IHistoryService {
 
     @Override
     public void updateHistory(Long id, Long principalId) {
-        History historyFromDao = Optional
-                .ofNullable(historyDao.findHistoryByUserIdAndBookIdAndIsTaken(principalId, id, true))
-                .orElseThrow(() -> new EntityNotFoundException("You did not take this book!"));
+        History historyFromDao = getHistoryFromDao(id, principalId);
         historyFromDao.setDateTo(historyFromDao.getDateTo().plusDays(10));
         historyDao.save(historyFromDao);
     }
 
     @Override
     public History returnBook(Long id, Long principalId) {
-        History historyFromDao = Optional
-                .ofNullable(historyDao.findHistoryByUserIdAndBookIdAndIsTaken(principalId, id, true))
-                .orElseThrow(() -> new EntityNotFoundException("You did not take this book!"));
+        History historyFromDao = getHistoryFromDao(id, principalId);
         historyFromDao.setTaken(false);
         historyFromDao.getBook().setQuantity(historyFromDao.getBook().getQuantity() + 1);
-        historyFromDao.getBook().getDepartments().add(departmentDao.findByDepartmentName(historyFromDao.getDepartment()));
+        historyFromDao.getBook().getDepartments()
+                .add(departmentDao.findByDepartmentName(historyFromDao.getDepartment()));
         return historyDao.save(historyFromDao);
+    }
+
+    private History getHistoryFromDao(Long id, Long principalId) {
+        return Optional.ofNullable(historyDao.findHistoryByUserIdAndBookIdAndIsTaken(principalId, id, true))
+                .orElseThrow(() -> new EntityNotFoundException("You did not take this book!"));
     }
 
 }

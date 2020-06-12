@@ -6,7 +6,7 @@ public class SuchBookDoesNotExistsException extends Exception {
 
     public SuchBookDoesNotExistsException() {
 
-        super("We didn’t find such book. Please check ISBN!");
+        super("The ISBN given was invalid. Please double-check the number!");
     }
 
 }

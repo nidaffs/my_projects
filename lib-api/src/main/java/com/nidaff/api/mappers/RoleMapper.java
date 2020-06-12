@@ -56,4 +56,8 @@ public class RoleMapper {
         return role;
     }
     
+    private RoleMapper() {
+        throw new IllegalStateException("Utility class");
+    }
+    
 }

@@ -40,7 +40,7 @@ public class UserService implements IUserService {
         return UserMapper.convertListUser(userDao.findAll());
     }
 
-    public UserDto addUser(UserDto userDto) throws UserAlreadyExistsException {
+    public User addUser(UserDto userDto) throws UserAlreadyExistsException {
         if (userDao.findUserByEmail(userDto.getEmail()) != null) {
             throw new UserAlreadyExistsException();
         }
@@ -53,10 +53,10 @@ public class UserService implements IUserService {
         roles.add(roleDao.findByRoleName("ROLE_USER"));
         user.setRoles(roles);
         user.setHasLogo(false);
-        return UserMapper.entityToUserMinDto(userDao.save(user));
+        return userDao.save(user);
     }
 
-    public UserDto addFacebookUser(UserDto userDto) {
+    public User addFacebookUser(UserDto userDto) {
         User user = new User();
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
@@ -66,13 +66,12 @@ public class UserService implements IUserService {
         roles.add(roleDao.findByRoleName("ROLE_USER"));
         user.setRoles(roles);
         user.setHasLogo(false);
-        return UserMapper.entityToUserMinDto(userDao.save(user));
+        return userDao.save(user);
     }
     
     @Override
     public void updateUser(Long id, UserDto userDto) {
-        User user = Optional.ofNullable(userDao.findUserById(id))
-                .orElseThrow(()-> new EntityNotFoundException(SUCH_USER_DOES_NOT_EXIST));
+        User user = findUserById(id);
         if (StringUtils.isNotBlank(userDto.getFirstName())) {
             user.setFirstName(userDto.getFirstName());
         }
@@ -90,20 +89,17 @@ public class UserService implements IUserService {
 
     @Override
     public void deleteUserById(Long id) {
-        userDao.delete(Optional.ofNullable(userDao.findUserById(id))
-                .orElseThrow(()-> new EntityNotFoundException(SUCH_USER_DOES_NOT_EXIST)));
+        userDao.delete(findUserById(id));
     }
 
     @Override
     public UserDto getUserById(Long id) {
-        return UserMapper.entityToUserDto(Optional.ofNullable(userDao.findUserById(id))
-                .orElseThrow(()-> new EntityNotFoundException(SUCH_USER_DOES_NOT_EXIST)));
+        return UserMapper.entityToUserDto(findUserById(id));
     }
 
     @Override
     public void changeUserRole(Long id, String roleName) {
-        User existingUser = Optional.ofNullable(userDao.findUserById(id))
-                .orElseThrow(()-> new EntityNotFoundException(SUCH_USER_DOES_NOT_EXIST));
+        User existingUser = findUserById(id);
         List<Role> roles = existingUser.getRoles();
         roles.set(0, roleDao.findByRoleName(roleName));
         existingUser.setRoles(roles);
@@ -116,4 +112,9 @@ public class UserService implements IUserService {
                 .orElseThrow(()-> new EntityNotFoundException(SUCH_USER_DOES_NOT_EXIST)));
     }
 
+    private User findUserById(Long id) {
+        return Optional.ofNullable(userDao.findUserById(id))
+                .orElseThrow(()-> new EntityNotFoundException(SUCH_USER_DOES_NOT_EXIST));
+    }
+    
 }

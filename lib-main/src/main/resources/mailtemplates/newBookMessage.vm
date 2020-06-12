@@ -6,7 +6,7 @@
         Title: ${title},
         Author: ${author},
         Department: ${department},
-        Thanks a lot!
+        Thanks a lot.
         </pre>
     </body>
 </html>

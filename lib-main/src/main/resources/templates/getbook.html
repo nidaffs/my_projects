@@ -12,7 +12,7 @@
 <link href="../css/styles.css" rel="stylesheet" />
 </head>
 <body>
-<div th:insert="header :: header"></div>
+	<div th:insert="header :: header"></div>
 	<div class="container">
 		<div class="d-flex justify-content-center h-100">
 			<div class="card-getbook">
@@ -33,12 +33,14 @@
 						<p class="book-description"
 							th:text="${book.bookDetails.description}"></p>
 						<div class="form-row form-group">
-							<div class="col-md-4" >
+							<div class="col-md-4">
 								<form th:action="@{${book.id} + '/getbook'}" method="post">
-									<button th:if="${taken}" id="takeBookBtn" disabled class="btn login_btn"
-										data-toggle="modal" type="submit">Take book</button>
-										<button th:unless="${taken}" id="takeBookBtn" class="btn login_btn"
-										data-toggle="modal" type="submit">Take book</button>
+									<button th:if="${taken}" id="takeBookBtn" disabled
+										class="btn login_btn" data-toggle="modal" type="submit">Take
+										book</button>
+									<button th:unless="${taken}" id="takeBookBtn"
+										class="btn login_btn" data-toggle="modal" type="submit">Take
+										book</button>
 									<select class="form-control" id="departmentName"
 										name="departmentName" required>
 										<option value="" disabled selected>Choose department</option>
@@ -69,47 +71,24 @@
 						<div class="form-row form-group">
 							<div class="col-md-4">
 								<form th:action="@{${book.id} + '/returnbook'}" method="post">
-									<button th:unless="${taken}" id="returnBookBtn" disabled class="btn login_btn"
-										type="submit">Return book</button>
-										<button th:if="${taken}" id="returnBookBtn" class="btn login_btn"
-										type="submit">Return book</button>
+									<button th:unless="${taken}" id="returnBookBtn" disabled
+										class="btn login_btn" type="submit">Return book</button>
+									<button th:if="${taken}" id="returnBookBtn"
+										class="btn login_btn" type="submit">Return book</button>
 								</form>
 							</div>
 							<div class="col-md-4">
 								<form th:action="@{${book.id} + '/extendbook'}" method="post">
-									<button th:if="${taken}" id="extendBookBtn" class="btn login_btn"
-										type="submit">Extend book</button>
-										<button th:unless="${taken}" id="extendBookBtn" disabled class="btn login_btn"
-										type="submit">Extend book</button>
+									<button th:if="${taken}" id="extendBookBtn"
+										class="btn login_btn" type="submit">Extend book</button>
+									<button th:unless="${taken}" id="extendBookBtn" disabled
+										class="btn login_btn" type="submit">Extend book</button>
 								</form>
 							</div>
-							<div class="col-md-4" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
-								<button id="deleteBookBtn" class="btn delete_btn"
-									data-toggle="modal" type="submit" data-target="#deleteModal">Delete
-									book</button>
-								<div id="deleteModal" class="modal fade" role="dialog">
-									<div class="modal-dialog modal-dialog-centered" role="document">
-										<div class="modal-content">
-											<div class="modal-header">
-												<h6>Do you want to delete book?</h6>
-											</div>
-											<div class="modal-body">
-												<div class="form-row form-group">
-													<div class="col-md-6">
-														<form th:action="@{'admin/deletebook/' + ${book.id}}"
-															method="post">
-															<button class="btn yes_no_btn" type="submit">Yes</button>
-														</form>
-													</div>
-													<div class="col-md-6">
-														<input type="button" class="btn yes_no_btn"
-															data-dismiss="modal" value="No" />
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
+							<div class="col-md-4"
+								sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+								<a th:href="@{'/admin/deletebook/' + ${book.id}}"
+									class="btn delete_btn">Delete book</a>
 							</div>
 						</div>
 					</div>
