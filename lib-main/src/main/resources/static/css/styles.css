@@ -192,6 +192,14 @@ p {
 	border: 1px solid #FFC312;
 }
 
+.departmentblock {
+	margin-bottom: 10px;
+	width: 450px;
+	height: 100px;
+	justify-content: center;
+	border: 1px solid #FFC312;
+}
+
 .book-image {
 	width: 200px;
 	height: 250px;

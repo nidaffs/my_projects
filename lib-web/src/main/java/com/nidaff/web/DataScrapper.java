@@ -1,6 +1,6 @@
 package com.nidaff.web;
 
-import com.nidaff.api.exceptions.SuchBookDoesNotExistsException;
+import com.nidaff.api.exceptions.SuchBookDoesNotExistException;
 import com.nidaff.entity.entities.BookDetails;
 
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
@@ -27,7 +27,7 @@ public class DataScrapper {
 
     private static final String IMAGE_URL = "https://pictures.abebooks.com/isbn/%s-us-300.jpg";
 
-    public BookDetails getBookDetailsFromWeb(String isbn) throws SuchBookDoesNotExistsException {
+    public BookDetails getBookDetailsFromWeb(String isbn) throws SuchBookDoesNotExistException {
         isbn = RegExUtils.replaceAll(isbn, "-", StringUtils.EMPTY).trim();
         BookDetails bookDetails = new BookDetails();
         try {
@@ -35,12 +35,12 @@ public class DataScrapper {
             HtmlPage bookPage = webclient.getPage(url);
             HtmlElement bookExist = (HtmlElement) bookPage.getByXPath("//*[@id='header-section-context']/span").get(0);
             if (bookExist.getTextContent().equals("Search Error")) {
-                throw new SuchBookDoesNotExistsException();
+                throw new SuchBookDoesNotExistException();
             } else {
                 HtmlElement title = (HtmlElement) bookPage.getByXPath("//span[@id='describe-isbn-title']").get(0);
                 HtmlElement author = (HtmlElement) bookPage.getByXPath("//span[@itemprop='author']").get(0);
                 if (bookPage.getByXPath("//div[@id='bookSummary']").isEmpty()) {
-                    bookDetails.setDescription("Please add description");
+                    bookDetails.setDescription("Please, add the description");
                 } else {
                     HtmlElement bookinfo = (HtmlElement) bookPage.getByXPath("//div[@id='bookSummary']").get(0);
                     bookDetails.setDescription(bookinfo.getTextContent());

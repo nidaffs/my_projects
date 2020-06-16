@@ -14,4 +14,6 @@ public interface IHistoryDao extends JpaRepository<History, Long> {
 
     public List<History> findHistoryByUserId(Long id);
     
+    public List<History> findHistoryByIsTaken(boolean isTaken);
+    
 }

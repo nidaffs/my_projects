@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<title>Departments page</title>
+<link rel="stylesheet" href="../css/bootstrap.min.css" />
+<link href="../css/styles.css" rel="stylesheet" />
+<script
+	src="https://cdn.jsdelivr.net/gh/ashnamuh/rm-facebook-passport-redirect-hash@v1.0.0/lib.js"></script>
+</head>
+<body>
+	<div th:insert="header :: header"></div>
+	<div class="container">
+		<div class="card-all">
+			<div class="card-header">
+				<h3>All Departments:</h3>
+			</div>
+			<div id="wrapper">
+				<div th:each="department : ${departments}" class="departmentblock wrapper row">
+						<h2>
+							<a th:href="@{'/departments/' + ${department.id}}"> <span
+								th:text="${department.departmentName}"> </span>
+							</a>
+						</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+</body>
+</html>

@@ -10,4 +10,6 @@ public interface IDepartmentDao extends JpaRepository<Department, Long> {
 
     Department findByDepartmentName(String departmentName);
     
+    Department findDepartmentById(Long id);
+    
 }

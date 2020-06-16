@@ -6,7 +6,7 @@ import com.nidaff.api.dao.IDepartmentDao;
 import com.nidaff.api.dto.BookDetailsDto;
 import com.nidaff.api.dto.BookDto;
 import com.nidaff.api.exceptions.BookAlreadyExistsException;
-import com.nidaff.api.exceptions.SuchBookDoesNotExistsException;
+import com.nidaff.api.exceptions.SuchBookDoesNotExistException;
 import com.nidaff.api.mappers.BookDetailsMapper;
 import com.nidaff.api.mappers.BookMapper;
 import com.nidaff.api.services.IBookService;
@@ -60,7 +60,7 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public BookDto addBook(String isbn, String departmentName) throws BookAlreadyExistsException, SuchBookDoesNotExistsException {
+    public BookDto addBook(String isbn, String departmentName) throws BookAlreadyExistsException, SuchBookDoesNotExistException {
         isbn = RegExUtils.replaceAll(isbn, "-", StringUtils.EMPTY).trim();
         BookDetails bookDetailsFromDao = bookDetailsDao.findBookDetailsByIsbn(isbn);
         if (bookDetailsFromDao != null) {
@@ -133,6 +133,12 @@ public class BookService implements IBookService {
     public List<BookDetailsDto> searchBook(String query) {
         return BookDetailsMapper.convertListDetails(Optional.ofNullable(bookDetailsDao.findBookByTitleContaining(query))
                 .orElseThrow(() -> new EntityNotFoundException(SUCH_BOOK_DOES_NOT_EXIST)));
+    }
+
+    @Override
+    public List<BookDto> getBookByDepartmentId(Long id) {
+        return BookMapper.convertListBook(Optional.ofNullable(departmentDao.findDepartmentById(id).getBooks())
+                .orElseThrow(() -> new EntityNotFoundException("Such department does not exist!")));
     }
 
 }

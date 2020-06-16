@@ -6,7 +6,7 @@ public class DepartmentAlreadyExistsException extends Exception {
 
     public DepartmentAlreadyExistsException() {
 
-        super("Such department is already exists!");
+        super("Such department has already existed!");
     }
 
 }

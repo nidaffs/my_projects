@@ -6,7 +6,7 @@ import com.nidaff.api.dto.BookDto;
 import com.nidaff.api.dto.DepartmentDto;
 import com.nidaff.api.dto.UserDto;
 import com.nidaff.api.exceptions.BookAlreadyExistsException;
-import com.nidaff.api.exceptions.SuchBookDoesNotExistsException;
+import com.nidaff.api.exceptions.SuchBookDoesNotExistException;
 import com.nidaff.api.services.IBookRatingService;
 import com.nidaff.api.services.IBookService;
 import com.nidaff.api.services.IDepartmentService;
@@ -116,7 +116,7 @@ public class BookController {
             bookDto = bookService.addBook(dto.getIsbn(), depatmentDto.getDepartmentName());
             modelAndView.setViewName("result");
             modelAndView.addObject("book", bookDto);
-        } catch (BookAlreadyExistsException | SuchBookDoesNotExistsException e) {
+        } catch (BookAlreadyExistsException | SuchBookDoesNotExistException e) {
             modelAndView.addObject("em", e.getMessage());
             modelAndView.setViewName(EXCEPTION);
         }

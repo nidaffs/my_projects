@@ -1,15 +1,13 @@
 package com.nidaff.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
 
 import com.nidaff.api.dao.IDepartmentDao;
 import com.nidaff.api.dto.DepartmentDto;
 import com.nidaff.api.exceptions.DepartmentAlreadyExistsException;
-import com.nidaff.api.mappers.DepartmentMapper;
 import com.nidaff.entity.entities.Department;
 import com.nidaff.service.services.DepartmentService;
 
@@ -28,9 +26,6 @@ public class DepartmentServiceTest {
     @Mock
     IDepartmentDao departmentDao;
 
-    @Mock
-    DepartmentMapper departmentMapper;
-
     @InjectMocks
     DepartmentService departmentService;
 
@@ -41,7 +36,7 @@ public class DepartmentServiceTest {
     }
 
     @Test
-    public void getAllDepartmentsTest() {
+    public void whenSaveDepartments_CheckListSizeTest() {
         List<Department> departments = new ArrayList<>();
         Department department1 = new Department();
         department1.setId(1L);
@@ -58,7 +53,6 @@ public class DepartmentServiceTest {
         when(departmentDao.findAll()).thenReturn(departments);
         List<DepartmentDto> dtoList = departmentService.getAllDepartments();
         assertThat(departments.size() == dtoList.size()).isTrue();
-        //verify(departmentMapper, times(departments.size())).entityToDtoMinDepartment(any(Department.class));
     }
 
     @Test
@@ -69,4 +63,5 @@ public class DepartmentServiceTest {
         departmentService.addDepartment(department.getDepartmentName());
         verify(departmentDao, times(1)).save(department);
     }
+    
 }

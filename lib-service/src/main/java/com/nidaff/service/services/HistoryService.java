@@ -11,11 +11,15 @@ import com.nidaff.api.mappers.UserMapper;
 import com.nidaff.api.services.IBookService;
 import com.nidaff.api.services.IHistoryService;
 import com.nidaff.api.services.IUserService;
+import com.nidaff.api.utils.IEmailSenderToUser;
 import com.nidaff.entity.entities.History;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
@@ -27,8 +31,13 @@ import java.util.Optional;
 @Transactional
 public class HistoryService implements IHistoryService {
 
+    private static final Logger logger = LoggerFactory.getLogger(HistoryService.class);
+
     @Autowired
     private IDepartmentDao departmentDao;
+
+    @Autowired
+    private IEmailSenderToUser emailSender;
 
     @Autowired
     IBookService bookService;
@@ -57,7 +66,7 @@ public class HistoryService implements IHistoryService {
         history.setBookTitle(bookService.getBookById(id).getBookDetails().getTitle());
         LocalDateTime date = LocalDateTime.now();
         history.setDateFrom(date);
-        history.setDateTo(date.plusDays(10));
+        history.setDateTo(date.plusMinutes(5));
         history.setTaken(true);
         history.setDepartment(dto.getDepartmentName());
         history.setUser(UserMapper.dtoUserToMinEntity(userService.getUserById(principalId)));
@@ -75,7 +84,7 @@ public class HistoryService implements IHistoryService {
     @Override
     public void updateHistory(Long id, Long principalId) {
         History historyFromDao = getHistoryFromDao(id, principalId);
-        historyFromDao.setDateTo(historyFromDao.getDateTo().plusDays(10));
+        historyFromDao.setDateTo(historyFromDao.getDateTo().plusMinutes(5));
         historyDao.save(historyFromDao);
     }
 
@@ -92,6 +101,24 @@ public class HistoryService implements IHistoryService {
     private History getHistoryFromDao(Long id, Long principalId) {
         return Optional.ofNullable(historyDao.findHistoryByUserIdAndBookIdAndIsTaken(principalId, id, true))
                 .orElseThrow(() -> new EntityNotFoundException("You did not take this book!"));
+    }
+
+    @Override
+    public void getAllOverdueHistories() {
+        List<HistoryDto> histories = HistoryMapper.convertListHistory(historyDao.findHistoryByIsTaken(true));
+        if (histories.isEmpty()) {
+            throw new EntityNotFoundException("There are no taken books now!");
+        } else {
+            for (HistoryDto dto : histories) {
+                if (LocalDateTime.now().isAfter(dto.getDateTo())) {
+                    try {
+                        emailSender.sendEmailToUser(dto);
+                    } catch (MessagingException e) {
+                        logger.info("Mail not sent!");
+                    }
+                }
+            }
+        }
     }
 
 }

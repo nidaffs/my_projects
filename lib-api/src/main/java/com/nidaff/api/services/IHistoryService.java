@@ -11,6 +11,8 @@ public interface IHistoryService {
     List<HistoryDto> getHistoryByUserId(Long id);
 
     void updateHistory(Long id, Long principalId);
+    
+    void getAllOverdueHistories();
 
     public List<HistoryDto> getAllHistories();
 

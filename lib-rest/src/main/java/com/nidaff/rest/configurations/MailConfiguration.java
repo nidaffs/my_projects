@@ -20,6 +20,9 @@ public class MailConfiguration {
 
 	@Value("${mail.debug}")
 	private String mailDebugProperty;
+	
+	@Value("${mail.password}")
+    private String mailPassword;
 
 	@Value("${mail.smtp.auth}")
 	private String mailSmtpAuthProperty;
@@ -45,10 +48,10 @@ public class MailConfiguration {
 	@Bean
 	public JavaMailSender mailSender() {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-		mailSender.setHost("smtp.mail.ru");
+		mailSender.setHost("smtp.gmail.com");
 		mailSender.setPort(587);
-		mailSender.setUsername("nidaff@mail.ru");
-		mailSender.setPassword("sedoy9545");
+		mailSender.setUsername("nidaff.s@gmail.com");
+		mailSender.setPassword(mailPassword);
 		Properties javaMailProperties = new Properties();
 		javaMailProperties.put("mail.smtp.starttls.enable", mailSmtpStarttlsEnableProperty);
 		javaMailProperties.put("mail.smtp.auth", mailSmtpAuthProperty);
@@ -67,15 +70,5 @@ public class MailConfiguration {
 		velocityProperties.setProperty("class.resource.loader.class", velocityClassResourceLoaderClassProperty);
 		return new VelocityEngine(velocityProperties);
 	}
-
-//	@Bean(name = "threadPoolTaskExecutor")
-//	public Executor threadPoolTaskExecutor() {
-//		return new ThreadPoolTaskExecutor();
-//	}
-//
-//	@Async("threadPoolTaskExecutor")
-//	public void asyncMethodWithConfiguredExecutor() {
-//		System.out.println("Execute method with configured executor - " + Thread.currentThread().getName());
-//	}
 
 }

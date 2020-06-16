@@ -34,7 +34,6 @@ public class UserDaoTest {
 
     private User createUser() {
         User user = new User();
-        user.setId(2L);
         user.setEmail("u@s.er");
         userDao.save(user);
         return user;

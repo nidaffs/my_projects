@@ -19,6 +19,8 @@
 						class="nav-link" href="/admin/adddepartment">Add department</a></li>
 					<li class="nav-item active"><a class="nav-link" href="/books/">All
 							books</a></li>
+					<li class="nav-item active"><a class="nav-link" href="/departments/">All
+							departments</a></li>
 					<li sec:authorize="hasAnyAuthority('ROLE_ADMIN')" class="nav-item"><a
 						class="nav-link" href="/admin/histories">All histories</a></li>
 					<li sec:authorize="hasAnyAuthority('ROLE_ADMIN')" class="nav-item"><a
@@ -34,9 +36,8 @@
 						</span>
 					</span>
 					<li class="nav-item" sec:authorize="isAuthenticated()"><a
-						class="nav-link font-weight-bold"
-						th:href="@{'/users/user'}"> <span
-							th:text="${dto.firstName}"> </span>
+						class="nav-link font-weight-bold" th:href="@{'/users/user'}">
+							<span th:text="${dto.firstName}"> </span>
 					</a>
 					<li class="nav-item" sec:authorize="isAuthenticated()"><a
 						class="nav-link" href="/logout">Logout</a>

@@ -6,7 +6,7 @@ public class BookAlreadyExistsException extends Exception {
 
     public BookAlreadyExistsException() {
 
-        super("Such book is already exists in this department! Please choose another department");
+        super("Such book has already existed in this department! Please choose another department");
     }
 
 }

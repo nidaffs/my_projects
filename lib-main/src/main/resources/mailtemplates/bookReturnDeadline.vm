@@ -1,11 +1,11 @@
 <html>
     <body>
-    	<h3>Hello!</h3>
+    	<h3>Hello, User!</h3>
         <pre>
-        New book was added to library:
+        The book return deadline:
         Title: ${title},
         Author: ${author},
-        Department: ${department},
+        Please return or extend the book.
         </pre>
     </body>
 </html>

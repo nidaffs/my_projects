@@ -7,5 +7,5 @@ import javax.mail.MessagingException;
 public interface IEmailSender {
 
     void sendEmailToAdmin(BookDto dto, String departmentName) throws MessagingException;
-
+    
 }

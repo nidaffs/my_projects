@@ -71,18 +71,16 @@ public class UserController {
         try {
             principalId = userService.getUserByEmail(principal.getName()).getId();
             userService.updateUser(principalId, dto);
-            try {
-                imageFileUploader.createOrUpdateImage(dto, file);
-                modelAndView.setViewName("changessaved");
-                User userHL = userDao.getOne(principalId);
-                userHL.setHasLogo(true);
-                userDao.save(userHL);
-            } catch (IOException e) {
-                modelAndView.setViewName("403");
-            }
+            imageFileUploader.createOrUpdateImage(dto, file);
+            modelAndView.setViewName("changessaved");
+            User userHL = userDao.getOne(principalId);
+            userHL.setHasLogo(true);
+            userDao.save(userHL);
         } catch (EntityNotFoundException e1) {
             modelAndView.addObject("em", e1.getMessage());
             modelAndView.setViewName(EXCEPTION);
+        } catch (IOException e) {
+            modelAndView.setViewName("403");
         }
         return modelAndView;
     }

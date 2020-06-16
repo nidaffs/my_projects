@@ -3,9 +3,13 @@ package com.nidaff.rest.controllers;
 import com.nidaff.api.dto.BookDetailsDto;
 import com.nidaff.api.dto.UserDto;
 import com.nidaff.api.services.IBookService;
+import com.nidaff.api.services.IHistoryService;
 import com.nidaff.api.services.IUserService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,10 +25,15 @@ import java.util.List;
 @ControllerAdvice
 public class MainController {
 
+    private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+
     private static final String EXCEPTION = "exception";
 
     @Autowired
     IUserService userService;
+
+    @Autowired
+    IHistoryService historyService;
 
     @Autowired
     IBookService bookService;
@@ -74,5 +83,14 @@ public class MainController {
         modelAndView.setViewName("403");
         return modelAndView;
     }
-    
+
+    @Scheduled(cron ="0 */5 * * *  ?")
+    public void sendEmailToUser() {
+        try {
+            historyService.getAllOverdueHistories();
+        } catch (EntityNotFoundException e) {
+            logger.info(e.getMessage());
+        }
+    }
+
 }

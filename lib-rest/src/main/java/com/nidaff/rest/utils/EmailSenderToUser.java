@@ -1,7 +1,7 @@
 package com.nidaff.rest.utils;
 
-import com.nidaff.api.dto.BookDto;
-import com.nidaff.api.utils.IEmailSender;
+import com.nidaff.api.dto.HistoryDto;
+import com.nidaff.api.utils.IEmailSenderToUser;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -17,11 +17,9 @@ import javax.mail.internet.MimeMessage;
 import java.io.StringWriter;
 
 @Component
-public class EmailSender implements IEmailSender {
+public class EmailSenderToUser implements IEmailSenderToUser {
 
     private static final String ADMIN_FROM_EMAIL_ADDRESS = "nidaff.s@gmail.com";
-
-    private static final String ADMIN_TO_EMAIL_ADDRESS = "nidaff.s@gmail.com";
 
     @Autowired
     private VelocityEngine velocityEngine;
@@ -31,26 +29,25 @@ public class EmailSender implements IEmailSender {
 
     @Async
     @Override
-    public void sendEmailToAdmin(BookDto dto, String departmentName) throws MessagingException {
+    public void sendEmailToUser(HistoryDto dto) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
-        String text = prepareActivateRequestEmail(dto, departmentName);
-        configureMimeMessageHelper(helper, ADMIN_FROM_EMAIL_ADDRESS, ADMIN_TO_EMAIL_ADDRESS, text, "New Book!");
+        String text = prepareActivateRequestEmail(dto);
+        configureMimeMessageHelper(helper, ADMIN_FROM_EMAIL_ADDRESS, dto.getUserEmail(), text, "Book return deadline!");
         mailSender.send(message);
     }
     
-    private String prepareActivateRequestEmail(BookDto dto, String departmentName) {
-        VelocityContext context = createVelocityContextWithBasicParameters(dto, departmentName);
+    private String prepareActivateRequestEmail(HistoryDto dto) {
+        VelocityContext context = createVelocityContextWithBasicParameters(dto);
         StringWriter stringWriter = new StringWriter();
-        velocityEngine.mergeTemplate("mailtemplates/newBookMessage.vm", "UTF-8", context, stringWriter);
+        velocityEngine.mergeTemplate("mailtemplates/bookReturnDeadline.vm", "UTF-8", context, stringWriter);
         return stringWriter.toString();
     }
 
-    private VelocityContext createVelocityContextWithBasicParameters(BookDto dto, String departmentName) {
+    private VelocityContext createVelocityContextWithBasicParameters(HistoryDto dto) {
         VelocityContext context = new VelocityContext();
-        context.put("title", dto.getBookDetails().getTitle());
-        context.put("author", dto.getBookDetails().getAuthor());
-        context.put("department", departmentName);
+        context.put("title", dto.getBookTitle());
+        context.put("author", dto.getBookAuthor());
         return context;
     }
 
