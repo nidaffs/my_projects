@@ -4,7 +4,6 @@ import com.nidaff.api.dao.IUserDao;
 import com.nidaff.api.dto.HistoryDto;
 import com.nidaff.api.dto.UserDto;
 import com.nidaff.api.services.IHistoryService;
-import com.nidaff.api.services.IRoleService;
 import com.nidaff.api.services.IUserService;
 import com.nidaff.entity.entities.User;
 import com.nidaff.rest.utils.ImageFileUploader;
@@ -38,16 +37,13 @@ public class UserController {
     private IUserDao userDao;
 
     @Autowired
-    IUserService userService;
+    private IUserService userService;
 
     @Autowired
-    IRoleService roleService;
+    private IHistoryService historyService;
 
     @Autowired
-    IHistoryService historyService;
-
-    @Autowired
-    ImageFileUploader imageFileUploader;
+    private ImageFileUploader imageFileUploader;
 
     @GetMapping(value = "user")
     public ModelAndView userPage(Principal principal) {

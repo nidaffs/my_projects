@@ -19,7 +19,7 @@ public interface IBookService {
 
     void updateBook(Long id, BookDetailsDto bookDetailsDto, String quantity);
 
-    public List<BookDto> getAllBooks();
+    List<BookDto> getAllBooks();
 
     void deleteBookById(Long id);
 

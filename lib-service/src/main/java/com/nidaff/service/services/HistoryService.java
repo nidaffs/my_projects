@@ -40,13 +40,13 @@ public class HistoryService implements IHistoryService {
     private IEmailSenderToUser emailSender;
 
     @Autowired
-    IBookService bookService;
+    private IBookService bookService;
 
     @Autowired
-    IUserService userService;
+    private IUserService userService;
 
     @Autowired
-    IBookDao bookDao;
+    private IBookDao bookDao;
 
     @Autowired
     private IHistoryDao historyDao;

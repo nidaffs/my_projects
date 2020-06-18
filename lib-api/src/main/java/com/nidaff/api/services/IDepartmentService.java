@@ -9,6 +9,6 @@ public interface IDepartmentService {
 
     void addDepartment(String departmentName) throws DepartmentAlreadyExistsException;
 
-    public List<DepartmentDto> getAllDepartments();
+    List<DepartmentDto> getAllDepartments();
 
 }

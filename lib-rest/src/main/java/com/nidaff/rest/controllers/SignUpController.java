@@ -21,10 +21,10 @@ import org.springframework.web.servlet.ModelAndView;
 public class SignUpController {
 
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
-    IUserService userService;
+    private IUserService userService;
 
     @GetMapping()
     public ModelAndView signUp() {

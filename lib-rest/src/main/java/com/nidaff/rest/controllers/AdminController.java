@@ -34,19 +34,19 @@ public class AdminController {
     private static final String ID = "/{id}";
 
     @Autowired
-    IBookService bookService;
+    private IBookService bookService;
 
     @Autowired
-    IDepartmentService departmentService;
+    private IDepartmentService departmentService;
 
     @Autowired
-    IUserService userService;
+    private IUserService userService;
 
     @Autowired
-    IRoleService roleService;
+    private IRoleService roleService;
 
     @Autowired
-    IHistoryService historyService;
+    private IHistoryService historyService;
 
     @GetMapping(value = "histories")
     public ModelAndView getAllHistories() {

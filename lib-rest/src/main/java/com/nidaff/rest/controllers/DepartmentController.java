@@ -23,10 +23,10 @@ public class DepartmentController {
     private static final String ID = "/{id}";
 
     @Autowired
-    IDepartmentService departmentService;
+    private IDepartmentService departmentService;
 
     @Autowired
-    IBookService bookService;
+    private IBookService bookService;
 
     @GetMapping
     public ModelAndView getAllDepartments() {

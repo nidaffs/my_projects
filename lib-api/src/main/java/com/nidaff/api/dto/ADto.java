@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode
-public class ADto {
+public abstract class ADto {
 
     protected Long id;
 

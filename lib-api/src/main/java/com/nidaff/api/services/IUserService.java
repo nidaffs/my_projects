@@ -16,7 +16,7 @@ public interface IUserService {
 
     void deleteUserById(Long id);
 
-    public List<UserDto> getAllUsers();
+    List<UserDto> getAllUsers();
 
     User addUser(UserDto userDto) throws UserAlreadyExistsException;
     

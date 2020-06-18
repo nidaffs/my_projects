@@ -36,10 +36,10 @@
 							<div class="col-md-4">
 								<form th:action="@{${book.id} + '/getbook'}" method="post">
 									<button th:if="${taken}" id="takeBookBtn" disabled
-										class="btn login_btn" data-toggle="modal" type="submit">Take
+										class="btn login_btn" type="submit">Take
 										book</button>
 									<button th:unless="${taken}" id="takeBookBtn"
-										class="btn login_btn" data-toggle="modal" type="submit">Take
+										class="btn login_btn" type="submit">Take
 										book</button>
 									<select class="form-control" id="departmentName"
 										name="departmentName" required>

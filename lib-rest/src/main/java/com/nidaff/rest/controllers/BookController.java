@@ -12,7 +12,6 @@ import com.nidaff.api.services.IBookService;
 import com.nidaff.api.services.IDepartmentService;
 import com.nidaff.api.services.IHistoryService;
 import com.nidaff.api.services.IUserService;
-import com.nidaff.rest.utils.ImageFileUploader;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,25 +41,22 @@ public class BookController {
     private static final String ID = "/{id}";
 
     @Autowired
-    IBookService bookService;
+    private IBookService bookService;
 
     @Autowired
-    IHistoryService historyService;
+    private IHistoryService historyService;
 
     @Autowired
-    IHistoryDao historyDao;
+    private IHistoryDao historyDao;
     
     @Autowired
-    IUserService userService;
+    private IUserService userService;
 
     @Autowired
-    IDepartmentService departmentService;
+    private IDepartmentService departmentService;
 
     @Autowired
-    IBookRatingService bookRatingService;
-
-    @Autowired
-    ImageFileUploader imageFileUploader;
+    private IBookRatingService bookRatingService;
 
     @GetMapping
     public ModelAndView getAllBooks() {

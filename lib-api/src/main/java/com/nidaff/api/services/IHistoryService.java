@@ -14,7 +14,7 @@ public interface IHistoryService {
     
     void getAllOverdueHistories();
 
-    public List<HistoryDto> getAllHistories();
+    List<HistoryDto> getAllHistories();
 
     History addHistory(Long id, Long principalId, DepartmentDto dto);
     
